@@ -1,0 +1,26 @@
+# calculate the fiboncci in an iterative way
+
+n = 90
+res = 0
+
+if (n == 0)
+  res = 0
+end
+if (n == 1)
+  res = 1
+end
+
+if (n > 1)
+  a = 1
+  b = 1
+  count = 2
+  res = 1
+  while(count < n)
+    res = a + b
+    a = b
+    b = res
+    count = count + 1
+  end
+end
+
+println('n => {} = {}', n, res)

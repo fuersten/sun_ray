@@ -1,0 +1,43 @@
+# Creates the shaded sphere from chapter 6
+
+println('Start world configuration')
+
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 0, -4)
+camera.to = (0, 0, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 1000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal
+
+# Setup the worlda and add a light.
+light = Light( Point(-10, 10, -10), Color(1, 1, 1) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.color = Color(1, 0.2, 1)
+
+# Create the sphere
+sphere = Sphere(material)
+
+# Add the sphere to the world
+world.add(sphere)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sphere.ppm')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

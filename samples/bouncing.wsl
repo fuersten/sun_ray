@@ -1,0 +1,106 @@
+# Creates a bunch of images where the rightmost sphere bounces up and down
+# After creating the images you can combine them to a movie.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 1.5, -7)
+camera.to = (0, 1, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 2000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights.
+light1 = Light((-10, 10, -10), Color(1, 1, 1))
+light2 = Light((5, 10, -10), Color(0.25, 0.25, 0.25))
+
+material = Material()
+material.color = Color(1.0, 0.9, 0.9)
+material.specular = 0
+
+# Create a plane as the floor
+floor = Plane(material)
+
+# Create a backwall
+back = Plane(material)
+back.rotate_x(pi / 2).rotate_y(-deg_to_rad(45.0)).translate(0, 0, 5)
+
+# Create a sidewall
+side = Plane(material)
+side.rotate_z(pi / 2).rotate_y(-deg_to_rad(45.0)).translate(5, 0, 0)
+
+# Base material for the spheres
+base_material = Material()
+base_material.diffuse = 0.7
+base_material.specular = 0.3
+
+# And now place some objects into the scene frame
+base_material.color = Color(0.1, 1, 0.5)
+middle = Sphere(base_material).translate(-0.5, 1, 0.5)
+
+base_material.color = Color(1, 0.8, 0.1)
+left = Sphere(base_material).scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75)
+
+base_material.color = Color(0.5, 1, 0.1)
+
+h = 0.5
+n = 1
+
+# bounce sphere up
+while(h < 1.7)
+# Create a world and set objects into it
+  world = World()
+  world.add(light1).add(light2)
+  world.add(floor).add(back).add(side)
+
+  right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, h, -0.3)
+
+  world.add(left).add(right).add(middle)
+
+# Now its time to actually render the world
+  println('Render world')
+  measure = Measurement()
+  canvas = camera.render(world)
+  println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+  filename = format('bounce{:03.0f}', n) + '.ppm'
+  canvas.write(filename)
+  println('World stored to {} in {} milliseconds', filename, measure.elapsed_time())
+
+  h = h + 0.15
+  n = n + 1
+end
+
+# bounce sphere down
+while(h > 0.3)
+# Create a world and set objects into it
+  world = World()
+  world.add(light1).add(light2)
+  world.add(floor).add(back).add(side)
+
+  right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, h, -0.3)
+
+  world.add(left).add(right).add(middle)
+
+# Now its time to actually render the world
+  println('Render world')
+  measure = Measurement()
+  canvas = camera.render(world)
+  println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+  filename = format('bounce{:03.0f}', n) + '.ppm'
+  canvas.write(filename)
+  println('World stored to {} in {} milliseconds', filename, measure.elapsed_time())
+
+  h = h - 0.15
+  n = n + 1
+end
+

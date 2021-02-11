@@ -1,0 +1,5 @@
+add_subdirectory(bullet)
+add_subdirectory(clock)
+add_subdirectory(scene)
+add_subdirectory(silhouette)
+add_subdirectory(sphere)

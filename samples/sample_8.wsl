@@ -1,0 +1,64 @@
+# This is an example of a new way to build a world in a programmatical way.
+# Checks all the patterns.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 5, -7)
+camera.to = (0, 2, 10)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 5000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights.
+light1 = Light( Point(-10, 100, -100), Color(0.90, 0.90, 0.90) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light1)
+world.shadows = true
+world.reflections = true
+world.refractions = true
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.specular = 0
+material.pattern = CheckerPattern(Color(1, 0, 0), Color(0, 1, 0))
+
+# Create the floor.
+floor = Plane(material)
+world.add(floor)
+
+material = Material()
+material.specular = 0
+material.pattern = CheckerPattern(Color(1, 1, 1), Color(0.5, 0.5, 0.5))
+
+wall = Plane(material).rotate_x(pi/2).translate(0, 0, 300)
+world.add(wall)
+
+material = Material()
+material.specular = 0
+material.transparency = 1
+material.reflective = 0.3
+#material.pattern = CheckerPattern(Color(1, 0, 0), Color(0, 1, 0))
+
+# Create the floor.
+water = Plane(material).translate(0, 1, 0)
+world.add(water)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sample_8.ppm')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

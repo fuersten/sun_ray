@@ -1,0 +1,65 @@
+# This is an example of a new way to build a world in a programmatical way.
+# This creates the scene from chapter 9.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 1.5, -7)
+camera.to = (0, 1, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 2000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights. The light will be created using a constructor.
+# light1 one is a variable of type Light. A variable has to be assigned upon creation and
+# will infer its type automatically.
+light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light1)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.color = Color(1, 0.9, 0.9)
+material.specular = 0
+
+# Create a sphere, configure it and then we will transform it.
+floor = Plane(material)
+
+# Add the floor to the world
+world.add(floor)
+
+# Base material for the spheres
+base_material = Material()
+base_material.diffuse = 0.7
+base_material.specular = 0.3
+
+# And now place some objects into the scene frame
+base_material.color = Color(0.1, 1, 0.5)
+middle = Sphere(base_material).translate(-0.5, 1, 0.5)
+
+base_material.color = Color(0.5, 1, 0.1)
+right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5)
+
+base_material.color = Color(1, 0.8, 0.1)
+left = Sphere(base_material).scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75)
+
+world.add(left).add(right).add(middle)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sample_2.ppm')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

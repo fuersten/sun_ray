@@ -1,0 +1,129 @@
+# This is an example of a new way to build a world in a programmatical way.
+# This creates the scene from chapter 9.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 2.5, -8)
+camera.to = (0, 1, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 5000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights. The light will be created using a constructor.
+# light1 one is a variable of type Light. A variable has to be assigned upon creation and
+# will infer its type automatically.
+light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light1)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.color = Color(1, 0.9, 0.9)
+material.specular = 0
+
+# Create a sphere, configure it and then we will transform it.
+floor = Plane(material)
+
+# Add the floor to the world
+world.add(floor)
+
+# Base material for the spheres
+base_material = Material()
+base_material.ambient = 0.1
+base_material.diffuse = 0.3
+base_material.specular = 0.2
+base_material.color = Color(0, 0.7, 0.3)
+base_material.transparency = 0.7
+base_material.reflective = 0.6
+base_material.shininess = 200
+
+# Create a sphere, configure it and then we will transform it.
+disk = Disk(base_material).rotate_x(deg_to_rad(-50)).rotate_y(deg_to_rad(-7)).translate(0, 0.77, 0)
+disk.inner_radius = 0.6
+
+# Add the disk to the world
+world.add(disk)
+
+material = Material(material)
+material.color = Color(0.9, 0.2, 0.2)
+material.diffuse = 0.7
+material.specular = 0.3
+material.shininess = 150
+material.reflective = 0.3
+sphere = Sphere(material).translate(-1, 1, 2)
+world.add(sphere)
+
+material.color = Color(0, 0.67, 0.8)
+material.reflective = 0.9
+material.ambient = 0.1
+material.shininess = 300
+material.specular = 0.8
+disk = Disk(material).scale(3, 2, 2).rotate_x(deg_to_rad(90)).translate(-1, 2, 15)
+world.add(disk)
+
+
+material.reflective = 0
+material.shininess = 10
+material.specular = 0.1
+material.color = Color(0.5, 0.2, 0.2)
+planet = Sphere(material).scale(0.7, 0.7, 0.7).translate(3, 1.7, 2)
+
+world.add(planet)
+
+
+material = Material()
+material.ambient = 0.2
+material.diffuse = 0.2
+material.shininess = 10
+material.color = Color(0.61, 0.61, 0)
+material.transparency = 0.7
+
+ring = Disk(material).rotate_x(deg_to_rad(-18)).scale(1.1, 1.1, 1.1).translate(3, 1.7, 2)
+ring.inner_radius = 0.9
+world.add(ring)
+
+ring = Disk(material).rotate_x(deg_to_rad(-18)).scale(1.5, 1.5, 1.5).translate(3, 1.7, 2)
+ring.inner_radius = 0.92
+world.add(ring)
+
+
+material.color = Color(0.84, 0.65, 0.40)
+material.ambient = 0.2
+material.diffuse = 0.7
+material.shininess = 10
+material.transparency = 0
+cube = Cube(material).rotate_y(-pi / 3).scale(0.5, 0.5, 0.5).translate(3, 0.5, 2)
+world.add(cube)
+
+material.color = Color(0.10, 0.32, 0.16)
+log = Cube(material).scale(2, 0.5, 1).rotate_z(deg_to_rad(19)).rotate_y(deg_to_rad(-15)).translate(-6, 1.12, 8)
+world.add(log)
+
+material.color = Color(0.13,0,0.80)
+block = Cube(material).scale(0.5, 0.5, 0.5).rotate_y(deg_to_rad(-15)).translate(-4.5, 0.5, 9)
+world.add(block)
+
+
+material.color = Color(1.00, 0.60, 1.00)
+pole = Cube(material).scale(0.2, 3, 1).translate(-4, 3, -15)
+world.add(pole)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sample_9.ppm')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

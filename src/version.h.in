@@ -1,0 +1,16 @@
+//
+//  version.h
+//  sun_ray
+//
+//  Created by Lars-Christian Fürstenberg on 22.12.19.
+//  Copyright © 2019 Lars-Christian Fürstenberg. All rights reserved.
+
+#pragma once
+
+#include <cstdint>
+
+constexpr const char* SUNRAY_VERSION_STRING = "${PROJECT_VERSION}";
+constexpr uint64_t SUNRAY_VERSION = ((((${PROJECT_VERSION_MAJOR} << 8) | ${PROJECT_VERSION_MINOR}) << 8) | ${PROJECT_VERSION_PATCH});
+
+constexpr const char* SUNRAY_COPYRIGHT = "\u00A92021 Lars-Christian F\u00FCrstenberg";
+

@@ -1,0 +1,67 @@
+# This is an example of a new way to build a world in a programmatical way.
+# This creates the scene from chapter 10.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 2.5, -7)
+camera.to = (0, 1, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 5000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights.
+light1 = Light( Point(-10, 10, -10), Color(0.50, 0.50, 0.50) )
+light2 = Light( Point(10, 10, -10), Color(0.60, 0.60, 0.60) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light1)
+world.add(light2)
+
+floor_color = Color(0.7, 0.7, 0.7)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.specular = 0
+material.pattern = CheckerPattern(floor_color, Color(0, 0, 0))
+
+# Create the floor and add to world
+floor = Plane(material)
+world.add(floor)
+
+# Create a backdrop and add to world
+material.pattern = StripePattern(floor_color, Color(0, 0, 0)).rotate_y(pi / 4)
+backdrop = Plane(material).rotate_x(pi / 2).rotate_y(pi / 8).translate(0, 0, 6)
+world.add(backdrop)
+
+# Base material for the spheres
+base_material = Material()
+base_material.diffuse = 0.7
+base_material.specular = 0.3
+base_material.pattern = RingPattern(Color(0.27, 0.8, 0), Color(0, 0.4, 0)).scale(0.23, 0.23, 1).translate(1.15, 0, 0)
+
+# And now place some objects into the scene frame
+middle = Sphere(base_material).rotate_y(2.0).rotate_x(0.3).translate(-0.5, 1, 0.5)
+
+base_material.pattern = GradientPattern(Color(1, 0.46, 0.23), Color(0.13, 0.4, 0)).scale(2.0, 1.0, 1.0).translate(-1, 0.0, 0.0)
+right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5)
+
+world.add(right).add(middle)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sample_4.ppm')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

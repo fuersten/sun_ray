@@ -1,0 +1,64 @@
+# Calculates a mandelbrot
+measure = Measurement()
+
+xmin = -2
+xmax = 1
+ymin = -1
+ymax = 1
+iterations = 1000
+
+width = 900
+height = 600
+
+black = Color(0, 0, 0)
+
+canvas = Canvas(width, height)
+
+ix = 0
+while (ix < width)
+  iy = 0
+  while (iy < height)
+    cx = xmin + (xmax - xmin) * ix / (width - 1)
+    cy = ymin + (ymax - ymin) * iy / (height - 1)
+
+    x = 0.0
+    y = 0.0
+    xx = 0
+    yy = 0
+    xy = 0
+    n = iterations
+
+    while (n > 0 and ((xx + yy) <= 4))
+      xy = x * y
+      xx = x * x
+      yy = y * y
+      x = xx - yy + cx
+      y = xy + xy + cy
+      n = n - 1
+    end
+    n = n - 1
+    i = iterations - n
+
+    color = black
+    if (i <= iterations)
+      c = 3 * log(i) / log(iterations - 1)
+      if (c < 1)
+        color = Color(1 * c, 0, 0)
+      end
+      if (c >= 1 and c < 2)
+        color = Color(1, 1 * (c - 1), 0)
+      end
+      if (c >= 2)
+        color = Color(1, 1, 1 * (c - 2))
+      end
+    end
+
+    canvas.set_pixel(ix, iy, color)
+    iy = iy + 1
+  end
+  ix = ix + 1
+end
+
+println('Mandelbrot rendered in {} milliseconds', measure.elapsed_time())
+
+canvas.write('mandelbrot.ppm')
