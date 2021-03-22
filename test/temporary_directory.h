@@ -17,6 +17,7 @@
   #include <windows.h>
 #else
 #ifdef __linux__
+  #include <cstring>
   #include <linux/limits.h>
 #endif
   #include <sys/stat.h>
@@ -83,7 +84,7 @@ private:
     std::filesystem::create_directories(tmp_dir);
 #else
     std::array<char, PATH_MAX> tmpl = {};
-    ::strncpy(tmpl.data(), (p / "mictlan_XXXXXX").c_str(), PATH_MAX);
+    ::strncpy(tmpl.data(), (p / "mictlan_XXXXXX").c_str(), PATH_MAX - 1);
 
     const char* tmp_dir = ::mkdtemp(tmpl.data());
     if (tmp_dir == nullptr) {

@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.16)
 project(sunray VERSION 0.11.0 LANGUAGES CXX)
 
-cmake_policy(SET CMP0110 OLD)
+if(POLICY CMP0110)
+  cmake_policy(SET CMP0110 OLD)
+endif()
 
 enable_testing()
 
@@ -21,11 +23,6 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
   add_definitions(-DDEBUG)
 endif()
 
-option(USE_CLANG_TIDY "Use clang-tidy to check your sources" OFF)
-option(USE_CPPCHECK "Use cppcheck to check your sources" OFF)
-
-include(cmake/clang_tidy.cmake)
-include(cmake/cppcheck.cmake)
 include(cmake/fetch_date.cmake)
 include(cmake/fetch_fmt.cmake)
 
@@ -39,8 +36,10 @@ if(NOT APPLE AND UNIX)
   set(SUNRAY_COMPILE_OPTIONS -g -Wall -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wmissing-declarations -Woverlength-strings -Wshadow -Wunreachable-code -Wextra -Wnon-virtual-dtor -Werror)
 elseif(APPLE)
   set(SUNRAY_COMPILE_OPTIONS -g -Wall -Wheader-hygiene -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wmissing-declarations -Woverlength-strings -Wshadow -Wunreachable-code -Wextra -Wpedantic -Wnon-virtual-dtor -Werror -Wno-nested-anon-types -Wno-gnu-anonymous-struct -Wdelete-non-virtual-dtor -Wdeprecated -Wfloat-conversion -Wfloat-overflow-conversion -Wmove -Wredundant-move -Wshadow-all -Wsign-compare -Wsign-conversion -Wunreachable-code)
-else()
+elseif(WIN32)
   set(SUNRAY_COMPILE_OPTIONS )
+else()
+  message(FATAL_ERROR "unknown platform")
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "Debug")

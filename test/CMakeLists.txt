@@ -65,9 +65,8 @@ add_executable(sun_ray_test
 )
 
 include(${PROJECT_SOURCE_DIR}/cmake/fetch_catch2.cmake)
-include(CTest)
 
-target_link_libraries(sun_ray_test PRIVATE Threads::Threads)
+target_link_libraries(sun_ray_test PRIVATE Threads::Threads Catch2::Catch2)
 target_include_directories(sun_ray_test SYSTEM PRIVATE "${catch2_SOURCE_DIR}/single_include")
 target_include_directories(sun_ray_test PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(sun_ray_test PRIVATE ${PROJECT_BINARY_DIR})
