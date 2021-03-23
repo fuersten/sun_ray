@@ -133,10 +133,8 @@ namespace sunray
       return f;
     }
 
-    union
-    {
-      struct
-      {
+    union {
+      struct {
         float red_;
         float green_;
         float blue_;

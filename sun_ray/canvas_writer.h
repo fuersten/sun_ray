@@ -15,11 +15,7 @@
 
 namespace sunray
 {
-  enum class ImageFormat
-  {
-    PPM3,
-    PPM6
-  };
+  enum class ImageFormat { PPM3, PPM6 };
 
   class CanvasWriter
   {

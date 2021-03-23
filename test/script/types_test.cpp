@@ -320,8 +320,7 @@ TEST_CASE("unwrap variants", "[unwrap]")
   }
   SECTION("unwrap unkown")
   {
-    struct unkown
-    {
+    struct unkown {
     };
     sunray::script::Variant v{"hutzli"s};
     CHECK_THROWS(sunray::script::unwrap<unkown>::as_type(v));
@@ -398,8 +397,7 @@ TEST_CASE("unwrap variant type", "[unwrap]")
   }
   SECTION("unwrap unkown")
   {
-    struct unkown
-    {
+    struct unkown {
     };
     sunray::script::Variant v{"hutzli"s};
     CHECK_THROWS(sunray::script::unwrap<unkown>::is_type(v));

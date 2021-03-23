@@ -62,8 +62,7 @@ namespace sunray
     {
       Canvas canvas{horizontal_size_, vertical_size_};
 
-      struct RenderPart
-      {
+      struct RenderPart {
         uint32_t from_;
         uint32_t to_;
       };

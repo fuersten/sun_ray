@@ -42,8 +42,7 @@ namespace sunray
 {
   namespace script
   {
-    struct NameMangler
-    {
+    struct NameMangler {
       static std::string mangle(const std::string& name)
       {
         if (name.empty()) {

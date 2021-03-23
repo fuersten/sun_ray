@@ -43,8 +43,7 @@ namespace sunray
 {
   namespace script
   {
-    struct SymbolEntry
-    {
+    struct SymbolEntry {
       explicit SymbolEntry(const std::string& name)
       : name_(name)
       {

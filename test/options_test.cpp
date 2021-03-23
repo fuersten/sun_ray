@@ -6,11 +6,10 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
+#include <src/sun_ray/options.h>
 #include <sstream>
 
 #include <catch2/catch.hpp>
-
-#include <src/sun_ray/options.h>
 
 
 TEST_CASE("options", "[options]")

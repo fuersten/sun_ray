@@ -43,8 +43,7 @@ namespace sunray
 {
   namespace script
   {
-    enum class TokenCode
-    {
+    enum class TokenCode {
       UNDEFINED,
       EOI,
       CONST_LITERAL,
@@ -160,8 +159,7 @@ namespace sunray
     }
 
 
-    struct Token
-    {
+    struct Token {
       Token() = default;
 
       Token(TokenCode code)

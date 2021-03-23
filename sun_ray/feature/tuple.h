@@ -217,10 +217,8 @@ namespace sunray
     }
 
   private:
-    union
-    {
-      struct
-      {
+    union {
+      struct {
         double x_;
         double y_;
         double z_;

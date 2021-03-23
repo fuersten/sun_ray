@@ -55,8 +55,7 @@ namespace sunray
      * return type, the number of arguments and the type of the arguments.
      */
     template<class R, class... Args>
-    struct function_traits<R (*)(Args...)> : public function_traits<R(Args...)>
-    {
+    struct function_traits<R (*)(Args...)> : public function_traits<R(Args...)> {
     };
 
     /**
@@ -64,8 +63,7 @@ namespace sunray
      * return type, the number of arguments and the type of the arguments.
      */
     template<class R, class... Args>
-    struct function_traits<R(Args...)>
-    {
+    struct function_traits<R(Args...)> {
       using return_type = R;                                 //!< The return type of the function
       static constexpr std::size_t arity = sizeof...(Args);  //!< The number of arguments of the function
 
@@ -74,8 +72,7 @@ namespace sunray
        *
        */
       template<std::size_t N>
-      struct argument
-      {
+      struct argument {
         static_assert(N < arity, "error: invalid parameter index.");
         using type = typename std::tuple_element<N, std::tuple<Args...>>::type;  //!< The type of the Nth argument of the function
       };

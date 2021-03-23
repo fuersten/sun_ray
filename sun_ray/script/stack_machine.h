@@ -47,8 +47,7 @@ namespace sunray
 {
   namespace script
   {
-    enum class OpCode
-    {
+    enum class OpCode {
       ADD,
       AND,
       BEQ,
@@ -176,8 +175,7 @@ namespace sunray
     };
 
 
-    struct Instruction
-    {
+    struct Instruction {
       explicit Instruction(OpCode op)
       : code_{op}
       {

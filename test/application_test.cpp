@@ -6,12 +6,12 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
+#include <src/sun_ray/application.h>
 #include <sstream>
 
-#include <catch2/catch.hpp>
-
 #include "temporary_directory.h"
-#include <src/sun_ray/application.h>
+
+#include <catch2/catch.hpp>
 
 
 TEST_CASE("application", "[application]")
@@ -41,7 +41,9 @@ TEST_CASE("application", "[application]")
     CHECK(app.run() == 0);
     CHECK(output.str() == "z = 220.00");
 
-    auto expected = "SunRay ray tracer 0.11.0\n\u00A92021 Lars-Christian F\u00FCrstenberg\n\n================================================================================\nsample.wsl:\n================================================================================\n\n";
+    auto expected = "SunRay ray tracer 0.11.0\n\u00A92021 Lars-Christian "
+                    "F\u00FCrstenberg\n\n================================================================================"
+                    "\nsample.wsl:\n================================================================================\n\n";
     CHECK(error.str() == expected);
   }
   SECTION("process simple script with options")

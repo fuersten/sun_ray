@@ -8,9 +8,9 @@
 
 #include <sun_ray/canvas_file_writer.h>
 
-#include <catch2/catch.hpp>
-
 #include "temporary_directory.h"
+
+#include <catch2/catch.hpp>
 
 
 TEST_CASE("write file canvas", "[canvas file writer]")

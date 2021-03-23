@@ -19,8 +19,7 @@ namespace sunray
   class Object;
   using ObjectPtr = std::shared_ptr<const Object>;
 
-  struct RenderContext
-  {
+  struct RenderContext {
     bool shadows_{true};
     bool reflections_{true};
     bool refractions_{true};

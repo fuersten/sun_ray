@@ -46,12 +46,7 @@ namespace sunray
 {
   namespace script
   {
-    enum class DiagnosticMessageLevel
-    {
-      NONE,
-      ERROR_LVL,
-      WARNING_LVL
-    };
+    enum class DiagnosticMessageLevel { NONE, ERROR_LVL, WARNING_LVL };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const DiagnosticMessageLevel& lvl)
@@ -121,8 +116,7 @@ namespace sunray
       }
 
     private:
-      struct DiagnosticMessage
-      {
+      struct DiagnosticMessage {
         DiagnosticMessageLevel level;
         std::string code;
         std::string message;

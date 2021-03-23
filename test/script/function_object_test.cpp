@@ -11,11 +11,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <date/date.h>
 #include <sstream>
 
 #include <catch2/catch.hpp>
-
-#include <date/date.h>
 
 
 static std::string do_double(double f)

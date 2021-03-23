@@ -53,8 +53,7 @@ namespace sunray
     using Variant = std::variant<std::string, bool, double, MutableClassPtr>;
 
     template<class... Ts>
-    struct overload : Ts...
-    {
+    struct overload : Ts... {
       using Ts::operator()...;
     };
     template<class... Ts>
@@ -138,18 +137,13 @@ namespace sunray
     }
 
     template<int v>
-    struct int2type
-    {
-      enum
-      {
-        value = v
-      };
+    struct int2type {
+      enum { value = v };
     };
 
 
     template<typename T>
-    struct unwrap
-    {
+    struct unwrap {
       static T as_type(const Variant&)
       {
         throw std::runtime_error{"unkown type"};
@@ -161,8 +155,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<double>
-    {
+    struct unwrap<double> {
       static double as_type(const Variant& v)
       {
         return as_double(v);
@@ -174,8 +167,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<const std::string&>
-    {
+    struct unwrap<const std::string&> {
       static std::string as_type(const Variant& v)
       {
         return as_string(v);
@@ -187,8 +179,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<std::string>
-    {
+    struct unwrap<std::string> {
       static std::string as_type(const Variant& v)
       {
         return as_string(v);
@@ -200,8 +191,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<bool>
-    {
+    struct unwrap<bool> {
       static bool as_type(const Variant& v)
       {
         return as_bool(v);
@@ -213,8 +203,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<const char*>
-    {
+    struct unwrap<const char*> {
       static std::string as_type(const Variant& v)
       {
         return as_string(v);
@@ -226,8 +215,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<Variant>
-    {
+    struct unwrap<Variant> {
       static Variant as_type(const Variant& v)
       {
         return v;
@@ -239,8 +227,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<const Variant&>
-    {
+    struct unwrap<const Variant&> {
       static Variant as_type(const Variant& v)
       {
         return v;
@@ -252,8 +239,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<MutableClassPtr&>
-    {
+    struct unwrap<MutableClassPtr&> {
       static MutableClassPtr as_type(const Variant& v)
       {
         return as_class(v);
@@ -265,8 +251,7 @@ namespace sunray
     };
 
     template<>
-    struct unwrap<const MutableClassPtr&>
-    {
+    struct unwrap<const MutableClassPtr&> {
       static MutableClassPtr as_type(const Variant& v)
       {
         return as_class(v);
@@ -278,13 +263,7 @@ namespace sunray
     };
 
 
-    enum class BinaryOperator
-    {
-      ADD,
-      SUB,
-      MUL,
-      DIV
-    };
+    enum class BinaryOperator { ADD, SUB, MUL, DIV };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const BinaryOperator& op)
@@ -307,11 +286,7 @@ namespace sunray
     }
 
 
-    enum class LogicalOperator
-    {
-      AND,
-      OR
-    };
+    enum class LogicalOperator { AND, OR };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const LogicalOperator& op)
@@ -328,14 +303,7 @@ namespace sunray
     }
 
 
-    enum class ConditionalOperator
-    {
-      GT,
-      GE,
-      LT,
-      LE,
-      EQ
-    };
+    enum class ConditionalOperator { GT, GE, LT, LE, EQ };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const ConditionalOperator& op)
@@ -361,10 +329,7 @@ namespace sunray
     }
 
 
-    enum class UnaryOperator
-    {
-      MINUS
-    };
+    enum class UnaryOperator { MINUS };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const UnaryOperator& op)
@@ -377,12 +342,7 @@ namespace sunray
       return os;
     }
 
-    enum class PODType
-    {
-      BOOLEAN,
-      DOUBLE,
-      STRING
-    };
+    enum class PODType { BOOLEAN, DOUBLE, STRING };
 
 
     class Type;

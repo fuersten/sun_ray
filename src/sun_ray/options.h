@@ -15,8 +15,7 @@
 
 namespace sunray
 {
-  struct Options
-  {
+  struct Options {
     static void print_usage(std::ostream& stream)
     {
       auto help = R"(Usage: sun_ray [ --help ] | [ [-df] <FILE> [<FILE>]... ]
