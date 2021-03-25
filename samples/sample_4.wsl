@@ -1,5 +1,4 @@
-# This is an example of a new way to build a world in a programmatical way.
-# This creates the scene from chapter 10.
+# Like sample 3, but adds triangles.
 
 println('Start world configuration')
 
@@ -8,7 +7,7 @@ pi = 3.141592653589
 
 # Create a Camera object and set its attributes with a tuple.
 camera = Camera()
-camera.from = (0, 2.5, -7)
+camera.from = (0, 2.5, -8)
 camera.to = (0, 1, 0)
 camera.up = [0, 1, 0]
 camera.field_of_view = pi / 3
@@ -16,44 +15,114 @@ camera.horizontal = 5000
 # You can use expressions to calculate stuff
 camera.vertical = camera.horizontal / 2
 
-# Now setup the world. First some lights.
-light1 = Light( Point(-10, 10, -10), Color(0.50, 0.50, 0.50) )
-light2 = Light( Point(10, 10, -10), Color(0.60, 0.60, 0.60) )
+# Now setup the world. First some lights. The light will be created using a constructor.
+# light1 one is a variable of type Light. A variable has to be assigned upon creation and
+# will infer its type automatically.
+light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
 
 # Now set light to the world! Create a World object to add lights to the world.
 world = World()
 world.add(light1)
-world.add(light2)
-
-floor_color = Color(0.7, 0.7, 0.7)
 
 # At last add some objects to your world to finalize the setup.
 material = Material()
+material.color = Color(1, 0.9, 0.9)
 material.specular = 0
-material.pattern = CheckerPattern(floor_color, Color(0, 0, 0))
 
-# Create the floor and add to world
+# Add the floor to the world
 floor = Plane(material)
 world.add(floor)
 
-# Create a backdrop and add to world
-material.pattern = StripePattern(floor_color, Color(0, 0, 0)).rotate_y(pi / 4)
-backdrop = Plane(material).rotate_x(pi / 2).rotate_y(pi / 8).translate(0, 0, 6)
-world.add(backdrop)
-
-# Base material for the spheres
+# Base material
 base_material = Material()
-base_material.diffuse = 0.7
-base_material.specular = 0.3
-base_material.pattern = RingPattern(Color(0.27, 0.8, 0), Color(0, 0.4, 0)).scale(0.23, 0.23, 1).translate(1.15, 0, 0)
+base_material.ambient = 0.1
+base_material.diffuse = 0.3
+base_material.specular = 0.2
+base_material.color = Color(0, 0.7, 0.3)
+base_material.transparency = 0.7
+base_material.reflective = 0.6
+base_material.shininess = 200
+# Create a disk, configure it and then we will transform it.
+disk = Disk(base_material).rotate_x(deg_to_rad(-50)).rotate_y(deg_to_rad(-7)).translate(0, 0.77, 0)
+disk.inner_radius = 0.6
+world.add(disk)
 
-# And now place some objects into the scene frame
-middle = Sphere(base_material).rotate_y(2.0).rotate_x(0.3).translate(-0.5, 1, 0.5)
+material = Material(material)
+material.color = Color(0.9, 0.2, 0.2)
+material.diffuse = 0.7
+material.specular = 0.3
+material.shininess = 150
+material.reflective = 0.3
+sphere = Sphere(material).translate(-1, 1, 2)
+world.add(sphere)
 
-base_material.pattern = GradientPattern(Color(1, 0.46, 0.23), Color(0.13, 0.4, 0)).scale(2.0, 1.0, 1.0).translate(-1, 0.0, 0.0)
-right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5)
+material.color = Color(0, 0.67, 0.8)
+material.reflective = 0.9
+material.ambient = 0.1
+material.shininess = 300
+material.specular = 0.8
+disk = Disk(material).scale(3, 2, 2).rotate_x(deg_to_rad(90)).translate(-1, 2, 15)
+world.add(disk)
 
-world.add(right).add(middle)
+material.reflective = 0
+material.shininess = 10
+material.specular = 0.1
+material.color = Color(0.5, 0.2, 0.2)
+planet = Sphere(material).scale(0.7, 0.7, 0.7).translate(3, 1.7, 2)
+
+world.add(planet)
+
+material = Material()
+material.ambient = 0.2
+material.diffuse = 0.2
+material.shininess = 10
+material.color = Color(0.61, 0.61, 0)
+material.transparency = 0.7
+
+ring = Disk(material).rotate_x(deg_to_rad(-18)).scale(1.1, 1.1, 1.1).translate(3, 1.7, 2)
+ring.inner_radius = 0.9
+world.add(ring)
+
+ring = Disk(material).rotate_x(deg_to_rad(-18)).scale(1.5, 1.5, 1.5).translate(3, 1.7, 2)
+ring.inner_radius = 0.92
+world.add(ring)
+
+material.color = Color(0.84, 0.65, 0.40)
+material.ambient = 0.2
+material.diffuse = 0.7
+material.shininess = 10
+material.transparency = 0
+cube = Cube(material).rotate_y(-pi / 3).scale(0.5, 0.5, 0.5).translate(3, 0.5, 2)
+world.add(cube)
+
+material.color = Color(1.00, 0.60, 1.00)
+pole = Cube(material).scale(0.2, 3, 1).translate(-4, 3, -15)
+world.add(pole)
+
+material.color = Color(0.84, 0.65, 0.40)
+p2 = Point(-1, 0, 0)
+p1 = Point(1, 0, 0)
+p3 = Point(0, 1, 0.5)
+t1 = Triangle(material, p1, p2, p3).rotate_y(deg_to_rad(40)).translate(-3, 0, 0)
+world.add(t1)
+
+p1 = Point(-1, 0, 1)
+p2 = Point(-1, 0, 0)
+p3 = Point(0, 1, 0.5)
+t2 = Triangle(material, p1, p2, p3).rotate_y(deg_to_rad(40)).translate(-3, 0, 0)
+world.add(t2)
+
+p1 = Point(1, 0, 1)
+p2 = Point(1, 0, 0)
+p3 = Point(0, 1, 0.5)
+t3 = Triangle(material, p1, p2, p3).rotate_y(deg_to_rad(40)).translate(-3, 0, 0)
+world.add(t3)
+
+p1 = Point(-1, 0, 1)
+p2 = Point(1, 0, 1)
+p3 = Point(0, 1, 0.5)
+t4 = Triangle(material, p1, p2, p3).rotate_y(deg_to_rad(40)).translate(-3, 0, 0)
+world.add(t4)
 
 # Now its time to actually render the world
 println('Render world')

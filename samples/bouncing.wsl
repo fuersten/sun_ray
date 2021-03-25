@@ -1,5 +1,6 @@
 # Creates a bunch of images where the rightmost sphere bounces up and down
-# After creating the images you can combine them to a movie.
+# After creating the images you can combine them to a movie. Consult the README.md
+# for information.
 
 println('Start world configuration')
 

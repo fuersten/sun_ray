@@ -1,4 +1,5 @@
-# Calculates a mandelbrot
+# Calculates a mandelbrot set
+# This will take a while, so be patient!
 measure = Measurement()
 
 xmin = -2

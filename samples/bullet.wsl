@@ -1,4 +1,6 @@
-# projectile flight example
+# Projectile flight example from chapter 2
+
+# Setup system
 green = Color(0.7, 1.0, 0.0)
 canvas = Canvas(1300, 550)
 environment = Vector(0, -0.1, 0).add(Vector(0.01, 0, 0))
@@ -6,7 +8,9 @@ environment = Vector(0, -0.1, 0).add(Vector(0.01, 0, 0))
 projectile_position = (0, 1, 0)
 projectile_velocity = Vector(1, 1.8, 0).normalize().multiply(11.25)
 
+# Calculate projectile flight
 while (projectile_position.y > 0)
+  # Set a pixel in the canvas corresponding to the current projectile position
   canvas.set_pixel(projectile_position.x, canvas.height - projectile_position.y, green)
   projectile_position = projectile_position.add(projectile_velocity)
   projectile_velocity = projectile_velocity.add(environment)
@@ -14,4 +18,5 @@ end
 
 println('Hit the ground at {}', projectile_position)
 
+# Save canvas to a file
 canvas.write('projectile.ppm')

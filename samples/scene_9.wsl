@@ -1,5 +1,5 @@
-# This is an example of a new way to build a world
-# in a programmatical way.
+# This is an example of a new way to build a world in a programmatical way.
+# This creates the scene from chapter 9.
 
 println('Start world configuration')
 
@@ -8,10 +8,10 @@ pi = 3.141592653589
 
 # Create a Camera object and set its attributes with a tuple.
 camera = Camera()
-camera.from = (0, 1.5, -15)
+camera.from = (0, 1.5, -7)
 camera.to = (0, 1, 0)
 camera.up = [0, 1, 0]
-camera.field_of_view = pi / 2
+camera.field_of_view = pi / 3
 camera.horizontal = 2000
 # You can use expressions to calculate stuff
 camera.vertical = camera.horizontal / 2
@@ -20,41 +20,21 @@ camera.vertical = camera.horizontal / 2
 # light1 one is a variable of type Light. A variable has to be assigned upon creation and
 # will infer its type automatically.
 light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
-light2 = Light()
-light2.position = (10, 10, -10)
-light2.intensity = Color(0.25, 0.25, 0.25)
 
 # Now set light to the world! Create a World object to add lights to the world.
 world = World()
 world.add(light1)
-world.add(light2)
 
 # At last add some objects to your world to finalize the setup.
-# The Material default object has the following attributes:
-# - color = Color(1, 1, 1)
-# - ambient = 0.1
-# - diffuse = 0.9
-# - specular = 0.9
-# - shininess = 200
 material = Material()
 material.color = Color(1, 0.9, 0.9)
 material.specular = 0
 
 # Create a sphere, configure it and then we will transform it.
-floor = Sphere(material)
-floor.scale(10, 0.01, 10)
+floor = Plane(material)
 
 # Add the floor to the world
 world.add(floor)
-
-# Now we will create some walls for our scene environment
-left_wall = Sphere(material)
-left_wall.scale(10, 0.01, 10).rotate_x(pi / 2).rotate_y(-pi / 4).translate(0, 0, 5)
-
-right_wall = Sphere(material)
-right_wall.scale(10, 0.01, 10).rotate_x(pi / 2).rotate_y(pi / 4).translate(0, 0, 5)
-
-world.add(left_wall).add(right_wall)
 
 # Base material for the spheres
 base_material = Material()
@@ -66,25 +46,12 @@ base_material.color = Color(0.1, 1, 0.5)
 middle = Sphere(base_material).translate(-0.5, 1, 0.5)
 
 base_material.color = Color(0.5, 1, 0.1)
-right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.3)
+right = Sphere(base_material).scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5)
 
 base_material.color = Color(1, 0.8, 0.1)
 left = Sphere(base_material).scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75)
 
 world.add(left).add(right).add(middle)
-
-base_material.color = Color(1, 0, 0)
-behind = Sphere(base_material).scale(0.22, 0.22, 0.22).translate(0.55, 0.22, 0.65)
-world.add(behind)
-
-seed(328827939)
-n = 1
-while(n < 50)
-  base_material.color = Color(1, abs(random()), abs(random()))
-  s = Sphere(base_material).scale(0.11, 0.11, 0.11).translate(random() * 7, 0.11, random() - 7.5 * abs(random()))
-  world.add(s)
-  n = n + 1
-end
 
 # Now its time to actually render the world
 println('Render world')
@@ -93,6 +60,6 @@ canvas = camera.render(world)
 println('World rendered in {} milliseconds', measure.elapsed_time())
 
 # And then save the canvas to a file
-canvas.write('scene.ppm')
+canvas.write('scene_9.ppm')
 println('World stored in {} milliseconds', measure.elapsed_time())
 

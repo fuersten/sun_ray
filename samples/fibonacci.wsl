@@ -1,5 +1,6 @@
-# calculate the fiboncci in an iterative way
+# Calculates the fiboncci in an iterative way
 
+# n is the number to calculate the fibonacci for
 n = 90
 res = 0
 

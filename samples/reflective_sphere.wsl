@@ -17,13 +17,15 @@ camera.vertical = camera.horizontal
 # Setup the world and add a light.
 light = Light( Point(-10, 10, -10), Color(1, 1, 1) )
 
-# Now set light to the world! Create a World object to add lights to the world.
+# Create a World object and add lights to the world.
 world = World()
-world.shadows = true
-world.reflections = true
 world.add(light)
 
-# At last add some objects to your world to finalize the setup.
+# You can disable shadows or reflections
+world.shadows = true
+world.reflections = true
+
+# Setup a base material
 material = Material()
 material.color = Color(0.8, 1, 0.6)
 material.ambient = 0.1

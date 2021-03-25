@@ -38,6 +38,8 @@ end
 
 # Now its time to actually render the world
 println('Render world')
+
+# You can measure rendering time using the Measurement class
 measure = Measurement()
 canvas = camera.render(world)
 println('World rendered in {} milliseconds', measure.elapsed_time())
