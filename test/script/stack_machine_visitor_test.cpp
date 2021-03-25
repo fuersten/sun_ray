@@ -275,3 +275,15 @@ TEST_CASE("visit parts", "[stack machine visitor]")
     CHECK(instructions[11].code_ == sunray::script::OpCode::METHOD);
   }
 }
+
+TEST_CASE("smv error", "[stack machine visitor]")
+{
+  SECTION("unknown function")
+  {
+    CHECK_THROWS_WITH(get_instructions("doit(4711)"), "Cannot find function 'doit' in registry (_SR4doit1)");
+  }
+  SECTION("unknown class")
+  {
+    CHECK_THROWS_WITH(get_instructions("UnknownClass(4711)"), "Cannot find class 'UnknownClass' in class registry");
+  }
+}
