@@ -15,7 +15,7 @@
 
 namespace sunray
 {
-  enum class ImageFormat { PPM3, PPM6 };
+  enum class ImageFormat { PPM3, PPM6, PNG };
 
   class CanvasWriter
   {
@@ -39,6 +39,11 @@ namespace sunray
       return format_;
     }
 
+    const std::string& extension() const
+    {
+      return do_extension();
+    }
+
   protected:
     explicit CanvasWriter(ImageFormat format)
     : format_{format}
@@ -47,6 +52,7 @@ namespace sunray
 
   private:
     virtual void do_write(const Canvas& canvas, std::ostream& stream) const = 0;
+    virtual const std::string& do_extension() const = 0;
 
     ImageFormat format_;
   };

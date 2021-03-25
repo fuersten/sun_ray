@@ -10,16 +10,19 @@
 #include <sun_ray/feature/ray.h>
 #include <sun_ray/feature/sphere.h>
 #include <sun_ray/feature/transformation.h>
+#include <sun_ray/init.h>
 
 #include <iostream>
 
 
 int main(int argc, const char* argv[])
 {
-  (void)argc;
-  (void)argv;
-
   try {
+    if (argc < 2) {
+      std::cerr << "Usage: silhouette <pathname>" << std::endl;
+      return -1;
+    }
+
     const auto orange = sunray::Color{1.0f, 0.647f, 0};
     const auto origin = sunray::create_point(0, 0, -5);
     const auto wall_z = 10.0;
@@ -51,7 +54,7 @@ int main(int argc, const char* argv[])
       }
     }
 
-    sunray::CanvasFileWriter writer{sunray::ImageFormat::PPM3, "/Users/lcf/temp/silhouette.ppm"};
+    sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, std::filesystem::path{argv[1]} / "silhouette.png"};
     writer.write(canvas);
   } catch (const std::exception& ex) {
     std::cerr << "exception caught: " << ex.what() << std::endl;

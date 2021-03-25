@@ -24,6 +24,12 @@ namespace sunray
     }
 
   private:
+    const std::string& do_extension() const override
+    {
+      static const std::string extension = ".ppm";
+      return extension;
+    }
+
     void do_write(const Canvas& canvas, std::ostream& stream) const override
     {
       write_header(canvas, stream);

@@ -53,7 +53,7 @@ namespace sunray
 
       void write(const std::string& filename)
       {
-        sunray::CanvasFileWriter writer{sunray::ImageFormat::PPM6, filename};
+        sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, filename};
         writer.write(canvas_);
       }
 

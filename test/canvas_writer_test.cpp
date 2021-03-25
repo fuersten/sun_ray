@@ -6,9 +6,11 @@
 //  Copyright © 2019 Lars-Christian Fürstenberg. All rights reserved.
 //
 
+#include <sun_ray/canvas_png_writer.h>
 #include <sun_ray/canvas_ppm3_writer.h>
 #include <sun_ray/canvas_ppm6_writer.h>
 
+#include <fstream>
 #include <sstream>
 
 #include <catch2/catch.hpp>
@@ -16,6 +18,11 @@
 
 TEST_CASE("write ppm3 canvas", "[canvas writer]")
 {
+  SECTION("extension")
+  {
+    sunray::CanvasPPM3Writer cw;
+    CHECK(cw.extension() == ".ppm");
+  }
   SECTION("check header")
   {
     sunray::Canvas canvas{10, 20};
@@ -218,6 +225,11 @@ TEST_CASE("write ppm3 canvas", "[canvas writer]")
 
 TEST_CASE("write ppm6 canvas", "[canvas writer]")
 {
+  SECTION("extension")
+  {
+    sunray::CanvasPPM6Writer cw;
+    CHECK(cw.extension() == ".ppm");
+  }
   SECTION("check header")
   {
     sunray::Canvas canvas{10, 20};
@@ -291,5 +303,50 @@ TEST_CASE("write ppm6 canvas", "[canvas writer]")
     CHECK(buffer[147] == 255);
     CHECK(buffer[148] == 165);
     CHECK(buffer[149] == 0);
+  }
+}
+
+TEST_CASE("write png canvas", "[canvas writer]")
+{
+  SECTION("extension")
+  {
+    sunray::CanvasPNGWriter cw;
+    CHECK(cw.extension() == ".png");
+  }
+  SECTION("write png")
+  {
+    sunray::Canvas canvas{10, 5};
+
+    auto red = sunray::Color{1.0f, 0, 0};
+    auto green = sunray::Color{0, 1.0f, 0};
+    auto blue = sunray::Color{0, 0, 1.0f};
+    auto orange = sunray::Color{1.0f, 0.647f, 0};
+
+    for (uint32_t x = 0; x < 10; ++x) {
+      canvas.pixel_at(x, 0, red);
+    }
+    for (uint32_t x = 0; x < 10; ++x) {
+      canvas.pixel_at(x, 1, green);
+    }
+    for (uint32_t x = 0; x < 10; ++x) {
+      canvas.pixel_at(x, 3, blue);
+    }
+    for (uint32_t x = 0; x < 10; ++x) {
+      canvas.pixel_at(x, 4, orange);
+    }
+
+    std::stringstream ss;
+    sunray::CanvasPNGWriter cw;
+    cw.write(canvas, ss);
+    auto s = ss.str();
+    REQUIRE(s.size() == 85);
+    CHECK(static_cast<uint8_t>(s[0]) == 0x89);
+    CHECK(s[1] == 'P');
+    CHECK(s[2] == 'N');
+    CHECK(s[3] == 'G');
+    CHECK(s[4] == '\r');
+    CHECK(s[5] == '\n');
+    CHECK(s[6] == 0x1A);
+    CHECK(s[7] == '\n');
   }
 }

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <sun_ray/canvas_png_writer.h>
 #include <sun_ray/canvas_ppm3_writer.h>
 #include <sun_ray/canvas_ppm6_writer.h>
 #include <sun_ray/script/format_helper.h>
@@ -36,10 +37,6 @@ namespace sunray
 
     void write(const Canvas& canvas) const
     {
-      std::ofstream of(path_);
-      if (!of.good()) {
-        throw std::runtime_error{fmt::format("Cannot write canvas to file ''", path_.string())};
-      }
       std::unique_ptr<sunray::CanvasWriter> writer;
       switch (format_) {
         case ImageFormat::PPM3:
@@ -47,6 +44,19 @@ namespace sunray
           break;
         case ImageFormat::PPM6:
           writer.reset(new sunray::CanvasPPM6Writer);
+          break;
+        case ImageFormat::PNG:
+          writer.reset(new sunray::CanvasPNGWriter);
+          break;
+      }
+
+      auto path = path_;
+      if (path.extension().empty()) {
+        path += writer->extension();
+      }
+      std::ofstream of(path, std::ofstream::out | std::ios::binary);
+      if (!of.good()) {
+        throw std::runtime_error{fmt::format("Cannot write canvas to file ''", path_.string())};
       }
       writer->write(canvas, of);
       of.close();

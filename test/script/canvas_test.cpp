@@ -106,7 +106,7 @@ TEST_CASE("canvas write", "[canvas]")
     canvas->set_pixel(5, 5, *color);
 
     auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Canvas_write", 2));
-    auto res = function_registry.call_function(static_cast<size_t>(idx), {canvas, "canvas.ppm"s});
+    auto res = function_registry.call_function(static_cast<size_t>(idx), {canvas, "canvas"s});
     REQUIRE(sunray::script::is_double(res));
     CHECK(sunray::script::as_double(res) == Approx(0));
   }

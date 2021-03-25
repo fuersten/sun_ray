@@ -11,6 +11,7 @@
 #include <sun_ray/feature/sphere.h>
 #include <sun_ray/feature/transformation.h>
 #include <sun_ray/feature/world.h>
+#include <sun_ray/init.h>
 
 #include <chrono>
 #include <iostream>
@@ -18,10 +19,12 @@
 
 int main(int argc, const char* argv[])
 {
-  (void)argc;
-  (void)argv;
-
   try {
+    if (argc < 2) {
+      std::cerr << "Usage: sphere <pathname>" << std::endl;
+      return -1;
+    }
+
     auto start = std::chrono::steady_clock::now();
 
     const auto origin = sunray::create_point(0, 0, -5);
@@ -67,7 +70,7 @@ int main(int argc, const char* argv[])
 
     start = std::chrono::steady_clock::now();
 
-    sunray::CanvasFileWriter writer{sunray::ImageFormat::PPM3, "/Users/lcf/temp/sphere.ppm"};
+    sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, std::filesystem::path{argv[1]} / "sphere.png"};
     writer.write(canvas);
 
     end = std::chrono::steady_clock::now();

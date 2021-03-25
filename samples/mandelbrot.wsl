@@ -62,4 +62,4 @@ end
 
 println('Mandelbrot rendered in {} milliseconds', measure.elapsed_time())
 
-canvas.write('mandelbrot.ppm')
+canvas.write('mandelbrot')

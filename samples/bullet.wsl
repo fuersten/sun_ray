@@ -19,4 +19,4 @@ end
 println('Hit the ground at {}', projectile_position)
 
 # Save canvas to a file
-canvas.write('projectile.ppm')
+canvas.write('projectile')

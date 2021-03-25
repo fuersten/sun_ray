@@ -25,6 +25,7 @@ endif()
 
 include(cmake/fetch_date.cmake)
 include(cmake/fetch_fmt.cmake)
+include(cmake/fetch_stb.cmake)
 
 find_package(Threads REQUIRED)
 

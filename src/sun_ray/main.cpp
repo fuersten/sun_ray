@@ -6,6 +6,8 @@
 //  Copyright © 2019 Lars-Christian Fürstenberg. All rights reserved.
 //
 
+#include <sun_ray/init.h>
+
 #include <iostream>
 
 #include "application.h"

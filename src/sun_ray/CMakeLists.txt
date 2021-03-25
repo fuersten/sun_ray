@@ -66,10 +66,14 @@ add_executable(sun_ray
     ${SUN_RAY_SCRIPT_SOURCES}
     ${SUN_RAY_SCRIPT_OBJECTS}
 
+    ${CMAKE_SOURCE_DIR}/sun_ray/init.h
+
     ${CMAKE_SOURCE_DIR}/sun_ray/canvas_writer.h
+    ${CMAKE_SOURCE_DIR}/sun_ray/canvas_png_writer.h
     ${CMAKE_SOURCE_DIR}/sun_ray/canvas_ppm3_writer.h
     ${CMAKE_SOURCE_DIR}/sun_ray/canvas_ppm6_writer.h
     ${CMAKE_SOURCE_DIR}/sun_ray/canvas_file_writer.h
+    ${CMAKE_SOURCE_DIR}/sun_ray/image.h
 
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/camera.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/canvas.h

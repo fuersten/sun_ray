@@ -62,6 +62,6 @@ canvas = camera.render(world)
 println('World rendered in {} milliseconds', measure.elapsed_time())
 
 # And then save the canvas to a file
-canvas.write('scene_10.ppm')
+canvas.write('scene_10')
 println('World stored in {} milliseconds', measure.elapsed_time())
 

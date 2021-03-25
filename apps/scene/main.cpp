@@ -11,6 +11,7 @@
 #include <sun_ray/feature/sphere.h>
 #include <sun_ray/feature/transformation.h>
 #include <sun_ray/feature/world.h>
+#include <sun_ray/init.h>
 
 #include <chrono>
 #include <iostream>
@@ -19,10 +20,9 @@
 int main(int argc, const char* argv[])
 {
   if (argc < 2) {
-    std::cerr << "Usage: scene ppm-file-name" << std::endl;
+    std::cerr << "Usage: scene <pathname>" << std::endl;
     return -1;
   }
-  std::filesystem::path output_file{argv[1]};
 
   try {
     auto start = std::chrono::steady_clock::now();
@@ -93,7 +93,7 @@ int main(int argc, const char* argv[])
 
     start = std::chrono::steady_clock::now();
 
-    sunray::CanvasFileWriter writer{sunray::ImageFormat::PPM6, output_file};
+    sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, std::filesystem::path{argv[1]} / "scene.png"};
     writer.write(canvas);
 
     end = std::chrono::steady_clock::now();

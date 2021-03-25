@@ -71,7 +71,7 @@ while(h < 1.7)
   println('World rendered in {} milliseconds', measure.elapsed_time())
 
 # And then save the canvas to a file
-  filename = format('bounce{:03.0f}', n) + '.ppm'
+  filename = format('bounce{:03.0f}', n)
   canvas.write(filename)
   println('World stored to {} in {} milliseconds', filename, measure.elapsed_time())
 
@@ -97,7 +97,7 @@ while(h > 0.3)
   println('World rendered in {} milliseconds', measure.elapsed_time())
 
 # And then save the canvas to a file
-  filename = format('bounce{:03.0f}', n) + '.ppm'
+  filename = format('bounce{:03.0f}', n)
   canvas.write(filename)
   println('World stored to {} in {} milliseconds', filename, measure.elapsed_time())
 

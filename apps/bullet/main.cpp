@@ -8,6 +8,7 @@
 
 #include <sun_ray/canvas_file_writer.h>
 #include <sun_ray/feature/tuple.h>
+#include <sun_ray/init.h>
 
 #include <iostream>
 
@@ -57,10 +58,12 @@ static Projectile move(const Projectile& projectile, const sunray::Vector& envir
 
 int main(int argc, const char* argv[])
 {
-  (void)argc;
-  (void)argv;
-
   try {
+    if (argc < 2) {
+      std::cerr << "Usage: bullet <pathname>" << std::endl;
+      return -1;
+    }
+
     sunray::Canvas canvas{1300, 550};
 
     const sunray::Vector environment{sunray::create_vector(0, -0.1, 0) + sunray::create_vector(0.01, 0, 0)};
@@ -81,7 +84,7 @@ int main(int argc, const char* argv[])
       }
     }
 
-    sunray::CanvasFileWriter writer{sunray::ImageFormat::PPM3, "/Users/lcf/temp/projectile.ppm"};
+    sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, std::filesystem::path{argv[1]} / "bullet.png"};
     writer.write(canvas);
   } catch (const std::exception& ex) {
     std::cerr << "Exception: " << ex.what() << std::endl;
