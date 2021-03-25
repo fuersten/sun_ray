@@ -264,7 +264,8 @@ namespace sunray
         auto mangeled_name = NameMangler::mangle(meta_class->name() + "_constructor", 1);
         auto idx = function_registry_.index_for_function(mangeled_name);
         if (idx < 0) {
-          throw std::runtime_error{fmt::format("Cannot find constructor for '{}' in registry ({})", node.type_name(), mangeled_name)};
+          throw std::runtime_error{
+            fmt::format("Cannot find constructor for '{}' in registry ({})", node.type_name(), mangeled_name)};
         }
         uint8_t count{0};
         for (auto it = node.parameter().rbegin(); it != node.parameter().rend(); ++it) {
