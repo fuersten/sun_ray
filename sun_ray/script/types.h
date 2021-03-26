@@ -303,7 +303,7 @@ namespace sunray
     }
 
 
-    enum class ConditionalOperator { GT, GE, LT, LE, EQ };
+    enum class ConditionalOperator { GT, GE, LT, LE, EQ, NEQ };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const ConditionalOperator& op)
@@ -323,6 +323,9 @@ namespace sunray
           break;
         case sunray::script::ConditionalOperator::EQ:
           os << "==";
+          break;
+        case sunray::script::ConditionalOperator::NEQ:
+          os << "<>";
           break;
       }
       return os;

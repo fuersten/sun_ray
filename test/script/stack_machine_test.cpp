@@ -93,6 +93,11 @@ TEST_CASE("check opcode", "[stack machine opcode]")
     }
     {
       std::stringstream ss;
+      ss << sunray::script::OpCode::NEQ;
+      CHECK(ss.str() == "NEQ");
+    }
+    {
+      std::stringstream ss;
       ss << sunray::script::OpCode::NOP;
       CHECK(ss.str() == "NOP");
     }
@@ -383,19 +388,37 @@ TEST_CASE("stack machine operations", "[stack machine]")
     REQUIRE(sunray::script::is_bool(res));
     CHECK(sunray::script::as_bool(res) == true);
   }
-  SECTION("compare not equal")
+  SECTION("compare not equal number")
   {
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{8.0}));
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{7.0}));
-    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::EQ));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::NEQ));
     auto res = sm.run();
     REQUIRE(sunray::script::is_bool(res));
-    CHECK(sunray::script::as_bool(res) == false);
+    CHECK(sunray::script::as_bool(res) == true);
   }
-  SECTION("compare equal")
+  SECTION("compare not equal boolean")
+  {
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{false}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::NEQ));
+    auto res = sm.run();
+    REQUIRE(sunray::script::is_bool(res));
+    CHECK(sunray::script::as_bool(res) == true);
+  }
+  SECTION("compare equal number")
   {
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{8.0}));
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{8.0}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::EQ));
+    auto res = sm.run();
+    REQUIRE(sunray::script::is_bool(res));
+    CHECK(sunray::script::as_bool(res) == true);
+  }
+  SECTION("compare equal boolean")
+  {
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::EQ));
     auto res = sm.run();
     REQUIRE(sunray::script::is_bool(res));

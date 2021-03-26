@@ -147,6 +147,11 @@ namespace sunray
             node.rhs().accept(*this);
             sm_.add_instruction(Instruction{OpCode::EQ});
             break;
+          case ConditionalOperator::NEQ:
+            node.lhs().accept(*this);
+            node.rhs().accept(*this);
+            sm_.add_instruction(Instruction{OpCode::NEQ});
+            break;
         }
       }
 

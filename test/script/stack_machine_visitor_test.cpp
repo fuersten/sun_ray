@@ -201,6 +201,16 @@ TEST_CASE("visit parts", "[stack machine visitor]")
     CHECK(sunray::script::as_double(instructions[1].value_) == Approx(815));
     CHECK(instructions[2].code_ == sunray::script::OpCode::EQ);
   }
+  SECTION("not equal")
+  {
+    auto instructions = get_instructions("42 <> 815");
+    REQUIRE(instructions.size() == 3);
+    CHECK(instructions[0].code_ == sunray::script::OpCode::PUSH);
+    CHECK(sunray::script::as_double(instructions[0].value_) == Approx(42));
+    CHECK(instructions[1].code_ == sunray::script::OpCode::PUSH);
+    CHECK(sunray::script::as_double(instructions[1].value_) == Approx(815));
+    CHECK(instructions[2].code_ == sunray::script::OpCode::NEQ);
+  }
   SECTION("if")
   {
     auto instructions = get_instructions("if (42 < 815) 42 end");

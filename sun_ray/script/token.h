@@ -65,6 +65,7 @@ namespace sunray
       GT,
       GE,
       EQ,
+      NEQ,
       IF,
       END,
       WHILE,
@@ -139,6 +140,9 @@ namespace sunray
           break;
         case sunray::script::TokenCode::EQ:
           os << "equal";
+          break;
+        case sunray::script::TokenCode::NEQ:
+          os << "not equal";
           break;
         case sunray::script::TokenCode::IF:
           os << "if";

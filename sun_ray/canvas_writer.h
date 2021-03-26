@@ -20,9 +20,7 @@ namespace sunray
   class CanvasWriter
   {
   public:
-    virtual ~CanvasWriter()
-    {
-    }
+    virtual ~CanvasWriter() = default;
 
     CanvasWriter(const CanvasWriter&) = delete;
     CanvasWriter(CanvasWriter&&) = delete;

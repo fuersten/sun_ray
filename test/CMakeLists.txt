@@ -40,6 +40,7 @@ add_executable(sun_ray_test
   script/function_registry_test.cpp
   script/function_test.cpp
   script/gradient_pattern_test.cpp
+  script/language_test.cpp
   script/light_test.cpp
   script/location_test.cpp
   script/material_test.cpp

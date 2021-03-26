@@ -100,8 +100,8 @@ namespace sunray
               tok.code_ = TokenCode::ASSIGNMENT;
               if (reader_.next_char() == '=') {
                 tok.code_ = TokenCode::EQ;
+                reader_.next_char();
               }
-              reader_.next_char();
               return tok;
             case '(':
               tok.code_ = TokenCode::LPAREN;
@@ -115,19 +115,24 @@ namespace sunray
             case ']':
               tok.code_ = TokenCode::RSQUARE;
               break;
-            case '<':
+            case '<': {
               tok.code_ = TokenCode::LT;
-              if (reader_.next_char() == '=') {
+              auto c = reader_.next_char();
+              if (c == '=') {
                 tok.code_ = TokenCode::LE;
+                reader_.next_char();
+              } else if (c == '>') {
+                tok.code_ = TokenCode::NEQ;
+                reader_.next_char();
               }
-              reader_.next_char();
               return tok;
+            }
             case '>':
               tok.code_ = TokenCode::GT;
               if (reader_.next_char() == '=') {
                 tok.code_ = TokenCode::GE;
+                reader_.next_char();
               }
-              reader_.next_char();
               return tok;
             case '\r':
               reader_.next_char();

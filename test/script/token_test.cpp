@@ -160,6 +160,11 @@ TEST_CASE("check token code", "[token code]")
     }
     {
       std::stringstream ss;
+      ss << sunray::script::TokenCode::NEQ;
+      CHECK(ss.str() == "not equal");
+    }
+    {
+      std::stringstream ss;
       ss << sunray::script::TokenCode::IF;
       CHECK(ss.str() == "if");
     }

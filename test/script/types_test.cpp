@@ -81,6 +81,11 @@ TEST_CASE("conditional operator type", "[operator]")
     }
     {
       std::stringstream ss;
+      ss << sunray::script::ConditionalOperator::NEQ;
+      CHECK(ss.str() == "<>");
+    }
+    {
+      std::stringstream ss;
       ss << sunray::script::ConditionalOperator::LE;
       CHECK(ss.str() == "<=");
     }

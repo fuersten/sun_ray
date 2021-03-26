@@ -242,7 +242,7 @@ namespace sunray
       ExpressionPtr parse_conditional_expression()
       {
         auto node = parse_additive();
-        if (can_expect({TokenCode::GT, TokenCode::LT, TokenCode::GE, TokenCode::LE, TokenCode::EQ})) {
+        if (can_expect({TokenCode::GT, TokenCode::LT, TokenCode::GE, TokenCode::LE, TokenCode::EQ, TokenCode::NEQ})) {
           ConditionalOperator op;
           if (current_token_.code_ == TokenCode::GT) {
             op = ConditionalOperator::GT;
@@ -254,9 +254,11 @@ namespace sunray
             op = ConditionalOperator::LE;
           } else if (current_token_.code_ == TokenCode::EQ) {
             op = ConditionalOperator::EQ;
+          } else if (current_token_.code_ == TokenCode::NEQ) {
+            op = ConditionalOperator::NEQ;
           } else {
             std::stringstream message;
-            message << "expect a conditional operator (<,>,<=,>=,==)";
+            message << "expect a conditional operator (<,>,<=,>=,==,<>)";
             diagnostic_messages_.add_error("E011", message.str(), current_token_.location_);
             throw ParseError{};
           }

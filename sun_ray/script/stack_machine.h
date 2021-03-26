@@ -62,6 +62,7 @@ namespace sunray
       METHOD,
       MUL,
       NEG,
+      NEQ,
       NOP,
       NOT,
       OR,
@@ -116,6 +117,9 @@ namespace sunray
           break;
         case OpCode::NEG:
           os << "NEG";
+          break;
+        case OpCode::NEQ:
+          os << "NEQ";
           break;
         case OpCode::NOP:
           os << "NOP";
@@ -317,8 +321,13 @@ namespace sunray
               break;
             }
             case OpCode::EQ: {
-              auto& top = values_.top(1);
-              top = Approx(as_double(values_.top())) == as_double(top);
+              auto& right = values_.top(1);
+              const auto& left = values_.top();
+              if (is_bool(left) || is_bool(right)) {
+                right = as_bool(left) == as_bool(right);
+              } else {
+                right = Approx(as_double(left)) == as_double(right);
+              }
               values_.pop();
               break;
             }
@@ -386,6 +395,17 @@ namespace sunray
             }
             case OpCode::NEG: {
               values_.top() = -as_double(values_.top());
+              break;
+            }
+            case OpCode::NEQ: {
+              auto& right = values_.top(1);
+              const auto& left = values_.top();
+              if (is_bool(left) || is_bool(right)) {
+                right = as_bool(left) != as_bool(right);
+              } else {
+                right = Approx(as_double(left)) != as_double(right);
+              }
+              values_.pop();
               break;
             }
             case OpCode::NOP: {

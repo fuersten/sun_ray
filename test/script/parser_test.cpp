@@ -168,7 +168,7 @@ TEST_CASE("parse assignment", "[parser]")
   }
   SECTION("parse while")
   {
-    const std::string input = "while (x < 3) x = x + 1 y = 42 end";
+    const std::string input = "while (x <3) x = x + 1 y = 42 end";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -235,7 +235,7 @@ TEST_CASE("parse expressions", "[parser]")
   }
   SECTION("parse greater equal expression")
   {
-    const std::string input = "8 >= 9";
+    const std::string input = "8 >=9";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -259,9 +259,48 @@ TEST_CASE("parse expressions", "[parser]")
     CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
     CHECK(node->op() == sunray::script::ConditionalOperator::LE);
   }
+  SECTION("parse equal expression")
+  {
+    const std::string input = "8 == 9";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    const auto* node = dynamic_cast<const sunray::script::ConditionalExpression*>(get_expression_from_statement(nodes[0].get()));
+    REQUIRE(node != nullptr);
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->lhs()));
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
+    CHECK(node->op() == sunray::script::ConditionalOperator::EQ);
+  }
+  SECTION("parse not equal expression")
+  {
+    const std::string input = "8 <> 9";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    const auto* node = dynamic_cast<const sunray::script::ConditionalExpression*>(get_expression_from_statement(nodes[0].get()));
+    REQUIRE(node != nullptr);
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->lhs()));
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
+    CHECK(node->op() == sunray::script::ConditionalOperator::NEQ);
+  }
+  SECTION("parse not equal expression bool")
+  {
+    const std::string input = "n <> true";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    const auto* node = dynamic_cast<const sunray::script::ConditionalExpression*>(get_expression_from_statement(nodes[0].get()));
+    REQUIRE(node != nullptr);
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Identifier&>(node->lhs()));
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
+    CHECK(node->op() == sunray::script::ConditionalOperator::NEQ);
+  }
   SECTION("parse conditional expression")
   {
-    const std::string input = "a + 1 > b - 3";
+    const std::string input = "a +1 > b- 3";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -274,7 +313,7 @@ TEST_CASE("parse expressions", "[parser]")
   }
   SECTION("parse relational expression")
   {
-    const std::string input = "x > 4 and y < 3";
+    const std::string input = "x > 4 and y< 3";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -307,7 +346,7 @@ TEST_CASE("parse expressions", "[parser]")
   }
   SECTION("parse method expression")
   {
-    const std::string input = "red = Color(1, 0, 0)\ncanvas = Canvas(100, 50)\ncanvas.set_pixel(10, 20, red)";
+    const std::string input = "red = Color(1, 0, 0)\ncanvas = Canvas(100, 50)\ncanvas.set_pixel(10,20, red)";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -359,7 +398,7 @@ TEST_CASE("parse expressions", "[parser]")
   }
   SECTION("parse point")
   {
-    const std::string input = "(1, 1.8, 0)";
+    const std::string input = "(1,1.8, 0)";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -393,8 +432,8 @@ TEST_CASE("parse simple programs", "[parser]")
     const std::string input = R"(
     x = 42
     y = 2
-    z = ((x + y) * 10) / 2
-    print('z = {}', z)
+    z = ((x + y) *10) / 2
+    print('z = {}',z)
 )";
     std::istringstream is{input};
 
@@ -455,6 +494,6 @@ TEST_CASE("parse errors", "[parser]")
     CHECK(diagnostic_messages.has_error());
     std::stringstream ss;
     diagnostic_messages.output_messages(ss);
-    CHECK(ss.str() == "ERROR [E004]: expected primary expression [1:9]\nERROR [E001]: expected at least one statement [1:9]\n");
+    CHECK(ss.str() == "ERROR [E004]: expected primary expression [1:8]\nERROR [E001]: expected at least one statement [1:8]\n");
   }
 }

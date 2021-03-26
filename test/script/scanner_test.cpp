@@ -356,6 +356,16 @@ TEST_CASE("scan operators", "[scanner]")
     CHECK(tok.code_ == sunray::script::TokenCode::EQ);
     CHECK(tok.identifier_.empty());
   }
+  SECTION("scan not equal")
+  {
+    const std::string input = "<>";
+    std::istringstream is{input};
+    sunray::script::Scanner scanner{is};
+
+    auto tok = scanner.get_next_token();
+    CHECK(tok.code_ == sunray::script::TokenCode::NEQ);
+    CHECK(tok.identifier_.empty());
+  }
 }
 
 TEST_CASE("scan keywords", "[scanner]")
