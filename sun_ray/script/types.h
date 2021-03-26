@@ -329,7 +329,7 @@ namespace sunray
     }
 
 
-    enum class UnaryOperator { MINUS };
+    enum class UnaryOperator { MINUS, NOT };
 
     template<class CharT, class Traits>
     std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const UnaryOperator& op)
@@ -337,6 +337,9 @@ namespace sunray
       switch (op) {
         case sunray::script::UnaryOperator::MINUS:
           os << "-";
+          break;
+        case sunray::script::UnaryOperator::NOT:
+          os << "not";
           break;
       }
       return os;

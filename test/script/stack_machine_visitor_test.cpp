@@ -143,6 +143,14 @@ TEST_CASE("visit parts", "[stack machine visitor]")
     CHECK(sunray::script::as_double(instructions[0].value_) == Approx(4711));
     CHECK(instructions[1].code_ == sunray::script::OpCode::NEG);
   }
+  SECTION("unary not")
+  {
+    auto instructions = get_instructions("not true");
+    REQUIRE(instructions.size() == 2);
+    CHECK(instructions[0].code_ == sunray::script::OpCode::PUSH);
+    CHECK(sunray::script::as_bool(instructions[0].value_));
+    CHECK(instructions[1].code_ == sunray::script::OpCode::NOT);
+  }
   SECTION("less")
   {
     auto instructions = get_instructions("42 < 815");

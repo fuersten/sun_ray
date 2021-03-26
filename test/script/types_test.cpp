@@ -47,9 +47,16 @@ TEST_CASE("unary operator type", "[operator]")
 {
   SECTION("check unary operator code")
   {
-    std::stringstream ss;
-    ss << sunray::script::UnaryOperator::MINUS;
-    CHECK(ss.str() == "-");
+    {
+      std::stringstream ss;
+      ss << sunray::script::UnaryOperator::MINUS;
+      CHECK(ss.str() == "-");
+    }
+    {
+      std::stringstream ss;
+      ss << sunray::script::UnaryOperator::NOT;
+      CHECK(ss.str() == "not");
+    }
   }
 }
 

@@ -69,7 +69,8 @@ namespace sunray
       END,
       WHILE,
       AND,
-      OR
+      OR,
+      NOT
     };
 
     template<class CharT, class Traits>
@@ -153,6 +154,9 @@ namespace sunray
           break;
         case sunray::script::TokenCode::OR:
           os << "or";
+          break;
+        case sunray::script::TokenCode::NOT:
+          os << "not";
           break;
       }
       return os;

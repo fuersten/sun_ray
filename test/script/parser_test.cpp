@@ -209,6 +209,30 @@ TEST_CASE("parse expressions", "[parser]")
     CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
     CHECK(node->op() == sunray::script::LogicalOperator::OR);
   }
+  SECTION("parse logical not expression")
+  {
+    const std::string input = "not true";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    const auto* node = dynamic_cast<const sunray::script::UnaryExpression*>(get_expression_from_statement(nodes[0].get()));
+    REQUIRE(node != nullptr);
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
+    CHECK(node->op() == sunray::script::UnaryOperator::NOT);
+  }
+  SECTION("parse neg expression")
+  {
+    const std::string input = "-4711";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    const auto* node = dynamic_cast<const sunray::script::UnaryExpression*>(get_expression_from_statement(nodes[0].get()));
+    REQUIRE(node != nullptr);
+    CHECK_NOTHROW(dynamic_cast<const sunray::script::Literal&>(node->rhs()));
+    CHECK(node->op() == sunray::script::UnaryOperator::MINUS);
+  }
   SECTION("parse greater equal expression")
   {
     const std::string input = "8 >= 9";

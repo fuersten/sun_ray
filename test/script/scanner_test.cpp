@@ -410,6 +410,16 @@ TEST_CASE("scan keywords", "[scanner]")
     CHECK(tok.code_ == sunray::script::TokenCode::OR);
     CHECK(tok.identifier_.empty());
   }
+  SECTION("not")
+  {
+    const std::string input = "not";
+    std::istringstream is{input};
+    sunray::script::Scanner scanner{is};
+
+    auto tok = scanner.get_next_token();
+    CHECK(tok.code_ == sunray::script::TokenCode::NOT);
+    CHECK(tok.identifier_.empty());
+  }
 }
 
 TEST_CASE("scan sequences", "[scanner]")

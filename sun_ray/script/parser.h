@@ -304,6 +304,9 @@ namespace sunray
         if (can_expect({TokenCode::MINUS})) {
           parse_next();
           return std::make_unique<UnaryExpression>(loc, UnaryOperator::MINUS, parse_unary());
+        } else if (can_expect({TokenCode::NOT})) {
+          parse_next();
+          return std::make_unique<UnaryExpression>(loc, UnaryOperator::NOT, parse_unary());
         }
         return parse_postfix();
       }

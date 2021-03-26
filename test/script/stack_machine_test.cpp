@@ -98,6 +98,11 @@ TEST_CASE("check opcode", "[stack machine opcode]")
     }
     {
       std::stringstream ss;
+      ss << sunray::script::OpCode::NOT;
+      CHECK(ss.str() == "NOT");
+    }
+    {
+      std::stringstream ss;
       ss << sunray::script::OpCode::OR;
       CHECK(ss.str() == "OR");
     }
@@ -428,6 +433,22 @@ TEST_CASE("stack machine operations", "[stack machine]")
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
     sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::AND));
+    auto res = sm.run();
+    REQUIRE(sunray::script::is_bool(res));
+    CHECK(sunray::script::as_bool(res) == true);
+  }
+  SECTION("relational not true")
+  {
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::NOT));
+    auto res = sm.run();
+    REQUIRE(sunray::script::is_bool(res));
+    CHECK(sunray::script::as_bool(res) == false);
+  }
+  SECTION("relational not false")
+  {
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{false}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::NOT));
     auto res = sm.run();
     REQUIRE(sunray::script::is_bool(res));
     CHECK(sunray::script::as_bool(res) == true);

@@ -59,6 +59,7 @@ namespace sunray
         keywords_["while"] = TokenCode::WHILE;
         keywords_["and"] = TokenCode::AND;
         keywords_["or"] = TokenCode::OR;
+        keywords_["not"] = TokenCode::NOT;
       }
 
       Scanner(const Scanner&) = delete;

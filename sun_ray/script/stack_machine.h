@@ -63,6 +63,7 @@ namespace sunray
       MUL,
       NEG,
       NOP,
+      NOT,
       OR,
       PUSH,
       PUSHVAR,
@@ -118,6 +119,9 @@ namespace sunray
           break;
         case OpCode::NOP:
           os << "NOP";
+          break;
+        case OpCode::NOT:
+          os << "NOT";
           break;
         case OpCode::OR:
           os << "OR";
@@ -385,6 +389,10 @@ namespace sunray
               break;
             }
             case OpCode::NOP: {
+              break;
+            }
+            case OpCode::NOT: {
+              values_.top() = !as_bool(values_.top());
               break;
             }
             case OpCode::OR: {

@@ -153,7 +153,14 @@ namespace sunray
       void visit(const UnaryExpression& node) override
       {
         node.rhs().accept(*this);
-        sm_.add_instruction(Instruction(OpCode::NEG));
+        switch (node.op()) {
+          case UnaryOperator::MINUS:
+            sm_.add_instruction(Instruction(OpCode::NEG));
+            break;
+          case UnaryOperator::NOT:
+            sm_.add_instruction(Instruction(OpCode::NOT));
+            break;
+        }
       }
 
       void visit(const Identifier& node) override

@@ -183,5 +183,10 @@ TEST_CASE("check token code", "[token code]")
       ss << sunray::script::TokenCode::OR;
       CHECK(ss.str() == "or");
     }
+    {
+      std::stringstream ss;
+      ss << sunray::script::TokenCode::NOT;
+      CHECK(ss.str() == "not");
+    }
   }
 }
