@@ -1,0 +1,2 @@
+# The obligatory 'Hello world!' example.
+println('Hello world!')
