@@ -1,0 +1,79 @@
+# Generates the books cover image
+
+pi = 3.141592653589
+
+# Camera
+camera = Camera()
+camera.from = (-6, 6, -10)
+camera.to = (6, 0, 6)
+camera.up = [-0.45, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 1500
+camera.vertical = 1500
+
+# World and Lights
+world = World()
+world.add(Light(Point(50, 100, -50), Color(1, 1, 1)))
+world.add(Light(Point(-400, 50, -10), Color(0.2, 0.2, 0.2)))
+
+# Materials
+white_material = Material()
+white_material.color = Color(1, 1, 1)
+white_material.ambient = 0.1
+white_material.diffuse = 0.7
+white_material.specular = 0.0
+white_material.reflective = 0.1
+
+blue_material = Material(white_material)
+blue_material.color = Color(0.537, 0.831, 0.914)
+
+red_material = Material(white_material)
+red_material.color = Color(0.941, 0.322, 0.388)
+
+purple_material = Material(white_material)
+purple_material.color = Color(0.373, 0.404, 0.550)
+
+# Scene
+backdrop_material = Material()
+backdrop_material.color = Color(1, 1, 1)
+backdrop_material.ambient = 1
+backdrop_material.diffuse = 0
+backdrop_material.specular = 0
+backdrop = Plane(backdrop_material).rotate_x(pi / 2).translate(0, 0, 500)
+world.add(backdrop)
+
+sphere_material = Material()
+sphere_material.color = Color(0.373, 0.404, 0.550)
+sphere_material.diffuse = 0.2
+sphere_material.ambient = 0.0
+sphere_material.specular = 1.0
+sphere_material.shininess = 200
+sphere_material.reflective = 0.7
+sphere_material.transparency = 0.7
+sphere_material.refractive_index = 1.5
+sphere = Sphere(sphere_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5)
+world.add(sphere)
+
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3, 3, 3).translate(4, 0, 0))
+world.add(Cube(blue_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(8.5, 1.5, -0.5))
+world.add(Cube(red_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(0, 0, 4))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(2, 2, 2).translate(4, 0, 4))
+world.add(Cube(purple_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3, 3, 3).translate(7.5, 0.5, 4))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3, 3, 3).translate(-0.25, 0.25, 8))
+world.add(Cube(blue_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(4, 1, 7.5))
+world.add(Cube(red_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3, 3, 3).translate(10, 2, 7.5))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(2, 2, 2).translate(8, 2, 12))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(2, 2, 2).translate(20, 1, 9))
+world.add(Cube(blue_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(-0.5, -5, 0.25))
+world.add(Cube(red_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(4, -4, 0))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(8.5, -4, 0))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(0, -4, 4))
+world.add(Cube(purple_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(-0.5, -4.5, 8))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(0, -8, 4))
+world.add(Cube(white_material).translate(1, -1, 1).scale(0.5, 0.5, 0.5).scale(3.5, 3.5, 3.5).translate(-0.5, -8.5, 8))
+
+# Render
+measurement = Measurement()
+canvas = camera.render(world)
+println('Rendered in {}ms', measurement.elapsed_time())
+canvas.write('cover_image')
