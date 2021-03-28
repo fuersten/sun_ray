@@ -304,4 +304,8 @@ TEST_CASE("smv error", "[stack machine visitor]")
   {
     CHECK_THROWS_WITH(get_instructions("UnknownClass(4711)"), "Cannot find class 'UnknownClass' in class registry");
   }
+  SECTION("unknown identifier")
+  {
+    CHECK_THROWS_WITH(get_instructions("cnvs.write('test')"), "Unkown identifier 'cnvs'");
+  }
 }

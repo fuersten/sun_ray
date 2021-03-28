@@ -171,7 +171,7 @@ namespace sunray
       void visit(const Identifier& node) override
       {
         if (!is_assignment_) {
-          sm_.add_instruction(Instruction(OpCode::PUSHVAR, get_or_add_index_for_identifier(node.identifier())));
+          sm_.add_instruction(Instruction(OpCode::PUSHVAR, get_index_for_identifier(node.identifier())));
         } else {
           sm_.add_instruction(Instruction(OpCode::STOREVAR, get_or_add_index_for_identifier(node.identifier())));
         }
@@ -287,6 +287,16 @@ namespace sunray
         sm_.add_instruction(Instruction(OpCode::PUSH, Variant{static_cast<double>(count)}));
         sm_.add_instruction(Instruction(OpCode::PUSH, Variant{static_cast<double>(idx)}));
         sm_.add_instruction(Instruction(OpCode::FUNC));
+      }
+
+      uint32_t get_index_for_identifier(const std::string& identifier)
+      {
+        auto it = id_mapping_.find(identifier);
+        if (it != id_mapping_.end()) {
+          return it->second;
+        }
+
+        throw std::runtime_error{fmt::format("Unkown identifier '{}'", identifier)};
       }
 
       uint32_t get_or_add_index_for_identifier(const std::string& identifier)
