@@ -76,8 +76,14 @@ namespace sunray
       }
 
       std::vector<RenderPart> parts;
+      uint32_t vertical_lines{0};
       for (uint32_t n = 0; n < nr_parts; ++n) {
         parts.emplace_back(RenderPart{part_size * n, part_size * (n + 1)});
+        vertical_lines += parts.back().to_ - parts.back().from_;
+      }
+
+      if (vertical_lines < vertical_size_) {
+        parts.emplace_back(RenderPart{parts.back().from_ + 1, vertical_size_});
       }
 
       std::vector<std::thread> threads;
