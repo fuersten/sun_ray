@@ -37,6 +37,17 @@ TEST_CASE("write file canvas", "[canvas file writer]")
 
     CHECK(std::filesystem::exists(file));
   }
+  SECTION("write png file")
+  {
+    TemporaryDirectoryGuard guard;
+    auto file = guard.temporary_directory_path() / "test.png";
+
+    sunray::Canvas canvas{100, 100};
+    sunray::CanvasFileWriter writer{sunray::ImageFormat::PNG, file};
+    writer.write(canvas);
+
+    CHECK(std::filesystem::exists(file));
+  }
   SECTION("write ppm3 file fail")
   {
     std::filesystem::path file{"/this/file/does/not/exist/test.ppm"};
