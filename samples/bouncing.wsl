@@ -13,7 +13,7 @@ camera.from = (0, 1.5, -7)
 camera.to = (0, 1, 0)
 camera.up = [0, 1, 0]
 camera.field_of_view = pi / 3
-camera.horizontal = 2000
+camera.horizontal = 500
 # You can use expressions to calculate stuff
 camera.vertical = camera.horizontal / 2
 

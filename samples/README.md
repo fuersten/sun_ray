@@ -1,38 +1,43 @@
-# Samples
 
-## Dependencies
+# Samples Gallery
 
-- image magick
-- ffmpeg
+## Book Images
 
-## Installation on Mac
+![bullet.wsl](samples/gallery/projectile.png)
 
-- use brew to install
+![clock.wsl](samples/gallery/clock.png)
 
-```sh
-  $ brew install imagemagick
-  $ brew install ffmpeg
-```
+![sphere.wsl](samples/gallery/sphere.png)
 
-## Create Images from Scripts
+![scene_7.wsl](samples/gallery/scene_7.png)
 
-- use the ```sun_ray``` command line tool to create images from scripts
+![scene_8.wsl](samples/gallery/scene_8.png)
 
-```sh
-  $ sun_ray /some/path/to/samples/sample_1.wsl
-```
+![scene_9.wsl](samples/gallery/scene_9.png)
 
-## Create a Video from Images
+![scene_10.wsl](samples/gallery/scene_10.png)
 
-- use the ```make_movie.sh``` script to create a small mpeg movie from an image series
+![scene_11.wsl](samples/gallery/scene_11.png)
 
-```sh
-  $ ./make_movie.sh /some/path/to/samples/bouncing.wsl bounce
-```
+![fresnel.wsl](samples/gallery/fresnel.png)
 
-## Create Animated gif from Images
+![cover_image.wsl](samples/gallery/cover_image.png)
 
-```sh
-  $ convert -delay 20 -loop 0 bounce*.png bounce.gif
-```
+## Additional Stuff
+
+![mandelbrot.wsl](samples/gallery/mandelbrot.png)
+
+![reflective_sphere.wsl](samples/gallery/reflective_sphere.png)
+
+![sphere_madness.wsl](samples/gallery/sphere_madness.png)
+
+![sample_1.wsl](samples/gallery/sample_1.png)
+
+![sample_2.wsl](samples/gallery/sample_2.png)
+
+![sample_3.wsl](samples/gallery/sample_3.png)
+
+![sample_4.wsl](samples/gallery/sample_4.png)
+
+![bouncing.wsl](samples/gallery/bounce.gif)
 

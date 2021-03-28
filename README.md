@@ -15,7 +15,7 @@ The ray tracer builds and runs on
 
 ## Samples
 
-Images of all samples can be found [here](samples/gallery).
+Images of all samples can be found [here](samples).
 
 ## Build Instructions
 
