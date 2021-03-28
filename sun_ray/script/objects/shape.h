@@ -1,5 +1,5 @@
 //
-//  object.h
+//  shape.h
 //  sun_ray
 //
 //  Created by Lars-Christian Fürstenberg on 03.03.20.
@@ -19,12 +19,12 @@ namespace sunray
 {
   namespace script
   {
-    class Object
+    class Shape
     : public Class
-    , public std::enable_shared_from_this<Object>
+    , public std::enable_shared_from_this<Shape>
     {
     public:
-      Object(MetaClassPtr meta_class, const Material& material)
+      Shape(MetaClassPtr meta_class, const Material& material)
       : Class(meta_class)
       , material_{material.material()}
       {
@@ -86,7 +86,7 @@ namespace sunray
     };
 
 
-    class ObjectMetaClass : public sunray::script::MetaClass<Object>
+    class ShapeMetaClass : public sunray::script::MetaClass<Shape>
     {
     protected:
       static MutableClassPtr scale(sunray::script::MutableClassPtr& c, double x, double y, double z)

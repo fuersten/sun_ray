@@ -9,18 +9,18 @@
 #pragma once
 
 #include <sun_ray/feature/disk.h>
-#include <sun_ray/script/objects/object.h>
+#include <sun_ray/script/objects/shape.h>
 
 
 namespace sunray
 {
   namespace script
   {
-    class Disk : public Object
+    class Disk : public Shape
     {
     public:
       Disk(MetaClassPtr meta_class, const Material& material)
-      : Object(meta_class, material)
+      : Shape(meta_class, material)
       {
       }
 
@@ -49,7 +49,7 @@ namespace sunray
     };
 
 
-    class DiskMetaClass : public ObjectMetaClass
+    class DiskMetaClass : public ShapeMetaClass
     {
     public:
       DiskMetaClass() = default;

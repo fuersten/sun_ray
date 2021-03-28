@@ -9,18 +9,18 @@
 #pragma once
 
 #include <sun_ray/feature/sphere.h>
-#include <sun_ray/script/objects/object.h>
+#include <sun_ray/script/objects/shape.h>
 
 
 namespace sunray
 {
   namespace script
   {
-    class Sphere : public Object
+    class Sphere : public Shape
     {
     public:
       Sphere(MetaClassPtr meta_class, const Material& material)
-      : Object(meta_class, material)
+      : Shape(meta_class, material)
       {
       }
 
@@ -41,7 +41,7 @@ namespace sunray
     };
 
 
-    class SphereMetaClass : public ObjectMetaClass
+    class SphereMetaClass : public ShapeMetaClass
     {
     public:
       SphereMetaClass() = default;
@@ -58,7 +58,7 @@ namespace sunray
         registry.add_variadic_function("Sphere_constructor", [self](const std::vector<Variant>& parameter) {
           if (parameter.size() != 1) {
             throw std::runtime_error{
-              fmt::format("Plane constructor called with wrong parameter count. Should be 1, but is {}.", parameter.size())};
+              fmt::format("Sphere constructor called with wrong parameter count. Should be 1, but is {}.", parameter.size())};
           }
           return self->construct(as_class(parameter[0]));
         });

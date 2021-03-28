@@ -42,7 +42,7 @@ set(SUN_RAY_SCRIPT_OBJECTS
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/light.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/material.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/measurement.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/object.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/shape.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/pattern.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/plane.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/point.h

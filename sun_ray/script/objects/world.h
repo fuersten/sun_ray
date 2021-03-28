@@ -118,7 +118,7 @@ namespace sunray
         if (light) {
           return get_class(c)->add(light->light());
         }
-        auto object = std::dynamic_pointer_cast<Object>(obj);
+        auto object = std::dynamic_pointer_cast<Shape>(obj);
         if (object) {
           return get_class(c)->add(object->shape());
         }

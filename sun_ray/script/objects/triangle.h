@@ -9,18 +9,18 @@
 #pragma once
 
 #include <sun_ray/feature/triangle.h>
-#include <sun_ray/script/objects/object.h>
+#include <sun_ray/script/objects/shape.h>
 
 
 namespace sunray
 {
   namespace script
   {
-    class Triangle : public Object
+    class Triangle : public Shape
     {
     public:
       Triangle(MetaClassPtr meta_class, const Material& material, const Point& point1, const Point& point2, const Point& point3)
-      : Object(meta_class, material)
+      : Shape(meta_class, material)
       , point1_{point1}
       , point2_{point2}
       , point3_{point3}
@@ -50,7 +50,7 @@ namespace sunray
     };
 
 
-    class TriangleMetaClass : public ObjectMetaClass
+    class TriangleMetaClass : public ShapeMetaClass
     {
     public:
       TriangleMetaClass() = default;
