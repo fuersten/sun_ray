@@ -30,3 +30,9 @@
   $ ./make_movie.sh /some/path/to/samples/bouncing.wsl bounce
 ```
 
+## Create Animated gif from Images
+
+```sh
+  $ convert -delay 20 -loop 0 bounce*.png bounce.gif
+```
+
