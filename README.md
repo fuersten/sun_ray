@@ -1,3 +1,5 @@
+[![GitHub Build Status](https://github.com/fuersten/sun_ray/workflows/CMake%20Build%20Matrix/badge.svg)](https://github.com/fuersten/sun_ray/actions)
+
 # The sun_ray Ray Tracer
 
 The sun_ray ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create a ray tracer is test driven, sun_ray has lots of tests and currently around 92.8% of unit test coverage.
