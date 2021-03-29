@@ -55,7 +55,8 @@ TEST_CASE("measurement methods", "[measurement]")
     res = function_registry.call_function(static_cast<size_t>(idx), {measurement});
     REQUIRE(sunray::script::is_double(res));
     CHECK(sunray::script::as_double(res) > 4.9);
-    CHECK(sunray::script::as_double(res) < 19.0);
+    // We actually cannot guarantee this, especially if building in the CI
+    // CHECK(sunray::script::as_double(res) < 19.0);
   }
 }
 
