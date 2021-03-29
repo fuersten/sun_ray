@@ -205,7 +205,7 @@ In a boolean binary operation, all operands have to be of type Boolean. A boolea
 
 #### Number
 
-The only kind of number **WSL** supports is a double floating point number. It is also the only data type a calculation can be made with. The usual operations are supported for calculations.
+The only kind of number **WSL** supports is a double floating point number. It is also the only data type a calculation can be made with, apart from strings, which can be concatenated. The usual operations are supported for calculations.
 
 Arithmetic operations:
 
