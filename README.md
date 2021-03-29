@@ -1,6 +1,7 @@
 ![Supported Platforms](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-blue.svg)
 ![License: BSD-3](https://img.shields.io/badge/License-BSD3-blue.svg)
 [![GitHub Build Status](https://github.com/fuersten/sun_ray/workflows/CMake%20Build%20Matrix/badge.svg)](https://github.com/fuersten/sun_ray/actions)
+[![Coverage Status](https://coveralls.io/repos/github/fuersten/sun_ray/badge.svg?branch=main)](https://coveralls.io/github/fuersten/sun_ray?branch=main)
 
 # The sun_ray Ray Tracer
 
