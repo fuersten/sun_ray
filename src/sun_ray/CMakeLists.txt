@@ -106,6 +106,11 @@ target_include_directories(sun_ray PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(sun_ray PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(sun_ray PRIVATE ${PROJECT_BINARY_DIR})
 
+if(WIN32)
+  target_compile_options(sun_ray PRIVATE /MT)
+  target_link_options(sun_ray PRIVATE /INCREMENTAL:NO /NODEFAULTLIB:MSVCRT)
+endif()
+
 if(COVERAGE)
   target_compile_options(sun_ray PUBLIC --coverage)
   target_link_libraries(sun_ray PUBLIC --coverage)
@@ -121,9 +126,10 @@ install(
   PATTERN "gallery" EXCLUDE
 )
 
-set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${PROJECT_VERSION}")
+set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${SYSTEM_NAME}-${PROJECT_VERSION}")
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 set(CPACK_STRIP_FILES TRUE)
 set(CPACK_GENERATOR "ZIP")
+set(CPACK_PACKAGE_CHECKSUM "SHA256")
 include(CPack)
 
