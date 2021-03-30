@@ -5,11 +5,11 @@
 
 # The sun_ray Ray Tracer
 
-The sun_ray ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create a ray tracer is test driven, sun_ray has lots of tests and currently around 92.8% of unit test coverage.
+The sun_ray ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create the ray tracer is test driven, sun_ray has lots of tests and currently around 95% of unit test coverage.
 
 I have not finished the book yet and have implemented the ray tracer including up to chapter 12 and parts of chapter 15. Nevertheless, you can create really nice images!
 
-I diverged from the recommendation from the book to use a yaml like approach as scene description format for the images to render, as there is no good ready to use implementation available for C++. As I am very fond of parsing and compilers, I choose to implement a small domain specific scripting language to generate the images. That actually was a project in itself, but a fun one.
+I diverged from the books approach to use yaml files as scene description format for the images to render, as there is no good ready to use implementation available for C++. As I am very fond of parsing and compilers, I choose to implement a small domain specific scripting language to generate the images. That actually was a project in itself, but a fun one.
 
 ## Platforms
 
