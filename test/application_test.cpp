@@ -14,6 +14,18 @@
 #include <catch2/catch.hpp>
 
 
+namespace
+{
+  void create_input_file(TemporaryDirectoryGuard& guard, const std::string& input, const std::string& name)
+  {
+    auto sample_file = guard.temporary_directory_path() / name;
+    std::ofstream file{sample_file.string()};
+    file << input;
+    file.close();
+    std::filesystem::current_path(guard.temporary_directory_path());
+  }
+}
+
 TEST_CASE("application", "[application]")
 {
   const std::string input = R"(
@@ -24,11 +36,7 @@ TEST_CASE("application", "[application]")
   )";
 
   TemporaryDirectoryGuard guard;
-  auto sample_file = guard.temporary_directory_path() / "sample.wsl";
-  std::ofstream file{sample_file.string()};
-  file << input;
-  file.close();
-  std::filesystem::current_path(guard.temporary_directory_path());
+  create_input_file(guard, input, "sample.wsl");
 
   SECTION("process simple script")
   {
@@ -98,19 +106,34 @@ TEST_CASE("application error", "[application]")
 
 TEST_CASE("application process error", "[application]")
 {
-  const std::string input = R"(
-      x -> check
-  )";
-
-  TemporaryDirectoryGuard guard;
-  auto sample_file = guard.temporary_directory_path() / "sample.wsl";
-  std::ofstream file{sample_file.string()};
-  file << input;
-  file.close();
-  std::filesystem::current_path(guard.temporary_directory_path());
-
   SECTION("parse error")
   {
+    const std::string input = R"(
+        x -> check
+    )";
+
+    TemporaryDirectoryGuard guard;
+    create_input_file(guard, input, "sample.wsl");
+
+    std::stringstream output;
+    std::stringstream error;
+
+    std::vector<std::string> args{"sun_ray", "sample.wsl"};
+
+    sunray::Application app(output, error, args);
+    CHECK(app.run() == -1);
+  }
+  SECTION("runtime error")
+  {
+    const std::string input = R"(
+      plane = Plane(Material())
+      world = World()
+      world.doit(plane)
+    )";
+
+    TemporaryDirectoryGuard guard;
+    create_input_file(guard, input, "sample.wsl");
+
     std::stringstream output;
     std::stringstream error;
 
