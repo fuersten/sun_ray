@@ -7,6 +7,7 @@
 //
 
 #include <sun_ray/script/objects/material.h>
+#include <sun_ray/script/objects/ring_pattern.h>
 
 #include <sstream>
 
@@ -122,6 +123,19 @@ TEST_CASE("material methods", "[material]")
     REQUIRE(sunray::script::is_double(res));
     CHECK(sunray::script::as_double(res) == Approx(0));
     CHECK(material->refractive_index() == Approx(0.5));
+  }
+  SECTION("set pattern")
+  {
+    auto pattern_meta_class = std::make_shared<sunray::script::RingPatternMetaClass>();
+    auto color_a{color_meta_class->construct(0.1, 1, 0.5)};
+    auto color_b{color_meta_class->construct(0.1, 1, 0.5)};
+    auto pattern{pattern_meta_class->construct(color_a, color_b)};
+    CHECK_FALSE(material->has_pattern());
+    auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Material_set_pattern", 2));
+    auto res = function_registry.call_function(static_cast<size_t>(idx), {material, pattern});
+    REQUIRE(sunray::script::is_double(res));
+    CHECK(sunray::script::as_double(res) == Approx(0));
+    CHECK(material->has_pattern());
   }
 }
 

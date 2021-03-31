@@ -151,6 +151,11 @@ namespace sunray
         material_->pattern(pattern.pattern());
       }
 
+      bool has_pattern() const
+      {
+        return material_->pattern() ? true : false;
+      }
+
       std::string to_string() const override
       {
         std::stringstream ss_col;

@@ -46,6 +46,13 @@ TEST_CASE("sphere methods", "[sphere]")
   auto material{material_meta_class->construct()};
   auto sphere{sphere_meta_class->construct(material)};
 
+  SECTION("set casts_shadow")
+  {
+    auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Sphere_set_casts_shadow", 2));
+    auto res = function_registry.call_function(static_cast<size_t>(idx), {sphere, false});
+    REQUIRE(sunray::script::is_double(res));
+    CHECK(sunray::script::as_double(res) == Approx(0));
+  }
   SECTION("transform")
   {
     auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Sphere_scale", 4));

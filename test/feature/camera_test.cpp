@@ -92,23 +92,32 @@ TEST_CASE("ray through camera", "[camera]")
 
 TEST_CASE("render world", "[camera]")
 {
+  sunray::World world;
+  auto light = std::make_shared<sunray::PointLight>(sunray::create_point(-10, 10, -10), sunray::Color(1, 1, 1));
+  world.add_light(light);
+
+  auto s =
+    sunray::Sphere::make_sphere(sunray::Material{sunray::Color{0.8f, 1, 0.6f}, 0.1f, 0.7f, 0.2f, 200.0f, 0.0f, 0.0f, 1.0f});
+  world.add_object(s);
+
+  s = sunray::Sphere::make_sphere(sunray::Transformation().scale(0.5, 0.5, 0.5).matrix());
+  world.add_object(s);
+
+  auto from = sunray::create_point(0, 0, -5);
+  auto to = sunray::create_point(0, 0, 0);
+  auto up = sunray::create_vector(0, 1, 0);
+  sunray::Camera c{11, 11, sunray::PI2, sunray::view_transformation(from, to, up)};
+
   SECTION("center of canvas with transformation")
   {
-    sunray::World world;
-    auto light = std::make_shared<sunray::PointLight>(sunray::create_point(-10, 10, -10), sunray::Color(1, 1, 1));
-    world.add_light(light);
-
-    auto s =
-      sunray::Sphere::make_sphere(sunray::Material{sunray::Color{0.8f, 1, 0.6f}, 0.1f, 0.7f, 0.2f, 200.0f, 0.0f, 0.0f, 1.0f});
-    world.add_object(s);
-
-    s = sunray::Sphere::make_sphere(sunray::Transformation().scale(0.5, 0.5, 0.5).matrix());
-    world.add_object(s);
-
-    auto from = sunray::create_point(0, 0, -5);
-    auto to = sunray::create_point(0, 0, 0);
-    auto up = sunray::create_vector(0, 1, 0);
-    sunray::Camera c{11, 11, sunray::PI2, sunray::view_transformation(from, to, up)};
+    auto canvas = c.render(world);
+    CHECK(canvas.pixel_at(5, 5) == sunray::Color{0.38066f, 0.47583f, 0.2855f});
+  }
+  SECTION("render with lots of threads")
+  {
+    sunray::RenderContext context;
+    context.number_of_threads_ = 250;
+    world.context(context);
     auto canvas = c.render(world);
     CHECK(canvas.pixel_at(5, 5) == sunray::Color{0.38066f, 0.47583f, 0.2855f});
   }

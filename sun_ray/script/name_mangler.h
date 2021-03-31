@@ -65,10 +65,17 @@ namespace sunray
         if (mangeled_name.substr(0, 3) != preamble_) {
           throw std::runtime_error{fmt::format("'{}' is not a mangeled name", mangeled_name)};
         }
-        auto len = std::stoul(mangeled_name.substr(3, pos - 3));
-        auto name = mangeled_name.substr(pos, len);
 
-        return name;
+        unsigned long len{0};
+        try {
+          len = std::stoul(mangeled_name.substr(3, pos - 3));
+        } catch (const std::exception&) {
+          throw std::runtime_error{fmt::format("'{}' is not a mangeled name", mangeled_name)};
+        }
+        if (len == 0) {
+          throw std::runtime_error{fmt::format("'{}' is not a mangeled name", mangeled_name)};
+        }
+        return mangeled_name.substr(pos, len);
       }
 
     private:

@@ -166,9 +166,49 @@ TEST_CASE("parse assignment", "[parser]")
     auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
     REQUIRE(node);
   }
+  SECTION("parse if with identifier")
+  {
+    const std::string input = "if (x) x = 42 y = y + 1 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse if with literal")
+  {
+    const std::string input = "if (true) x = 42 y = y + 1 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
+    REQUIRE(node);
+  }
   SECTION("parse while")
   {
     const std::string input = "while (x <3) x = x + 1 y = 42 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::While*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse while with identifier")
+  {
+    const std::string input = "while (b) x = x + 1 y = 42 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::While*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse while with literal")
+  {
+    const std::string input = "while (false) x = x + 1 y = 42 end";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -440,16 +480,13 @@ TEST_CASE("parse simple programs", "[parser]")
     auto nodes = parser.parse(is);
     REQUIRE(nodes.size() == 4);
 
-    auto node = dynamic_cast<const sunray::script::Assignment*>(nodes[0].get());
-    const auto* identifier = get_identifier(node);
+    const auto* identifier = get_identifier(dynamic_cast<const sunray::script::Assignment*>(nodes[0].get()));
     CHECK(identifier->identifier() == "x");
 
-    node = dynamic_cast<const sunray::script::Assignment*>(nodes[1].get());
-    identifier = get_identifier(node);
+    identifier = get_identifier(dynamic_cast<const sunray::script::Assignment*>(nodes[1].get()));
     CHECK(identifier->identifier() == "y");
 
-    node = dynamic_cast<const sunray::script::Assignment*>(nodes[2].get());
-    identifier = get_identifier(node);
+    identifier = get_identifier(dynamic_cast<const sunray::script::Assignment*>(nodes[2].get()));
     CHECK(identifier->identifier() == "z");
 
     const auto* exp = dynamic_cast<const sunray::script::FunctionCall*>(get_expression_from_statement(nodes[3].get()));
@@ -459,41 +496,44 @@ TEST_CASE("parse simple programs", "[parser]")
   }
 }
 
-TEST_CASE("parse errors", "[parser]")
+namespace
 {
-  sunray::script::DiagnosticMessageHandler diagnostic_messages;
-  sunray::script::Parser parser{diagnostic_messages};
-
-  SECTION("parse empty input")
+  void check_input(const std::string& input, const std::string& error)
   {
-    const std::string input = "";
+    sunray::script::DiagnosticMessageHandler diagnostic_messages;
+    sunray::script::Parser parser{diagnostic_messages};
+
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
     CHECK(nodes.empty());
+    CHECK(diagnostic_messages.has_error());
+    std::stringstream ss;
+    diagnostic_messages.output_messages(ss);
+    CHECK(ss.str() == error);
+  }
+}
+
+TEST_CASE("parse errors", "[parser]")
+{
+  SECTION("parse empty input")
+  {
+    check_input("", "ERROR [E001]: expected at least one statement [1:1]\n");
   }
   SECTION("parse premature end of input")
   {
-    const std::string input = "check = Color";
-    std::istringstream is{input};
-
-    parser.parse(is);
-    CHECK(diagnostic_messages.has_error());
-    std::stringstream ss;
-    diagnostic_messages.output_messages(ss);
-    CHECK(
-      ss.str() ==
-      "ERROR [E006]: didn't expect eoi, but one of left paren [1:14]\nERROR [E001]: expected at least one statement [1:14]\n");
+    check_input("check = Color", "ERROR [E006]: didn't expect eoi, but one of left paren [1:14]\n");
   }
   SECTION("parse missing input")
   {
-    const std::string input = "check =";
-    std::istringstream is{input};
-
-    parser.parse(is);
-    CHECK(diagnostic_messages.has_error());
-    std::stringstream ss;
-    diagnostic_messages.output_messages(ss);
-    CHECK(ss.str() == "ERROR [E004]: expected primary expression [1:8]\nERROR [E001]: expected at least one statement [1:8]\n");
+    check_input("check =", "ERROR [E004]: expected primary expression [1:8]\n");
+  }
+  SECTION("parse missing identifier")
+  {
+    check_input("5(plane)", "ERROR [E008]: expect identifier as function call, property, or method call [1:2]\n");
+  }
+  SECTION("parse no primary")
+  {
+    check_input("++", "ERROR [E004]: expected primary expression [1:1]\n");
   }
 }

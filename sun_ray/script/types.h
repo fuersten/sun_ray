@@ -444,6 +444,11 @@ namespace sunray
         return type_;
       }
 
+      static TypePtr make_type(std::string type)
+      {
+        return std::make_shared<sunray::script::ClassType>(std::move(type));
+      }
+
     private:
       std::string type_;
     };
@@ -460,7 +465,7 @@ namespace sunray
         return BasicType::make_type(PODType::BOOLEAN);
       }
       if (is_class(v)) {
-        return std::make_shared<ClassType>(as_class(v)->meta_class()->name());
+        return ClassType::make_type(as_class(v)->meta_class()->name());
       }
       throw std::runtime_error{"Cannot create type due to unkown variant type"};
     }

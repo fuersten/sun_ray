@@ -12,8 +12,6 @@
 #include <sun_ray/feature/ray.h>
 #include <sun_ray/feature/world.h>
 
-#include <thread>
-
 
 namespace sunray
 {
@@ -67,7 +65,7 @@ namespace sunray
         uint32_t to_;
       };
 
-      uint32_t nr_parts = std::thread::hardware_concurrency();
+      uint32_t nr_parts = world.context().number_of_threads_;
       uint32_t part_size = vertical_size_ / nr_parts;
 
       if (part_size == 0) {

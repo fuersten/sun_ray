@@ -25,8 +25,8 @@ TEST_CASE("disk construction", "[disk]")
     auto material{material_meta_class->construct()};
     auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Disk_constructor", 1));
     REQUIRE(idx != -1);
-    auto sphere = function_registry.call_function(static_cast<size_t>(idx), {material});
-    REQUIRE(sunray::script::is_class(sphere));
+    auto disk = function_registry.call_function(static_cast<size_t>(idx), {material});
+    REQUIRE(sunray::script::is_class(disk));
   }
   SECTION("construct disk error")
   {
@@ -46,6 +46,14 @@ TEST_CASE("disk methods", "[disk]")
   auto material{material_meta_class->construct()};
   auto disk{disk_meta_class->construct(material)};
 
+  SECTION("set inner_radius")
+  {
+    auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Disk_set_inner_radius", 2));
+    auto res = function_registry.call_function(static_cast<size_t>(idx), {disk, 0.2});
+    REQUIRE(sunray::script::is_double(res));
+    CHECK(sunray::script::as_double(res) == Approx(0));
+    CHECK(disk->inner_radius() == Approx(0.2));
+  }
   SECTION("transform")
   {
     auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("Disk_scale", 4));
@@ -79,14 +87,14 @@ TEST_CASE("disk methods", "[disk]")
 
 TEST_CASE("disk stream", "[disk]")
 {
-  auto sphere_meta_class = std::make_shared<sunray::script::DiskMetaClass>();
+  auto disk_meta_class = std::make_shared<sunray::script::DiskMetaClass>();
   auto material_meta_class = std::make_shared<sunray::script::MaterialMetaClass>();
 
   SECTION("to string")
   {
     auto material{material_meta_class->construct()};
 
-    auto sphere{sphere_meta_class->construct(material)};
-    CHECK(sphere->to_string() == "Disk");
+    auto disk{disk_meta_class->construct(material)};
+    CHECK(disk->to_string() == "Disk");
   }
 }

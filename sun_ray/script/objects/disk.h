@@ -44,6 +44,11 @@ namespace sunray
         inner_radius_ = inner_radius;
       }
 
+      double inner_radius() const
+      {
+        return inner_radius_;
+      }
+
     private:
       double inner_radius_{0.0};
     };

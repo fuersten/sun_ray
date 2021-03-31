@@ -83,7 +83,7 @@ namespace sunray
           statements = parse_statements();
         }
 
-        if (statements.empty()) {
+        if (statements.empty() && !diagnostic_messages_.has_error()) {
           diagnostic_messages_.add_error("E001", "expected at least one statement", current_token_.location_);
         }
 
@@ -93,10 +93,6 @@ namespace sunray
     private:
       Token& parse_next()
       {
-        if (current_token_ == TokenCode::EOI) {
-          diagnostic_messages_.add_error("E003", "premature end of input", current_token_.location_);
-          throw ParseError{};
-        }
         current_token_ = scanner_->get_next_token();
         return current_token_;
       }
@@ -149,7 +145,7 @@ namespace sunray
             }
           } catch (const ParseError&) {
             // TODO: find next sync point
-            return statements;
+            return Statements{};
           }
         }
 
@@ -186,14 +182,13 @@ namespace sunray
           body.emplace_back(parse_statement());
         }
         expect_throw({TokenCode::END});
-        if (!dynamic_cast<const RelationalExpression*>(condition.get())) {
-          std::stringstream message;
-          message << "expect a relational expression as if condition";
-          diagnostic_messages_.add_error("E009", message.str(), current_token_.location_);
-          throw ParseError{};
+        if (dynamic_cast<const RelationalExpression*>(condition.get())) {
+          auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
+          return std::make_unique<IfCondition>(real_condition->location(), std::move(real_condition), std::move(body));
         }
-        auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
-        return std::make_unique<IfCondition>(real_condition->location(), std::move(real_condition), std::move(body));
+
+        auto simple = std::make_unique<SimpleConditionalExpression>(condition->location(), std::move(condition));
+        return std::make_unique<IfCondition>(simple->location(), std::move(simple), std::move(body));
       }
 
       StatementPtr parse_while()
@@ -207,14 +202,13 @@ namespace sunray
           body.emplace_back(parse_statement());
         }
         expect_throw({TokenCode::END});
-        if (!dynamic_cast<const RelationalExpression*>(condition.get())) {
-          std::stringstream message;
-          message << "expect a relational expression as while condition";
-          diagnostic_messages_.add_error("E010", message.str(), current_token_.location_);
-          throw ParseError{};
+        if (dynamic_cast<const RelationalExpression*>(condition.get())) {
+          auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
+          return std::make_unique<While>(real_condition->location(), std::move(real_condition), std::move(body));
         }
-        auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
-        return std::make_unique<While>(real_condition->location(), std::move(real_condition), std::move(body));
+
+        auto simple = std::make_unique<SimpleConditionalExpression>(condition->location(), std::move(condition));
+        return std::make_unique<While>(simple->location(), std::move(simple), std::move(body));
       }
 
       ExpressionPtr parse_logical_expression()
@@ -226,11 +220,6 @@ namespace sunray
             op = LogicalOperator::AND;
           } else if (current_token_.code_ == TokenCode::OR) {
             op = LogicalOperator::OR;
-          } else {
-            std::stringstream message;
-            message << "expect a logical operator (and,or)";
-            diagnostic_messages_.add_error("E012", message.str(), current_token_.location_);
-            throw ParseError{};
           }
           parse_next();
           node = std::make_unique<LogicalExpression>(node->location(), op, std::move(node), parse_conditional_expression());
@@ -256,11 +245,6 @@ namespace sunray
             op = ConditionalOperator::EQ;
           } else if (current_token_.code_ == TokenCode::NEQ) {
             op = ConditionalOperator::NEQ;
-          } else {
-            std::stringstream message;
-            message << "expect a conditional operator (<,>,<=,>=,==,<>)";
-            diagnostic_messages_.add_error("E011", message.str(), current_token_.location_);
-            throw ParseError{};
           }
           parse_next();
           node = std::make_unique<ConditionalExpression>(node->location(), op, std::move(node), parse_additive());
@@ -335,7 +319,7 @@ namespace sunray
       {
         auto node = parse_primary();
 
-        if (can_expect({TokenCode::LPAREN})) {
+        if (node && can_expect({TokenCode::LPAREN})) {
           Location loc{node->location()};
           auto identifier = dynamic_cast<Identifier*>(node.get());
           if (!identifier) {

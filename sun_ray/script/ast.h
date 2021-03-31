@@ -52,6 +52,7 @@ namespace sunray
     class RelationalExpression;
     class LogicalExpression;
     class ConditionalExpression;
+    class SimpleConditionalExpression;
     class BinaryExpression;
     class UnaryExpression;
     class Identifier;
@@ -87,6 +88,7 @@ namespace sunray
       virtual void visit(const BinaryExpression& node) = 0;
       virtual void visit(const LogicalExpression& node) = 0;
       virtual void visit(const ConditionalExpression& node) = 0;
+      virtual void visit(const SimpleConditionalExpression& node) = 0;
       virtual void visit(const UnaryExpression& node) = 0;
       virtual void visit(const Identifier& node) = 0;
       virtual void visit(const Literal& node) = 0;
@@ -487,6 +489,37 @@ namespace sunray
     };
 
 
+    class UnaryExpression : public Expression
+    {
+    public:
+      explicit UnaryExpression(const Location& loc, UnaryOperator op, ExpressionPtr expRhs)
+      : Expression(loc)
+      , operator_(op)
+      , rhs_(std::move(expRhs))
+      {
+      }
+
+      virtual void accept(Visitor& visitor) const
+      {
+        visitor.visit(*this);
+      }
+
+      UnaryOperator op() const
+      {
+        return operator_;
+      }
+
+      const Expression& rhs() const
+      {
+        return *rhs_;
+      }
+
+    private:
+      UnaryOperator operator_;
+      ExpressionPtr rhs_;
+    };
+
+
     class RelationalExpression : public Expression
     {
     protected:
@@ -494,6 +527,30 @@ namespace sunray
       : Expression(loc)
       {
       }
+    };
+
+
+    class SimpleConditionalExpression : public RelationalExpression
+    {
+    public:
+      explicit SimpleConditionalExpression(const Location& loc, ExpressionPtr exp)
+      : RelationalExpression(loc)
+      , exp_(std::move(exp))
+      {
+      }
+
+      virtual void accept(Visitor& visitor) const
+      {
+        visitor.visit(*this);
+      }
+
+      const Expression& rhs() const
+      {
+        return *exp_;
+      }
+
+    private:
+      ExpressionPtr exp_;
     };
 
 
@@ -569,37 +626,6 @@ namespace sunray
     private:
       ConditionalOperator operator_;
       ExpressionPtr lhs_;
-      ExpressionPtr rhs_;
-    };
-
-
-    class UnaryExpression : public Expression
-    {
-    public:
-      explicit UnaryExpression(const Location& loc, UnaryOperator op, ExpressionPtr expRhs)
-      : Expression(loc)
-      , operator_(op)
-      , rhs_(std::move(expRhs))
-      {
-      }
-
-      virtual void accept(Visitor& visitor) const
-      {
-        visitor.visit(*this);
-      }
-
-      UnaryOperator op() const
-      {
-        return operator_;
-      }
-
-      const Expression& rhs() const
-      {
-        return *rhs_;
-      }
-
-    private:
-      UnaryOperator operator_;
       ExpressionPtr rhs_;
     };
   }

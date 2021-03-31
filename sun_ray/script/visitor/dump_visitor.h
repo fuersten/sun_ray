@@ -86,9 +86,14 @@ namespace sunray
         node.rhs().accept(*this);
       }
 
+      void visit(const SimpleConditionalExpression& node) override
+      {
+        node.rhs().accept(*this);
+      }
+
       void visit(const UnaryExpression& node) override
       {
-        stream_ << node.op();
+        stream_ << node.op() << " ";
         node.rhs().accept(*this);
       }
 

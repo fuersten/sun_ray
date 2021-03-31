@@ -155,6 +155,11 @@ namespace sunray
         }
       }
 
+      void visit(const SimpleConditionalExpression& node) override
+      {
+        node.rhs().accept(*this);
+      }
+
       void visit(const UnaryExpression& node) override
       {
         node.rhs().accept(*this);

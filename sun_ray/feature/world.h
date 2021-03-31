@@ -12,6 +12,7 @@
 #include <sun_ray/feature/light.h>
 
 #include <numeric>
+#include <thread>
 
 
 namespace sunray
@@ -24,6 +25,7 @@ namespace sunray
     bool reflections_{true};
     bool refractions_{true};
     uint8_t maximum_depth_{5};
+    uint32_t number_of_threads_{std::thread::hardware_concurrency()};
   };
 
 
