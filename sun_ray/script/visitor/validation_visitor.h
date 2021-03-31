@@ -76,6 +76,12 @@ namespace sunray
         // TODO
       }
 
+      void visit(const SimpleConditionalExpression& node) override
+      {
+        (void)node;
+        // TODO
+      }
+
       void visit(const UnaryExpression& node) override
       {
         node.rhs().accept(*this);

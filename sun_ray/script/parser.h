@@ -182,14 +182,13 @@ namespace sunray
           body.emplace_back(parse_statement());
         }
         expect_throw({TokenCode::END});
-        if (!dynamic_cast<const RelationalExpression*>(condition.get())) {
-          std::stringstream message;
-          message << "expect a relational expression as if condition";
-          diagnostic_messages_.add_error("E009", message.str(), current_token_.location_);
-          throw ParseError{};
+        if (dynamic_cast<const RelationalExpression*>(condition.get())) {
+          auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
+          return std::make_unique<IfCondition>(real_condition->location(), std::move(real_condition), std::move(body));
         }
-        auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
-        return std::make_unique<IfCondition>(real_condition->location(), std::move(real_condition), std::move(body));
+
+        auto simple = std::make_unique<SimpleConditionalExpression>(condition->location(), std::move(condition));
+        return std::make_unique<IfCondition>(simple->location(), std::move(simple), std::move(body));
       }
 
       StatementPtr parse_while()
@@ -203,14 +202,13 @@ namespace sunray
           body.emplace_back(parse_statement());
         }
         expect_throw({TokenCode::END});
-        if (!dynamic_cast<const RelationalExpression*>(condition.get())) {
-          std::stringstream message;
-          message << "expect a relational expression as while condition";
-          diagnostic_messages_.add_error("E010", message.str(), current_token_.location_);
-          throw ParseError{};
+        if (dynamic_cast<const RelationalExpression*>(condition.get())) {
+          auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
+          return std::make_unique<While>(real_condition->location(), std::move(real_condition), std::move(body));
         }
-        auto real_condition = std::unique_ptr<RelationalExpression>(dynamic_cast<RelationalExpression*>(condition.release()));
-        return std::make_unique<While>(real_condition->location(), std::move(real_condition), std::move(body));
+
+        auto simple = std::make_unique<SimpleConditionalExpression>(condition->location(), std::move(condition));
+        return std::make_unique<While>(simple->location(), std::move(simple), std::move(body));
       }
 
       ExpressionPtr parse_logical_expression()

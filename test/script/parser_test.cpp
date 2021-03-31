@@ -166,9 +166,49 @@ TEST_CASE("parse assignment", "[parser]")
     auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
     REQUIRE(node);
   }
+  SECTION("parse if with identifier")
+  {
+    const std::string input = "if (x) x = 42 y = y + 1 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse if with literal")
+  {
+    const std::string input = "if (true) x = 42 y = y + 1 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::IfCondition*>(nodes[0].get());
+    REQUIRE(node);
+  }
   SECTION("parse while")
   {
     const std::string input = "while (x <3) x = x + 1 y = 42 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::While*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse while with identifier")
+  {
+    const std::string input = "while (b) x = x + 1 y = 42 end";
+    std::istringstream is{input};
+
+    auto nodes = parser.parse(is);
+    REQUIRE(nodes.size() == 1);
+    auto node = dynamic_cast<const sunray::script::While*>(nodes[0].get());
+    REQUIRE(node);
+  }
+  SECTION("parse while with literal")
+  {
+    const std::string input = "while (false) x = x + 1 y = 42 end";
     std::istringstream is{input};
 
     auto nodes = parser.parse(is);
@@ -479,15 +519,6 @@ TEST_CASE("parse errors", "[parser]")
   SECTION("parse empty input")
   {
     check_input("", "ERROR [E001]: expected at least one statement [1:1]\n");
-
-    /*
-    const std::string input = "";
-    std::istringstream is{input};
-
-    sunray::script::DiagnosticMessageHandler diagnostic_messages;
-    sunray::script::Parser parser{diagnostic_messages};
-    auto nodes = parser.parse(is);
-    CHECK(nodes.empty());*/
   }
   SECTION("parse premature end of input")
   {
@@ -496,14 +527,6 @@ TEST_CASE("parse errors", "[parser]")
   SECTION("parse missing input")
   {
     check_input("check =", "ERROR [E004]: expected primary expression [1:8]\n");
-  }
-  SECTION("parse non relational if")
-  {
-    check_input("x = 7 if (x) x = 5 end", "ERROR [E009]: expect a relational expression as if condition [1:23]\n");
-  }
-  SECTION("parse non relational while")
-  {
-    check_input("while (5) x = 5 end", "ERROR [E010]: expect a relational expression as while condition [1:20]\n");
   }
   SECTION("parse missing identifier")
   {
