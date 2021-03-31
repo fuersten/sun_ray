@@ -28,7 +28,7 @@ int main(int argc, const char* argv[])
 
     for (uint8_t n = 1; n <= 12; ++n) {
       const auto trans =
-        sunray::Transformation().scale(1, -120, 1).rotate_z(sunray::degToRad(deg)).translate(125, 125, 0).matrix();
+        sunray::Transformation().scale(1, -120, 1).rotate_z(sunray::deg_to_rad(deg)).translate(125, 125, 0).matrix();
       const auto pixel = trans * point;
       canvas.pixel_at(static_cast<uint32_t>(pixel.x()), static_cast<uint32_t>(pixel.y()), orange);
       deg += 30.0;

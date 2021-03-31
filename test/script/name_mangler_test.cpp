@@ -54,5 +54,8 @@ TEST_CASE("demangle error", "[name mangler]")
   {
     CHECK_THROWS_WITH(sunray::script::NameMangler::demangle("println"), "'println' is not a mangeled name");
     CHECK_THROWS_WITH(sunray::script::NameMangler::demangle("_EP7println"), "'_EP7println' is not a mangeled name");
+    CHECK_THROWS_WITH(sunray::script::NameMangler::demangle("_SR736"), "'_SR736' is not a mangeled name");
+    CHECK_THROWS_WITH(sunray::script::NameMangler::demangle("_SR0println"), "'_SR0println' is not a mangeled name");
+    CHECK_THROWS_WITH(sunray::script::NameMangler::demangle("_SRprintln"), "'_SRprintln' is not a mangeled name");
   }
 }

@@ -415,3 +415,43 @@ TEST_CASE("unwrap variant type", "[unwrap]")
     CHECK_THROWS(sunray::script::unwrap<unkown>::is_type(v));
   }
 }
+
+TEST_CASE("basic type", "[types]")
+{
+  SECTION("make boolean type")
+  {
+    auto type = sunray::script::BasicType::make_type(sunray::script::PODType::BOOLEAN);
+    CHECK(type->is_basic_type());
+    CHECK_FALSE(type->is_class_type());
+    CHECK(std::dynamic_pointer_cast<const sunray::script::BasicType>(type)->type() == sunray::script::PODType::BOOLEAN);
+    CHECK(type->as_string() == "bool");
+  }
+  SECTION("make double type")
+  {
+    auto type = sunray::script::BasicType::make_type(sunray::script::PODType::DOUBLE);
+    CHECK(type->is_basic_type());
+    CHECK_FALSE(type->is_class_type());
+    CHECK(std::dynamic_pointer_cast<const sunray::script::BasicType>(type)->type() == sunray::script::PODType::DOUBLE);
+    CHECK(type->as_string() == "double");
+  }
+  SECTION("make string type")
+  {
+    auto type = sunray::script::BasicType::make_type(sunray::script::PODType::STRING);
+    CHECK(type->is_basic_type());
+    CHECK_FALSE(type->is_class_type());
+    CHECK(std::dynamic_pointer_cast<const sunray::script::BasicType>(type)->type() == sunray::script::PODType::STRING);
+    CHECK(type->as_string() == "string");
+  }
+}
+
+TEST_CASE("class type", "[types]")
+{
+  SECTION("make class type")
+  {
+    auto type = sunray::script::ClassType::make_type("World");
+    CHECK_FALSE(type->is_basic_type());
+    CHECK(type->is_class_type());
+    CHECK(std::dynamic_pointer_cast<const sunray::script::ClassType>(type)->type() == "World");
+    CHECK(type->as_string() == "World");
+  }
+}

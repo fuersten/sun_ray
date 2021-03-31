@@ -92,7 +92,7 @@ namespace sunray
         registry.add_function("format", (std::string(*)(const std::string&, Variant))(format));
         registry.add_function("random", (double (*)())(random));
         registry.add_function("seed", (double (*)(double))(seed));
-        registry.add_function("deg_to_rad", (double (*)(double))(degToRad));
+        registry.add_function("deg_to_rad", (double (*)(double))(deg_to_rad));
       }
 
       ~BuildInFunctions() = default;

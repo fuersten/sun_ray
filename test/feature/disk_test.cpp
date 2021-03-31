@@ -85,4 +85,12 @@ TEST_CASE("disk intersections", "[disk]")
     CHECK(intersections.intersections()[0].time() == Approx(1));
     CHECK(disk.get() == intersections.intersections()[0].object());
   }
+  SECTION("ray miss")
+  {
+    auto disk = sunray::Disk::make_disk();
+    auto ray = sunray::Ray{sunray::create_point(0, 0, 10), sunray::create_vector(0, 1, 0)};
+
+    sunray::Intersections intersections;
+    CHECK_FALSE(disk->is_intersected_by(ray, intersections));
+  }
 }

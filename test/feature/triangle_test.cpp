@@ -34,6 +34,61 @@ TEST_CASE("create triangles", "[triangle]")
     CHECK(triangle->normal_at(sunray::create_point(-0.5f, 0.75f, 0.0f)) == sunray::create_vector(0, 0, -1));
     CHECK(triangle->normal_at(sunray::create_point(0.5f, 0.25f, 0.0f)) == sunray::create_vector(0, 0, -1));
   }
+  SECTION("create triangle with material")
+  {
+    auto triangle = sunray::Triangle::make_triangle(default_material, sunray::create_point(0, 1, 0),
+                                                    sunray::create_point(-1, 0, 0), sunray::create_point(1, 0, 0));
+    CHECK(triangle->origin() == sunray::create_point(0, 0, 0));
+    CHECK(triangle->transformation() == sunray::Matrix44::identity());
+    CHECK(triangle->inverse_transformation() == sunray::Matrix44::identity().inverse());
+    CHECK(triangle->material() == default_material);
+
+    CHECK(triangle->p1() == sunray::create_point(0, 1, 0));
+    CHECK(triangle->p2() == sunray::create_point(-1, 0, 0));
+    CHECK(triangle->p3() == sunray::create_point(1, 0, 0));
+    CHECK(triangle->e1() == sunray::create_vector(-1, -1, 0));
+    CHECK(triangle->e2() == sunray::create_vector(1, -1, 0));
+    CHECK(triangle->normal_at(sunray::create_point(0.0f, 0.5f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(-0.5f, 0.75f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(0.5f, 0.25f, 0.0f)) == sunray::create_vector(0, 0, -1));
+  }
+  SECTION("create triangle with transformation")
+  {
+    auto triangle = sunray::Triangle::make_triangle(sunray::Matrix44::translation(2, 3, 4), sunray::create_point(0, 1, 0),
+                                                    sunray::create_point(-1, 0, 0), sunray::create_point(1, 0, 0));
+    CHECK(triangle->origin() == sunray::create_point(0, 0, 0));
+    CHECK(triangle->transformation() == sunray::Matrix44::translation(2, 3, 4));
+    CHECK(triangle->inverse_transformation() == sunray::Matrix44::translation(2, 3, 4).inverse());
+    CHECK(triangle->material() == default_material);
+
+    CHECK(triangle->p1() == sunray::create_point(0, 1, 0));
+    CHECK(triangle->p2() == sunray::create_point(-1, 0, 0));
+    CHECK(triangle->p3() == sunray::create_point(1, 0, 0));
+    CHECK(triangle->e1() == sunray::create_vector(-1, -1, 0));
+    CHECK(triangle->e2() == sunray::create_vector(1, -1, 0));
+    CHECK(triangle->normal_at(sunray::create_point(0.0f, 0.5f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(-0.5f, 0.75f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(0.5f, 0.25f, 0.0f)) == sunray::create_vector(0, 0, -1));
+  }
+  SECTION("create triangle with material and transformation")
+  {
+    auto triangle =
+      sunray::Triangle::make_triangle(default_material, sunray::Matrix44::translation(2, 3, 4), sunray::create_point(0, 1, 0),
+                                      sunray::create_point(-1, 0, 0), sunray::create_point(1, 0, 0));
+    CHECK(triangle->origin() == sunray::create_point(0, 0, 0));
+    CHECK(triangle->transformation() == sunray::Matrix44::translation(2, 3, 4));
+    CHECK(triangle->inverse_transformation() == sunray::Matrix44::translation(2, 3, 4).inverse());
+    CHECK(triangle->material() == default_material);
+
+    CHECK(triangle->p1() == sunray::create_point(0, 1, 0));
+    CHECK(triangle->p2() == sunray::create_point(-1, 0, 0));
+    CHECK(triangle->p3() == sunray::create_point(1, 0, 0));
+    CHECK(triangle->e1() == sunray::create_vector(-1, -1, 0));
+    CHECK(triangle->e2() == sunray::create_vector(1, -1, 0));
+    CHECK(triangle->normal_at(sunray::create_point(0.0f, 0.5f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(-0.5f, 0.75f, 0.0f)) == sunray::create_vector(0, 0, -1));
+    CHECK(triangle->normal_at(sunray::create_point(0.5f, 0.25f, 0.0f)) == sunray::create_vector(0, 0, -1));
+  }
 }
 
 TEST_CASE("intersect triangles", "[triangle]")

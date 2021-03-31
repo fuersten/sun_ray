@@ -616,4 +616,11 @@ TEST_CASE("stack machine operations error", "[stack machine]")
     sm.add_label(sunray::script::Label{"l1"});
     CHECK_THROWS_WITH(sm.add_label(sunray::script::Label{"l1"}), "Label 'l1' already set");
   }
+  SECTION("add with bool")
+  {
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{2.0}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::PUSH, sunray::script::Variant{true}));
+    sm.add_instruction(sunray::script::Instruction(sunray::script::OpCode::ADD));
+    CHECK_THROWS_WITH(sm.run(), "Cannot add with bool");
+  }
 }

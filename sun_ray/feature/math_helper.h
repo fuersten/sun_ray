@@ -20,12 +20,12 @@ namespace sunray
   static constexpr double PIdiv180inv = 57.2957795130823229;
   static constexpr double PI2 = PI / 2.0;
 
-  inline double degToRad(double angle)
+  inline double deg_to_rad(double angle)
   {
     return angle * PIdiv180;
   }
 
-  inline double radToDeg(double angle)
+  inline double rad_to_deg(double angle)
   {
     return angle * PIdiv180inv;
   }

@@ -100,6 +100,10 @@ TEST_CASE("function registry error", "[function registry]")
       registry.call_function(idx_my_other_func, {"my string"s, 4711.0}),
       "Function 'my_other_function' error: Called with wrong parameter type for parameter 0. Should be double, but is string.");
   }
+  SECTION("call function wrong index")
+  {
+    CHECK_THROWS_WITH(registry.call_function(4711, {"my string"s, 4711.0}), "Index 4711 for function out of range");
+  }
 }
 
 

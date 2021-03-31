@@ -28,3 +28,15 @@ TEST_CASE("approx", "[math helper]")
     CHECK_FALSE(a == 47.1102);
   }
 }
+
+TEST_CASE("math", "[math helper]")
+{
+  SECTION("deg to rad")
+  {
+    CHECK(sunray::deg_to_rad(25.0) == Approx(0.4363323));
+  }
+  SECTION("rad to deg")
+  {
+    CHECK(sunray::rad_to_deg(0.4363323) == Approx(25.0));
+  }
+}
