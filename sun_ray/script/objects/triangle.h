@@ -9,6 +9,7 @@
 #pragma once
 
 #include <sun_ray/feature/triangle.h>
+#include <sun_ray/script/objects/point.h>
 #include <sun_ray/script/objects/shape.h>
 
 

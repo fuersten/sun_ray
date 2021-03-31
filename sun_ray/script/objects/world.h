@@ -118,11 +118,11 @@ namespace sunray
         if (light) {
           return get_class(c)->add(light->light());
         }
-        auto object = std::dynamic_pointer_cast<Shape>(obj);
-        if (object) {
-          return get_class(c)->add(object->shape());
+        auto shape = std::dynamic_pointer_cast<Shape>(obj);
+        if (shape) {
+          return get_class(c)->add(shape->shape());
         }
-        throw std::runtime_error{"World add has to be called with light or an object"};
+        throw std::runtime_error{"World add has to be called with light or a shape"};
       }
       static double shadows(MutableClassPtr& c, bool set)
       {

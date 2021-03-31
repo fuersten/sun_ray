@@ -50,6 +50,7 @@ TEST_CASE("world methods", "[world]")
   auto world = world_meta_class->construct();
   auto material{material_meta_class->construct()};
   auto sphere{sphere_meta_class->construct(material)};
+  auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("World_add", 2));
 
   SECTION("add objects")
   {
@@ -57,7 +58,6 @@ TEST_CASE("world methods", "[world]")
     auto color{color_meta_class->construct(0.1, 1, 0.5)};
     auto light{light_meta_class->construct(point, color)};
 
-    auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("World_add", 2));
     REQUIRE(idx != -1);
     auto res = function_registry.call_function(static_cast<size_t>(idx), {world, sphere});
     REQUIRE(sunray::script::is_class(res));
@@ -68,10 +68,15 @@ TEST_CASE("world methods", "[world]")
     auto color{color_meta_class->construct(0.1, 1, 0.5)};
     auto light{light_meta_class->construct(point, color)};
 
-    auto idx = function_registry.index_for_function(sunray::script::NameMangler::mangle("World_add", 2));
     REQUIRE(idx != -1);
     auto res = function_registry.call_function(static_cast<size_t>(idx), {world, light});
     REQUIRE(sunray::script::is_class(res));
+  }
+  SECTION("wrong object")
+  {
+    REQUIRE(idx != -1);
+    CHECK_THROWS_WITH(function_registry.call_function(static_cast<size_t>(idx), {world, material}),
+                      "Function 'World_add' error: World add has to be called with light or a shape");
   }
 }
 

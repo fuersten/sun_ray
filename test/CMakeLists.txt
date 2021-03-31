@@ -33,6 +33,7 @@ add_executable(sun_ray_test
   script/canvas_test.cpp
   script/checker_pattern_test.cpp
   script/color_test.cpp
+  script/cube_test.cpp
   script/diagnostic_message_test.cpp
   script/disk_test.cpp
   script/engine_test.cpp
@@ -60,6 +61,7 @@ add_executable(sun_ray_test
   script/string_helper_test.cpp
   script/stripe_pattern_test.cpp
   script/token_test.cpp
+  script/triangle_test.cpp
   script/types_test.cpp
   script/vector_test.cpp
   script/world_test.cpp
