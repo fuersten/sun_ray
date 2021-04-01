@@ -3,6 +3,7 @@
 ![Language: C++17](https://img.shields.io/badge/language-C%2B%2B17-blue.svg)
 [![GitHub Build Status](https://github.com/fuersten/sun_ray/workflows/CMake%20Build%20Matrix/badge.svg)](https://github.com/fuersten/sun_ray/actions)
 [![Coverage Status](https://coveralls.io/repos/github/fuersten/sun_ray/badge.svg?branch=main&service=github)](https://coveralls.io/github/fuersten/sun_ray?branch=main)
+[![CodeFactor](https://www.codefactor.io/repository/github/fuersten/sun_ray/badge)](https://www.codefactor.io/repository/github/fuersten/sun_ray)
 
 # The SunRay Ray Tracer
 
