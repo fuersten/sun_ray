@@ -3,9 +3,9 @@
 [![GitHub Build Status](https://github.com/fuersten/sun_ray/workflows/CMake%20Build%20Matrix/badge.svg)](https://github.com/fuersten/sun_ray/actions)
 [![Coverage Status](https://coveralls.io/repos/github/fuersten/sun_ray/badge.svg?branch=main)](https://coveralls.io/github/fuersten/sun_ray?branch=main)
 
-# The sun_ray Ray Tracer
+# The SunRay Ray Tracer
 
-The sun_ray ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create the ray tracer is test driven, sun_ray has lots of tests and currently around 95% of unit test coverage.
+The SunRay ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create the ray tracer is test driven, SunRay has lots of tests and currently around 99% of unit test coverage.
 
 I have not finished the book yet and have implemented the ray tracer including up to chapter 12 and parts of chapter 15. Nevertheless, you can create really nice images!
 
@@ -58,7 +58,7 @@ Outputs the usage and options of the tool.
 
 #### dump
 
-Outputs the stack machine instructions for the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line.
+Outputs the stack machine instructions for the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line. Actually, most usefull for debugging the engine itself.
 
 	> ./sun_ray --dump samples/hello_world.wsl
 	SunRay ray tracer 0.12.0
@@ -80,7 +80,7 @@ Outputs the stack machine instructions for the given **wsl** files, one after th
 
 #### format
 
-Formats the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line.
+Formats the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line. Actually, most usefull for debugging the engine itself.
 
 	> ./sun_ray --format samples/hello_world.wsl
 	SunRay ray tracer 0.12.0
@@ -117,7 +117,7 @@ Executes the given scripts, one after the other in the order that has been given
 
 ## WSL Scripting Language
 
-The WSL scripting language is a dynamically typed imperative programming language. It has some build in classes to manipulate the world, but no user defined classes can be created. Currently, it lacks support for defining own functions. I might change that in the future.
+The WSL scripting language is a dynamically typed imperative programming language that is executed on a virtual stack machine. It has some build in classes to manipulate the world and scene objects, but no user defined classes can be created. Currently, it lacks support for defining own functions. I might change that in the future.
 
 Let's check out the most simple, aka 'Hello world!', example:
 
@@ -148,7 +148,7 @@ The `#` introduces a line comment. Everything after the `#` is ignored. The `#` 
 
 ### Variables and Types
 
-As **WSL** is a dynamically typed language, a variable can change the type by assigning it a value from another type. The type of a variable will also be inferred by the compiler, hence a variable has always to be initialized with some value and has no explicit type.
+As **WSL** is a dynamically typed language, a variable can change the type by assigning it a value from another type. The type of a variable will also be inferred at runtime, hence a variable has always to be initialized with some value and has no explicit type.
 
 	n = 42                              # n is a number
 	n = 'I love this!'                  # n is a string
@@ -178,6 +178,8 @@ Invalid identifier:
 The set of identifiers has no intersection with the set of keywords. This means that an identifier is not allowed to be a keyword.
 
 #### Types
+
+As types are inferred at runtime, the engine will detect type mismatches at runtime and issue according errors and terminate execution.
 
 **WSL** supports the following types
 
@@ -249,10 +251,14 @@ It can contain any ASCII character including escape sequences (`\n\r\t` etc.). E
 	println('\n')                       # will add a new line to stdout
 	println('\\n')                      # will print \n on stdout
 
-Strings can be concatenated with `+`
+Strings can be concatenated with `+`:
 
 	s = 'I am ' + 'legend'
 	s = s + ', you know'                # s = 'I am legend, you know'
+	
+Strings can only be concatenated with strings. If you want to concatenate a string with a number, you have to convert the number to a string first using the `str(v)` function.
+
+	s = 'The ' + str(4) + 'th of July'  # s = 'The 4th of July'
 
 #### Vector
 
@@ -283,7 +289,7 @@ In general, control structures control the flow of a program. Control structures
 
 #### If
 
-The `if` control structure is a simple *if* without *else* or *else if*. The expression has to be a logical expression that evaluates to a boolean. There is no automatic conversion from number to boolean. The *if* block has to be terminated by the `end` keyword.
+The `if` control structure is a simple *if* without *else* or *else if*. The expression has to be a relational expression that evaluates to a boolean. There is no automatic conversion from number to boolean. The *if* block has to be terminated by the `end` keyword.
 
 	if (n == 42)
 	  println('This is the number')
@@ -294,7 +300,7 @@ The `if` control structure is a simple *if* without *else* or *else if*. The exp
 
 #### While
 
-The `while` expression has to be a logical expression that evaluates to a boolean. There is no automatic conversion from number to boolean. The *while* block has to be terminated by the `end` keyword. There is no for loop, as a it can be implemented easily with a while loop.
+The `while` expression has to be a relational expression that evaluates to a boolean. There is no automatic conversion from number to boolean. The *while* block has to be terminated by the `end` keyword. There is no for loop, as a it can be implemented easily with a while loop.
 
 	n = 0
 	while(n < 10)
@@ -309,27 +315,27 @@ Currently, there are no user defined functions. The only functions available are
 
 All mathematical functions work on numbers and return a number.
 
-| Function | Arguments | Description |
-|:--|:--|:--|
-| abs | n | Returns the absolute value of n |
-| acos | n | Returns the arc cosine of n in radians |
-| asin | n | Returns the arc sine of n in radians |
-| atan | n | Returns the arc tangent of n in radians |
-| ceil | n | Rounds n up to the nearest integer not smaller than n |
-| cos | n | Returns the cosine of an angle of n radians |
-| deg_to_rad | n| Returns the radians equivalent of an angle of n degrees |
-| exp | n | Returns e raised to the power of n |
-| floor | n | Rounds n down to the nearest integer not greater than n |
-| log | n | Returns the natural logarithm of n |
-| max | n, m | Returns the larger argument |
-| min | n, m | Returns the smaller argument |
-| mod | n, d | Returns the remainder of n/d rounded towards zero |
-| pow | n, e | Returns n raised to the power of e |
-| round | n | Rounds to the nearest integer value n, rounding halfway cases away from zero |
-| sin | n | Returns the sine of an angle of n radians |
-| sqrt | n | Returns the square root of n |
-| tan | n | Returns the tangent of an angle of n radians |
-| trunc | n | Rounds n towards zero |
+| Function | Description |
+|:--|:--|
+| abs(n) | Returns the absolute value of n |
+| acos(n) | Returns the arc cosine of n in radians |
+| asin(n) | Returns the arc sine of n in radians |
+| atan(n) | Returns the arc tangent of n in radians |
+| ceil(n) | Rounds n up to the nearest integer not smaller than n |
+| cos(n) | Returns the cosine of an angle of n radians |
+| deg_to_rad(n)| Returns the radians equivalent of an angle of n degrees |
+| exp(n) | Returns e raised to the power of n |
+| floor(n) | Rounds n down to the nearest integer not greater than n |
+| log(n) | Returns the natural logarithm of n |
+| max(n, m) | Returns the larger argument |
+| min(n, m) | Returns the smaller argument |
+| mod(n, d) | Returns the remainder of n/d rounded towards zero |
+| pow(n, e) | Returns n raised to the power of e |
+| round(n) | Rounds to the nearest integer value n, rounding halfway cases away from zero |
+| sin(n) | Returns the sine of an angle of n radians |
+| sqrt(n) | Returns the square root of n |
+| tan(n) | Returns the tangent of an angle of n radians |
+| trunc(n) | Rounds n towards zero |
 
 Examples
 
@@ -342,10 +348,10 @@ Examples
 
 All PRNG work on numbers and return a number.
 
-| Function | Arguments | Description |
-|:--|:--|:--|
-| random | - | Returns a random number between -1.0 and 1.0, depending on the initial seed value. The random number generator is a Mersenne-Twister PRNG. |
-| seed | n | Seeds and re-initializes the random engine generator. The same seed will always generate the same number sequence. |
+| Function | Description |
+|:--|:--|
+| random() | Returns a random number between -1.0 and 1.0, depending on the initial seed value. The random number generator is a Mersenne-Twister PRNG. |
+| seed(n) | Seeds and re-initializes the random engine generator. The same seed will always generate the same number sequence. |
 
 Example
 
@@ -355,9 +361,9 @@ Example
 
 #### Time Functions
 
-| Function | Arguments | Description |
-|:--|:--|:--|
-| now | - | Returns the current UTC time as a string with the ISO 8601 date format YYYY-MM-DDThh:mm:ss.sss |
+| Function | Description |
+|:--|:--|
+| now() | Returns the current UTC time as a string with the ISO 8601 date format YYYY-MM-DDThh:mm:ss.sss |
 
 Example
 
@@ -365,13 +371,13 @@ Example
 
 #### Formatting and Printing
 
-| Function | Arguments | Description |
-|:--|:--|:--|
-| print | v | Prints the string representation of v to stdout |
-| print | s, v [,v] | Prints the formatted string to stdout using the format s on the given values. The format is a string with {} as replacement tokens for the values in order. |
-| println | v | As print, but add a new line to stdout |
-| println | s, v [,v] | As print, but add a new line to stdout |
-| str | v | Returns the string representation of v. v can be any type including objects. |
+| Function | Description |
+|:--|:--|
+| print(v) | Prints the string representation of v to stdout |
+| print(s, v [,v]) | Prints the formatted string to stdout using the format s on the given values. The format is a string with {} as replacement tokens for the values in order. |
+| println(v) | As print, but add a new line to stdout |
+| println(s, v [,v]) | As print, but add a new line to stdout |
+| str(v) | Returns the string representation of v. v can be any type including objects. |
 
 Examples:
 
