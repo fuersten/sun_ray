@@ -215,7 +215,7 @@ namespace sunray
       {
         auto node = parse_conditional_expression();
         if (can_expect({TokenCode::AND, TokenCode::OR})) {
-          LogicalOperator op;
+          LogicalOperator op{};
           if (current_token_.code_ == TokenCode::AND) {
             op = LogicalOperator::AND;
           } else if (current_token_.code_ == TokenCode::OR) {
@@ -232,7 +232,7 @@ namespace sunray
       {
         auto node = parse_additive();
         if (can_expect({TokenCode::GT, TokenCode::LT, TokenCode::GE, TokenCode::LE, TokenCode::EQ, TokenCode::NEQ})) {
-          ConditionalOperator op;
+          ConditionalOperator op{};
           if (current_token_.code_ == TokenCode::GT) {
             op = ConditionalOperator::GT;
           } else if (current_token_.code_ == TokenCode::LT) {
