@@ -128,6 +128,37 @@ Let's check out the most simple, aka 'Hello world!', example:
 
 The `#` introduces a line comment. Everything after the hash is ignored by the compiler. In the next line, the `println` function is called. It will print the formatted string (more on that later) to stdout and add a new line. Thats it! There is no main function or similar. The execution will start directly with the first line in the file. As the language has no return statement, the execution of code can only be controlled by the two control structures `if` and `while`.
 
+To actually render an image, you have to write a bit more code:
+
+	pi = 3.141592653589
+
+	# Create a Camera object and set its attributes with a tuple.
+	camera = Camera()
+	camera.from = (0, 0, -4)
+	camera.to = (0, 0, 0)
+	camera.up = [0, 1, 0]
+	camera.field_of_view = pi / 3
+	camera.horizontal = 1000
+	# You can use expressions to calculate stuff
+	camera.vertical = camera.horizontal
+
+	# Now set light to the world! Create a World object to add a light to the world.
+	world = World()
+	world.add(Light(Point(-10, 10, -10), Color(1, 1, 1)))
+
+	# At last add some objects to your world to finalize the setup.
+	material = Material()
+	material.color = Color(1, 0.2, 1)
+
+	# Add a sphere to the world
+	world.add(Sphere(material))
+
+	# Now its time to actually render the world
+	canvas = camera.render(world)
+
+	# And then save the canvas to a file
+	canvas.write('sphere')
+
 ### Keywords
 
 Valid keywords are:
