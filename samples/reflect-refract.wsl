@@ -1,0 +1,102 @@
+# This is an example of a new way to build a world in a programmatical way.
+# Chapter 11, transparency and refraction.
+
+println('Start world configuration')
+
+pi = 3.141592653589
+
+# Camera
+camera = Camera()
+camera.from = (-2.6, 1.5, -3.9)
+camera.to = (-0.6, 1, -0.8)
+camera.up = [0, 1, 0]
+camera.field_of_view = 1.152
+camera.horizontal = 2500
+camera.vertical = camera.horizontal / 2
+
+# Lights
+light = Light( Point(-4.9, 4.9, -1), Color(1, 1, 1) )
+
+world = World()
+world.add(light)
+
+# Materials
+wall_material = Material()
+wall_material.ambient = 0
+wall_material.diffuse = 0.4
+wall_material.specular = 0
+wall_material.reflective = 0.3
+wall_material.pattern = StripePattern(Color(0.45, 0.45, 0.45), Color(0.55, 0.55, 0.55)).rotate_y(pi / 2).scale(0.25, 0.25, 0.25)
+
+# Checkered floor
+material = Material()
+material.specular = 0
+material.reflective = 0.4
+material.pattern = CheckerPattern(Color(0.35, 0.35, 0.35), Color(0.65, 0.65, 0.65))
+world.add(Plane(material).rotate_y(pi / 10))
+
+# Ceiling
+material = Material()
+material.color = Color(0.8, 0.8, 0.8)
+material.specular = 0
+material.ambient = 0.3
+world.add(Plane(material).translate(0, 5, 0))
+
+# West wall
+world.add(Plane(wall_material).rotate_y(pi / 2).rotate_z(pi / 2).translate(-5, 0, 0))
+
+# East wall
+world.add(Plane(wall_material).rotate_y(pi / 2).rotate_z(pi / 2).translate(5, 0, 0))
+
+# North wall
+world.add(Plane(wall_material).rotate_x(pi / 2).translate(0, 0, 5))
+
+# South wall
+world.add(Plane(wall_material).rotate_x(pi / 2).translate(0, 0, -5))
+
+# Background balls
+material = Material()
+material.shininess = 50
+
+material.color = Color(0.8, 0.5, 0.3)
+world.add(Sphere(material).scale(0.4, 0.4, 0.4).translate(4.6, 0.4, 1))
+
+material.color = Color(0.9, 0.4, 0.5)
+world.add(Sphere(material).scale(0.3, 0.3, 0.3).translate(4.7, 0.3, 0.4))
+
+material.color = Color(0.4, 0.9, 0.6)
+world.add(Sphere(material).scale(0.5, 0.5, 0.5).translate(-1, 0.5, 4.5))
+
+material.color = Color(0.4, 0.6, 0.9)
+world.add(Sphere(material).scale(0.3, 0.3, 0.3).translate(-1.7, 0.3, 4.7))
+
+# Foreground balls
+material = Material()
+material.color = Color(1, 0.3, 0.2)
+material.specular = 0.4
+material.shininess = 5
+world.add(Sphere(material).translate(-0.6, 1, 0.6))
+
+material = Material()
+material.color = Color(0, 0, 0.2)
+material.ambient = 0
+material.diffuse = 0.4
+material.specular = 0.9
+material.shininess = 300
+material.reflective = 0.9
+material.transparency = 0.9
+material.refractive_index = 1.5
+world.add(Sphere(material).scale(0.7, 0.7, 0.7).translate(0.6, 0.7, -0.6))
+
+material.color = Color(0, 0.2, 0)
+world.add(Sphere(material).scale(0.5, 0.5, 0.5).translate(-0.7, 0.5, -0.8))
+
+# Render
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+canvas.write('reflect_refract')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

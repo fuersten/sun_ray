@@ -14,7 +14,7 @@ camera.horizontal = 1000
 # You can use expressions to calculate stuff
 camera.vertical = camera.horizontal
 
-# Setup the worlda and add a light.
+# Setup the world and add a light.
 light = Light( Point(-10, 10, -10), Color(1, 1, 1) )
 
 # Now set light to the world! Create a World object to add lights to the world.
@@ -25,7 +25,7 @@ world.add(light)
 material = Material()
 material.color = Color(1, 0.2, 1)
 
-# Create the sphere
+# Create a sphere
 sphere = Sphere(material)
 
 # Add the sphere to the world

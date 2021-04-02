@@ -47,6 +47,8 @@
 
 ![mandelbrot.wsl](gallery/mandelbrot.png)
 
+![reflect-refract.wsl](gallery/reflect_refract.png)
+
 ![reflective_sphere.wsl](gallery/reflective_sphere.png)
 
 ![sphere_madness.wsl](gallery/sphere_madness.png)
