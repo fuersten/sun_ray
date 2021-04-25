@@ -21,20 +21,33 @@ namespace sunray
   , public std::enable_shared_from_this<Cylinder>
   {
   public:
-    Cylinder() = default;
+    Cylinder(double maximum = std::numeric_limits<double>::infinity(), double minimum = -std::numeric_limits<double>::infinity())
+    : maximum_{maximum}
+    , minimum_{minimum}
+    {
+    }
 
-    explicit Cylinder(Material material)
+    explicit Cylinder(Material material, double maximum = std::numeric_limits<double>::infinity(),
+                      double minimum = -std::numeric_limits<double>::infinity())
     : Object(std::move(material))
+    , maximum_{maximum}
+    , minimum_{minimum}
     {
     }
 
-    explicit Cylinder(Matrix44 transformation)
+    explicit Cylinder(Matrix44 transformation, double maximum = std::numeric_limits<double>::infinity(),
+                      double minimum = -std::numeric_limits<double>::infinity())
     : Object(std::move(transformation))
+    , maximum_{maximum}
+    , minimum_{minimum}
     {
     }
 
-    Cylinder(Material material, Matrix44 transformation, bool casts_shadow = true)
+    Cylinder(Material material, Matrix44 transformation, bool casts_shadow = true,
+             double maximum = std::numeric_limits<double>::infinity(), double minimum = -std::numeric_limits<double>::infinity())
     : Object(std::move(material), std::move(transformation), casts_shadow)
+    , maximum_{maximum}
+    , minimum_{minimum}
     {
     }
 
@@ -45,24 +58,29 @@ namespace sunray
     Cylinder& operator=(const Cylinder&) = delete;
     Cylinder& operator=(Cylinder&&) = delete;
 
-    static CylinderPtr make_cylinder()
+    static CylinderPtr make_cylinder(double maximum = std::numeric_limits<double>::infinity(),
+                                     double minimum = -std::numeric_limits<double>::infinity())
     {
-      return std::make_shared<Cylinder>();
+      return std::make_shared<Cylinder>(maximum, minimum);
     }
 
-    static CylinderPtr make_cylinder(Material material)
+    static CylinderPtr make_cylinder(Material material, double maximum = std::numeric_limits<double>::infinity(),
+                                     double minimum = -std::numeric_limits<double>::infinity())
     {
-      return std::make_shared<Cylinder>(std::move(material));
+      return std::make_shared<Cylinder>(std::move(material), maximum, minimum);
     }
 
-    static CylinderPtr make_cylinder(const Matrix44& transformation)
+    static CylinderPtr make_cylinder(const Matrix44& transformation, double maximum = std::numeric_limits<double>::infinity(),
+                                     double minimum = -std::numeric_limits<double>::infinity())
     {
-      return std::make_shared<Cylinder>(transformation);
+      return std::make_shared<Cylinder>(transformation, maximum, minimum);
     }
 
-    static CylinderPtr make_cylinder(Material material, const Matrix44& transformation, bool casts_shadow = true)
+    static CylinderPtr make_cylinder(Material material, const Matrix44& transformation, bool casts_shadow = true,
+                                     double maximum = std::numeric_limits<double>::infinity(),
+                                     double minimum = -std::numeric_limits<double>::infinity())
     {
-      return std::make_shared<Cylinder>(std::move(material), transformation, casts_shadow);
+      return std::make_shared<Cylinder>(std::move(material), transformation, casts_shadow, maximum, minimum);
     }
 
   private:
@@ -83,17 +101,35 @@ namespace sunray
         return false;
       }
 
-      Intersection i1{(-b - sqrt(discriminant)) / (2 * a), this};
-      Intersection i2{(-b + sqrt(discriminant)) / (2 * a), this};
-      intersections.add(std::move(i1));
-      intersections.add(std::move(i2));
+      auto t0 = (-b - sqrt(discriminant)) / (2 * a);
+      auto t1 = (-b + sqrt(discriminant)) / (2 * a);
 
-      return true;
+      if (t0 > t1) {
+        std::swap(t0, t1);
+      }
+
+      bool result{false};
+      auto y0 = ray.origin().y() + t0 * ray.direction().y();
+      if (minimum_ < y0 && y0 < maximum_) {
+        intersections.add(Intersection{t0, this});
+        result = true;
+      }
+
+      auto y1 = ray.origin().y() + t1 * ray.direction().y();
+      if (minimum_ < y1 && y1 < maximum_) {
+        intersections.add(Intersection{t1, this});
+        result = true;
+      }
+
+      return result;
     }
 
     Vector do_normal_at(const Point& local_point) const override
     {
       return create_vector(local_point.x(), 0, local_point.z());
     }
+
+    double maximum_{std::numeric_limits<double>::infinity()};
+    double minimum_{-std::numeric_limits<double>::infinity()};
   };
 }

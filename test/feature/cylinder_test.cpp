@@ -42,7 +42,7 @@ TEST_CASE("cylinder normal", "[cylinder]")
     CHECK(cylinder->normal_at(sunray::create_point(1, 0, 0)) == sunray::create_vector(1, 0, 0));
     CHECK(cylinder->normal_at(sunray::create_point(0, 5, -1)) == sunray::create_vector(0, 0, -1));
     CHECK(cylinder->normal_at(sunray::create_point(0, -2, 1)) == sunray::create_vector(0, 0, 1));
-    CHECK(cylinder->normal_at(sunray::create_point(-1, 1, 0)) == sunray::create_vector(-1,0, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(-1, 1, 0)) == sunray::create_vector(-1, 0, 0));
   }
 }
 
@@ -99,6 +99,35 @@ TEST_CASE("cylinder intersection misses", "[cylinder]")
 
     CHECK_FALSE(cylinder->is_intersected_by(
       sunray::Ray{sunray::create_point(0, 0, -5), sunray::create_vector(1, 1, 1).normalize()}, intersections));
+    CHECK(intersections.intersections().empty());
+  }
+}
+
+TEST_CASE("truncated cylinder", "[cylinder]")
+{
+  auto cylinder = sunray::Cylinder::make_cylinder(2, 1);
+
+  SECTION("misses")
+  {
+    sunray::Intersections intersections;
+    CHECK_FALSE(cylinder->is_intersected_by(
+      sunray::Ray{sunray::create_point(0, 1.5, 0), sunray::create_vector(0.1, 1, 0).normalize()}, intersections));
+    CHECK(intersections.intersections().empty());
+
+    CHECK_FALSE(cylinder->is_intersected_by(
+      sunray::Ray{sunray::create_point(0, 3, -5), sunray::create_vector(0, 0, 1).normalize()}, intersections));
+    CHECK(intersections.intersections().empty());
+
+    CHECK_FALSE(cylinder->is_intersected_by(
+      sunray::Ray{sunray::create_point(0, 0, -5), sunray::create_vector(0, 0, 1).normalize()}, intersections));
+    CHECK(intersections.intersections().empty());
+
+    CHECK_FALSE(cylinder->is_intersected_by(
+      sunray::Ray{sunray::create_point(0, 2, -5), sunray::create_vector(0, 0, 1).normalize()}, intersections));
+    CHECK(intersections.intersections().empty());
+
+    CHECK_FALSE(cylinder->is_intersected_by(
+      sunray::Ray{sunray::create_point(0, 1, -5), sunray::create_vector(0, 0, 1).normalize()}, intersections));
     CHECK(intersections.intersections().empty());
   }
 }
