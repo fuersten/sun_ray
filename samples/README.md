@@ -39,6 +39,10 @@
 
 ![fresnel.wsl](gallery/fresnel.png)
 
+#### Scene from chapter 11
+
+![scene_12.wsl](gallery/scene_12.png)
+
 ### The cover image
 
 ![cover_image.wsl](gallery/cover_image.png)
@@ -60,6 +64,8 @@
 ![sample_3.wsl](gallery/sample_3.png)
 
 ![sample_4.wsl](gallery/sample_4.png)
+
+![sample_5.wsl](gallery/sample_5.png)
 
 ![bouncing.wsl](gallery/bounce.gif)
 

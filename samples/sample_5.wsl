@@ -1,0 +1,88 @@
+# This is an example of a new way to build a world in a programmatical way.
+# Plays around with some cylinders.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 3.5, -7)
+camera.to = (0, 1, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = pi / 3
+camera.horizontal = 2000
+# You can use expressions to calculate stuff
+camera.vertical = camera.horizontal / 2
+
+# Now setup the world. First some lights. The light will be created using a constructor.
+# light1 one is a variable of type Light. A variable has to be assigned upon creation and
+# will infer its type automatically.
+light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
+
+# Now set light to the world! Create a World object to add lights to the world.
+world = World()
+world.add(light1)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.color = Color(1, 0.9, 0.9)
+material.specular = 0
+
+# Create a sphere, configure it and then we will transform it.
+floor = Plane(material)
+
+# Add the floor to the world
+world.add(floor)
+
+# Material for the cylinders
+material = Material()
+material.color = Color(0.1, 1, 0.5)
+material.diffuse = 0.7
+material.specular = 0.5
+material.ambient = 0.3
+material.reflective = 0.3
+material.shininess = 100
+material.pattern = CheckerPattern(Color(1, 0.75, 0.35), Color(0.35, 0.75, 1)).scale(0.89, 0.75, 0.75)
+
+cylinder = Cylinder(material)
+cylinder.maximum = 2
+cylinder.minimum = 0
+cylinder.closed = true
+
+world.add(cylinder)
+
+material = Material()
+material.color = Color(126/255, 53/255, 77/255)
+material.diffuse = 0.7
+material.specular = 0.5
+material.ambient = 0.3
+material.reflective = 0.5
+material.shininess = 200
+
+cylinder = Cylinder(material).scale(0.8, 0.8, 0.8).rotate_z(deg_to_rad(90)).rotate_y(deg_to_rad(-40)).translate(4.2, 0.8, 2.0)
+cylinder.maximum = 2.5
+cylinder.minimum = 0
+
+world.add(cylinder)
+
+material.color = Color(52/255, 125/255, 101/255)
+material.reflective = 0.3
+material.shininess = 100
+
+cylinder = Cylinder(material).scale(0.66, 0.66, 0.66).translate(-3, 0, 0)
+cylinder.maximum = 1.0
+
+world.add(cylinder)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('sample_5')
+println('World stored in {} milliseconds', measure.elapsed_time())
+

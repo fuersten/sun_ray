@@ -1,0 +1,67 @@
+# Renders the glass ball with an air bubble inside from chapter 11.
+# It is a slight variation in fact.
+
+println('Start world configuration')
+
+# first some constants
+pi = 3.141592653589
+
+# Create a Camera object and set its attributes with a tuple.
+camera = Camera()
+camera.from = (0, 0, -5)
+camera.to = (0, 0, 0)
+camera.up = [0, 1, 0]
+camera.field_of_view = 0.45
+camera.horizontal = 2000
+camera.vertical = 2000
+
+# Now setup the world. First some lights.
+light1 = Light( Point(2, 10, -5), Color(0.9, 0.9, 0.9) )
+
+# Now set light to the world! Create a World object to add light to the world.
+world = World()
+world.add(light1)
+
+# At last add some objects to your world to finalize the setup.
+material = Material()
+material.specular = 0
+material.ambient = 0.8
+material.diffuse = 0.2
+material.pattern = CheckerPattern(Color(0.15, 0.15, 0.15), Color(0.85, 0.85, 0.85))
+
+# Create the floor.
+floor = Plane(material).scale(0.25, 0.25, 0.25).translate(0, 0, 10).rotate_x(pi / 2)
+
+# Add the floor to the world
+world.add(floor)
+
+# Base material for the balls
+base_material = Material()
+base_material.color = Color(1, 1, 1)
+base_material.diffuse = 0.0
+base_material.specular = 0.9
+base_material.ambient = 0.0
+base_material.shininess = 300
+base_material.reflective = 0.9
+base_material.transparency = 0.9
+base_material.refractive_index = 1.5
+
+# And now place some objects into the scene frame
+glass_ball = Sphere(base_material)
+
+world.add(glass_ball)
+
+base_material.refractive_index = 1.000034
+hollow_center = Sphere(base_material).scale(0.5, 0.5, 0.5)
+world.add(hollow_center)
+
+# Now its time to actually render the world
+println('Render world')
+measure = Measurement()
+canvas = camera.render(world)
+println('World rendered in {} milliseconds', measure.elapsed_time())
+
+# And then save the canvas to a file
+canvas.write('scene_12')
+println('World stored in {} milliseconds', measure.elapsed_time())
+
