@@ -13,6 +13,7 @@ add_executable(sun_ray_test
   feature/canvas_test.cpp
   feature/color_test.cpp
   feature/cube_test.cpp
+  feature/cylinder_test.cpp
   feature/disk_test.cpp
   feature/intersect_test.cpp
   feature/intersection_state_test.cpp
