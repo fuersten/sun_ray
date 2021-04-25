@@ -541,6 +541,37 @@ Examples:
 	blue_material.color = Color(0.537, 0.831, 0.914)
 	world.add(Cube(blue_material).scale(3.5, 3.5, 3.5).translate(8.5, 1.5, -0.5))
 
+#### Cylinder (is a Shape)
+
+The Cylinder is just that: a cylinder with a radius of 1. Without changing any attributes, the cylinder is infinitely long. Setting the maximum and/or minimum truncates the cylinder. Using the closed attribute, the cylinder can be capped on both sides.
+
+| Constructor | Description |
+|:--|:--|
+| `Cylinder(Material)` | Creates a Cylinder with the given Material m |
+
+| Property | Read/Write | Type | Description |
+|:--|:--|:--|:--|
+| `maximum` | W | Number | Specifies the maximum extension of the cylinder |
+| `minimum` | W | Number | Specifies the minimum extension of the cylinder |
+| `closed` | W | Boolean | Specifies if the cylinder shall be capped or not |
+
+Inherits all methods from the Shape base class.
+
+Examples:
+
+	material = Material()
+	material.diffuse = 0.7
+	material.specular = 0.5
+	material.ambient = 0.3
+	material.reflective = 0.3
+	material.shininess = 100
+	material.pattern = CheckerPattern(Color(1, 0.75, 0.35), Color(0.35, 0.75, 1)).scale(0.89, 0.75, 0.75)
+
+	cylinder = Cylinder(material)
+	cylinder.maximum = 2.0
+	cylinder.minimum = 0.0
+	cylinder.closed = true
+
 #### Disk (is a Shape)
 
 The Disk is an infinitely thin disk with a radius of 1. An inner radius can be specified in order to create a disk with a hole in it. Nice for making some planet rings! The disk is actually not described in the book, but I thought it would be a good addition.
