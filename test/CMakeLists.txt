@@ -35,6 +35,7 @@ add_executable(sun_ray_test
   script/checker_pattern_test.cpp
   script/color_test.cpp
   script/cube_test.cpp
+  script/cylinder_test.cpp
   script/diagnostic_message_test.cpp
   script/disk_test.cpp
   script/dump_visitor_test.cpp
