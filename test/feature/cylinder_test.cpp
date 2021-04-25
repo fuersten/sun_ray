@@ -44,6 +44,17 @@ TEST_CASE("cylinder normal", "[cylinder]")
     CHECK(cylinder->normal_at(sunray::create_point(0, -2, 1)) == sunray::create_vector(0, 0, 1));
     CHECK(cylinder->normal_at(sunray::create_point(-1, 1, 0)) == sunray::create_vector(-1, 0, 0));
   }
+  SECTION("caped cylinder normal")
+  {
+    auto cylinder = sunray::Cylinder::make_cylinder(2, 1, true);
+
+    CHECK(cylinder->normal_at(sunray::create_point(0, 1, 0)) == sunray::create_vector(0, -1, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(0.5, 1, 0)) == sunray::create_vector(0, -1, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(0, 1, 0.5)) == sunray::create_vector(0, -1, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(0, 2, 0)) == sunray::create_vector(0, 1, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(0.5, 2, 0)) == sunray::create_vector(0, 1, 0));
+    CHECK(cylinder->normal_at(sunray::create_point(0, 2, 0.5)) == sunray::create_vector(0, 1, 0));
+  }
 }
 
 TEST_CASE("a ray strikes a cylinder", "[cylinder]")
@@ -106,10 +117,10 @@ TEST_CASE("cylinder intersection misses", "[cylinder]")
 TEST_CASE("truncated cylinder", "[cylinder]")
 {
   auto cylinder = sunray::Cylinder::make_cylinder(2, 1);
+  sunray::Intersections intersections;
 
   SECTION("misses")
   {
-    sunray::Intersections intersections;
     CHECK_FALSE(cylinder->is_intersected_by(
       sunray::Ray{sunray::create_point(0, 1.5, 0), sunray::create_vector(0.1, 1, 0).normalize()}, intersections));
     CHECK(intersections.intersections().empty());
@@ -129,5 +140,44 @@ TEST_CASE("truncated cylinder", "[cylinder]")
     CHECK_FALSE(cylinder->is_intersected_by(
       sunray::Ray{sunray::create_point(0, 1, -5), sunray::create_vector(0, 0, 1).normalize()}, intersections));
     CHECK(intersections.intersections().empty());
+  }
+  SECTION("hit")
+  {
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, 1.5, -5), sunray::create_vector(0, 0, 1).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
+  }
+}
+
+TEST_CASE("caped cylinder", "[cylinder]")
+{
+  auto cylinder = sunray::Cylinder::make_cylinder(2, 1, true);
+  sunray::Intersections intersections;
+
+  SECTION("hits")
+  {
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, 3, 0), sunray::create_vector(0, -1, 0).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
+
+    intersections.clear();
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, 3, -2), sunray::create_vector(0, -1, 2).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
+
+    intersections.clear();
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, 4, -2), sunray::create_vector(0, -1, 1).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
+
+    intersections.clear();
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, 0, -2), sunray::create_vector(0, 1, 2).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
+
+    intersections.clear();
+    CHECK(cylinder->is_intersected_by(sunray::Ray{sunray::create_point(0, -1, -2), sunray::create_vector(0, 1, 1).normalize()},
+                                      intersections));
+    CHECK(intersections.intersections().size() == 2);
   }
 }
