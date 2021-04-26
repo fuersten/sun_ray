@@ -49,7 +49,7 @@ TEST_CASE("application", "[application]")
     CHECK(app.run() == 0);
     CHECK(output.str() == "z = 220.00");
 
-    auto expected = "SunRay ray tracer 0.13.0\n(C)2021 Lars-Christian "
+    auto expected = "SunRay ray tracer 0.14.0\n(C)2021 Lars-Christian "
                     "Fuerstenberg\n\n================================================================================"
                     "\nsample.wsl:\n================================================================================\n\n";
     CHECK(error.str() == expected);
