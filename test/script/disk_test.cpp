@@ -95,6 +95,9 @@ TEST_CASE("disk stream", "[disk]")
     auto material{material_meta_class->construct()};
 
     auto disk{disk_meta_class->construct(material)};
-    CHECK(disk->to_string() == "Disk");
+    CHECK(disk->to_string() == "Disk inner radius: 0");
+
+    disk->inner_radius(4.5);
+    CHECK(disk->to_string() == "Disk inner radius: 4.5");
   }
 }

@@ -72,7 +72,7 @@ namespace sunray
       const auto a = ray.direction().scalarProduct(ray.direction());
       const auto b = 2 * ray.direction().scalarProduct(sphere_to_ray);
       const auto c = sphere_to_ray.scalarProduct(sphere_to_ray) - 1;
-      const auto discriminant = b * b - 4 * a * c;
+      const auto discriminant = pow<2>(b) - 4 * a * c;
 
       if (discriminant < 0.0) {
         return false;

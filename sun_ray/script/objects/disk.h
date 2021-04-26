@@ -26,7 +26,7 @@ namespace sunray
 
       std::string to_string() const override
       {
-        return fmt::format("Disk");
+        return fmt::format("Disk inner radius: {}", inner_radius_);
       }
 
       sunray::DiskPtr disk(double inner_radius) const
