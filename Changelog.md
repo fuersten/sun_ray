@@ -1,6 +1,13 @@
 
 # Changelog
 
+## [0.14.0] - 2021-04-27
+
+### Added
+
+* Added cone shape
+* Added samples for cone
+
 ## [0.13.0] - 2021-04-26
 
 ### Added
@@ -12,4 +19,3 @@
 
 * The string format of a Disk shape will now output the value of the inner_radius
 * Reduced the size of the gallery images
-
