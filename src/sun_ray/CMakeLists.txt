@@ -80,6 +80,7 @@ add_executable(sun_ray
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/canvas.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/checker_pattern.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/color.h
+    ${CMAKE_SOURCE_DIR}/sun_ray/feature/cone.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/cube.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/cylinder.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/disk.h
