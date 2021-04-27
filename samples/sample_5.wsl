@@ -1,5 +1,5 @@
 # This is an example of a new way to build a world in a programmatical way.
-# Plays around with some cylinders.
+# Plays around with some cylinders and cones.
 
 println('Start world configuration')
 
@@ -12,31 +12,26 @@ camera.from = (0, 3.5, -7)
 camera.to = (0, 1, 0)
 camera.up = [0, 1, 0]
 camera.field_of_view = pi / 3
-camera.horizontal = 2000
-# You can use expressions to calculate stuff
+camera.horizontal = 5000
 camera.vertical = camera.horizontal / 2
 
-# Now setup the world. First some lights. The light will be created using a constructor.
-# light1 one is a variable of type Light. A variable has to be assigned upon creation and
-# will infer its type automatically.
-light1 = Light( Point(-10, 10, -10), Color(1, 1, 1) )
+# Now setup the world. First some lights.
+light = Light( Point(-10, 10, -10), Color(1, 1, 1) )
 
 # Now set light to the world! Create a World object to add lights to the world.
 world = World()
-world.add(light1)
+world.add(light)
 
 # At last add some objects to your world to finalize the setup.
 material = Material()
 material.color = Color(1, 0.9, 0.9)
 material.specular = 0
 
-# Create a sphere, configure it and then we will transform it.
 floor = Plane(material)
 
-# Add the floor to the world
 world.add(floor)
 
-# Material for the cylinders
+# Material for the shapes
 material = Material()
 material.color = Color(0.1, 1, 0.5)
 material.diffuse = 0.7
@@ -75,6 +70,20 @@ cylinder = Cylinder(material).scale(0.66, 0.66, 0.66).translate(-3, 0, 0)
 cylinder.maximum = 1.0
 
 world.add(cylinder)
+
+material.color = Color(173/255,255/255,47/255)
+cone = Cone(material).translate(2, 1, -0.5)
+cone.maximum = 0
+cone.minimum = -1
+
+world.add(cone)
+
+material.color = Color(255/255,105/255,180/255)
+cone = Cone(material).translate(-3, 1, 2.5)
+cone.maximum = 1
+cone.minimum = -1
+
+world.add(cone)
 
 # Now its time to actually render the world
 println('Render world')

@@ -123,7 +123,7 @@ namespace sunray
     {
       const auto dir_cross_e2 = ray.direction().crossProduct(e2_);
       const auto det = e1_.scalarProduct(dir_cross_e2);
-      if (::fabs(det) < epsilon) {
+      if (abs(det) < epsilon) {
         return false;
       }
 

@@ -94,7 +94,7 @@ namespace sunray
     {
       const auto a = pow<2>(ray.direction().x()) + pow<2>(ray.direction().z());
 
-      if (!closed_ && ::fabs(a) < epsilon) {
+      if (!closed_ && abs(a) < epsilon) {
         return false;
       }
 
@@ -107,8 +107,10 @@ namespace sunray
         return false;
       }
 
-      auto t0 = (-b - sqrt(discriminant)) / (2 * a);
-      auto t1 = (-b + sqrt(discriminant)) / (2 * a);
+      auto sr = sqrt(discriminant);
+      auto a2 = 2 * a;
+      auto t0 = (-b - sr) / a2;
+      auto t1 = (-b + sr) / a2;
 
       if (t0 > t1) {
         std::swap(t0, t1);
@@ -116,7 +118,7 @@ namespace sunray
 
       bool result{false};
 
-      if (::fabs(a) >= epsilon) {
+      if (abs(a) >= epsilon) {
         const auto y0 = ray.origin().y() + t0 * ray.direction().y();
         if (minimum_ < y0 && y0 < maximum_) {
           intersections.add(Intersection{t0, this});
@@ -144,7 +146,7 @@ namespace sunray
 
     bool intersect_caps(const Ray& ray, Intersections& intersections) const
     {
-      if (!closed_ || ::fabs(ray.direction().y()) <= epsilon) {
+      if (!closed_ || abs(ray.direction().y()) <= epsilon) {
         return false;
       }
 

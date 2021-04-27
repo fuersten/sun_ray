@@ -40,6 +40,7 @@
 #include <sun_ray/script/objects/canvas.h>
 #include <sun_ray/script/objects/checker_pattern.h>
 #include <sun_ray/script/objects/color.h>
+#include <sun_ray/script/objects/cone.h>
 #include <sun_ray/script/objects/cube.h>
 #include <sun_ray/script/objects/cylinder.h>
 #include <sun_ray/script/objects/disk.h>
@@ -78,6 +79,7 @@ namespace sunray
         meta_class_registry_.add_meta_class(std::make_shared<CanvasMetaClass>());
         meta_class_registry_.add_meta_class(std::make_shared<CheckerPatternMetaClass>());
         meta_class_registry_.add_meta_class(std::make_shared<ColorMetaClass>());
+        meta_class_registry_.add_meta_class(std::make_shared<ConeMetaClass>());
         meta_class_registry_.add_meta_class(std::make_shared<CubeMetaClass>());
         meta_class_registry_.add_meta_class(std::make_shared<CylinderMetaClass>());
         meta_class_registry_.add_meta_class(std::make_shared<DiskMetaClass>());
