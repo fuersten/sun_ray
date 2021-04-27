@@ -9,7 +9,7 @@
 
 The SunRay ray tracer follows closely the book [The Ray Tracer Challenge](http://raytracerchallenge.com/). I can highly recommend that book. Actually, one of the best programming related books I have ever read. As the approach to create the ray tracer is test driven, SunRay has lots of tests and currently around 99% of unit test coverage.
 
-I have not finished the book yet and have implemented the ray tracer including up to chapter 12 and parts of chapter 15. Nevertheless, you can create really nice images!
+I have not finished the book yet and have implemented the ray tracer including up to chapter 13 and parts of chapter 15. Nevertheless, you can create really nice images!
 
 I diverged from the books approach to use yaml files as scene description format for the images to render, as there is no good ready to use implementation available for C++. As I am very fond of parsing and compilers, I choose to implement a small domain specific scripting language to generate the images. That actually was a project in itself, but a fun one.
 
@@ -46,7 +46,7 @@ In general, you will use the sun_ray command line tool to create images from **w
 Outputs the usage and options of the tool.
 
 	> ./sun_ray --help
-	SunRay ray tracer 0.12.0
+	SunRay ray tracer 0.14.0
 	(C)2021 Lars-Christian Fuerstenberg
 
 	Usage: sun_ray [ --help ] | [ [-df] <FILE> [<FILE>]... ]
@@ -63,7 +63,7 @@ Outputs the usage and options of the tool.
 Outputs the stack machine instructions for the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line. Actually, most usefull for debugging the engine itself.
 
 	> ./sun_ray --dump samples/hello_world.wsl
-	SunRay ray tracer 0.12.0
+	SunRay ray tracer 0.14.0
 	(C)2021 Lars-Christian Fuerstenberg
 	
 	================================================================================
@@ -85,7 +85,7 @@ Outputs the stack machine instructions for the given **wsl** files, one after th
 Formats the given **wsl** files, one after the other. It will also execute each file in the order that has been given on the command line. Actually, most usefull for debugging the engine itself.
 
 	> ./sun_ray --format samples/hello_world.wsl
-	SunRay ray tracer 0.12.0
+	SunRay ray tracer 0.14.0
 	(C)2021 Lars-Christian Fuerstenberg
 	
 	================================================================================
@@ -103,7 +103,7 @@ Formats the given **wsl** files, one after the other. It will also execute each 
 Executes the given scripts, one after the other in the order that has been given on the command line.
 
 	> ./sun_ray --format samples/hello_world.wsl samples/fibonacci.wsl
-	SunRay ray tracer 0.12.0
+	SunRay ray tracer 0.14.0
 	(C)2021 Lars-Christian Fuerstenberg
 
 	================================================================================
@@ -524,6 +524,36 @@ Examples:
 	light_grey.red = 0.7
 	light_grey.green = 0.7
 	light_grey.blue = 0.7
+
+#### Cone (is a Shape)
+
+The Cone is a double-napped cone with a radius of 1. Without changing any attributes, the cones are infinitely long. Setting the maximum and/or minimum truncates the cones. Using the closed attribute, the cones can be capped on both sides.
+
+| Constructor | Description |
+|:--|:--|
+| `Cone(Material)` | Creates a Cone with the given Material m |
+
+| Property | Read/Write | Type | Description |
+|:--|:--|:--|:--|
+| `maximum` | W | Number | Specifies the maximum extension of the cone |
+| `minimum` | W | Number | Specifies the minimum extension of the cone |
+| `closed` | W | Boolean | Specifies if the cone shall be capped or not |
+
+Inherits all methods from the Shape base class.
+
+Examples:
+
+	material = Material()
+	material.diffuse = 0.7
+	material.specular = 0.5
+	material.ambient = 0.3
+	material.reflective = 0.3
+	material.shininess = 100
+
+	cylinder = Cone(material).translate(0, 1, 0)
+	cylinder.maximum = 0
+	cylinder.minimum = -1.0
+	cylinder.closed = true
 
 #### Cube (is a Shape)
 
