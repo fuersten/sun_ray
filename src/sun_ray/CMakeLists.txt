@@ -36,6 +36,7 @@ set(SUN_RAY_SCRIPT_OBJECTS
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/canvas.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/checker_pattern.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/color.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cone.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cube.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cylinder.h
   ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/disk.h
