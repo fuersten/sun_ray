@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(sunray VERSION 0.14.0 LANGUAGES CXX)
+project(sunray VERSION 0.15.0 LANGUAGES CXX)
 
 if(POLICY CMP0110)
   cmake_policy(SET CMP0110 OLD)
