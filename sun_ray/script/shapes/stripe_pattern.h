@@ -9,8 +9,8 @@
 #pragma once
 
 #include <sun_ray/feature/stripe_pattern.h>
-#include <sun_ray/script/objects/color.h>
-#include <sun_ray/script/objects/pattern.h>
+#include <sun_ray/script/shapes/color.h>
+#include <sun_ray/script/shapes/pattern.h>
 
 
 namespace sunray

@@ -17,8 +17,8 @@
 
 namespace sunray
 {
-  class Object;
-  using ObjectPtr = std::shared_ptr<const Object>;
+  class Shape;
+  using ObjectPtr = std::shared_ptr<const Shape>;
 
   struct RenderContext {
     bool shadows_{true};

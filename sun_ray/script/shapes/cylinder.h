@@ -9,7 +9,7 @@
 #pragma once
 
 #include <sun_ray/feature/cylinder.h>
-#include <sun_ray/script/objects/shape.h>
+#include <sun_ray/script/shapes/shape.h>
 
 
 namespace sunray
@@ -34,7 +34,7 @@ namespace sunray
         return sunray::Cylinder::make_cylinder(material_, trans_.matrix(), casts_shadow_, maximum, minimum, closed);
       }
 
-      std::shared_ptr<const sunray::Object> shape() const override
+      std::shared_ptr<const sunray::Shape> shape() const override
       {
         return cylinder(maximum_, minimum_, closed_);
       }

@@ -6,8 +6,8 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/material.h>
-#include <sun_ray/script/objects/ring_pattern.h>
+#include <sun_ray/script/shapes/material.h>
+#include <sun_ray/script/shapes/ring_pattern.h>
 
 #include <sstream>
 

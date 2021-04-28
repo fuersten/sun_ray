@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 
 
 namespace sunray
@@ -111,7 +111,7 @@ namespace sunray
   private:
     void calculate_refraction_indices(const Intersections& intersections)
     {
-      std::vector<const Object*> objects;
+      std::vector<const Shape*> objects;
       objects.reserve(20);
 
       for (const auto& intersection : intersections.intersections()) {

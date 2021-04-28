@@ -1,5 +1,5 @@
 //
-//  object.h
+//  shape.h
 //  sun_ray
 //
 //  Created by Lars-Christian Fürstenberg on 05.01.20.
@@ -15,15 +15,15 @@
 
 namespace sunray
 {
-  class Object
+  class Shape
   {
   public:
-    virtual ~Object() = default;
+    virtual ~Shape() = default;
 
-    Object(const Object&) = delete;
-    Object(Object&&) = delete;
-    Object& operator=(const Object&) = delete;
-    Object& operator=(Object&&) = delete;
+    Shape(const Shape&) = delete;
+    Shape(Shape&&) = delete;
+    Shape& operator=(const Shape&) = delete;
+    Shape& operator=(Shape&&) = delete;
 
     inline const auto& inverse_transformation() const
     {
@@ -65,20 +65,20 @@ namespace sunray
     }
 
   protected:
-    Object() = default;
+    Shape() = default;
 
-    Object(Material material)
+    Shape(Material material)
     : material_{std::move(material)}
     {
     }
 
-    Object(Matrix44 transformation)
+    Shape(Matrix44 transformation)
     : transformation_{std::move(transformation)}
     , inverse_transformation_{transformation_.inverse()}
     {
     }
 
-    Object(Material material, Matrix44 transformation, bool casts_shadow = true)
+    Shape(Material material, Matrix44 transformation, bool casts_shadow = true)
     : material_{std::move(material)}
     , transformation_{std::move(transformation)}
     , inverse_transformation_{transformation_.inverse()}
@@ -98,21 +98,21 @@ namespace sunray
     bool casts_shadow_{true};
   };
 
-  inline Intersections intersect(const Ray& ray, const Object& object)
+  inline Intersections intersect(const Ray& ray, const Shape& object)
   {
     Intersections intersections;
     object.is_intersected_by(ray, intersections);
     return intersections;
   }
 
-  inline Color apply_pattern(const Pattern& pattern, const Object& object, const Point& position)
+  inline Color apply_pattern(const Pattern& pattern, const Shape& object, const Point& position)
   {
     auto object_point = object.inverse_transformation() * position;
     auto pattern_point = pattern.inverse_transformation() * object_point;
     return pattern.pattern_at(pattern_point);
   }
 
-  inline Color lighting(const Object& object, const PointLight& light, const Point& position, const Vector& eye,
+  inline Color lighting(const Shape& object, const PointLight& light, const Point& position, const Vector& eye,
                         const Vector& normal, bool is_in_shadow)
   {
     Color color{object.material().color()};

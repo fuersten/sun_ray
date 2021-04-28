@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 
 
 namespace sunray
@@ -17,24 +17,24 @@ namespace sunray
   using CubePtr = std::shared_ptr<const Cube>;
 
   class Cube
-  : public Object
+  : public Shape
   , public std::enable_shared_from_this<Cube>
   {
   public:
     Cube() = default;
 
     explicit Cube(Material material)
-    : Object(std::move(material))
+    : Shape(std::move(material))
     {
     }
 
     explicit Cube(Matrix44 transformation)
-    : Object(std::move(transformation))
+    : Shape(std::move(transformation))
     {
     }
 
     Cube(Material material, Matrix44 transformation, bool casts_shadow = true)
-    : Object(std::move(material), std::move(transformation), casts_shadow)
+    : Shape(std::move(material), std::move(transformation), casts_shadow)
     {
     }
 

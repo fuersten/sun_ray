@@ -7,9 +7,9 @@
 //
 
 #include <sun_ray/script/build_in_functions.h>
-#include <sun_ray/script/objects/canvas.h>
-#include <sun_ray/script/objects/color.h>
 #include <sun_ray/script/parser.h>
+#include <sun_ray/script/shapes/canvas.h>
+#include <sun_ray/script/shapes/color.h>
 #include <sun_ray/script/visitor/stack_machine_visitor.h>
 
 #include <sstream>

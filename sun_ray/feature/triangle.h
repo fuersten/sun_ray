@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 
 
 namespace sunray
@@ -17,12 +17,12 @@ namespace sunray
   using TrianglePtr = std::shared_ptr<const Triangle>;
 
   class Triangle
-  : public Object
+  : public Shape
   , public std::enable_shared_from_this<Triangle>
   {
   public:
     explicit Triangle(Point p1, Point p2, Point p3)
-    : Object()
+    : Shape()
     , p1_{p1}
     , p2_{p2}
     , p3_{p3}
@@ -33,7 +33,7 @@ namespace sunray
     }
 
     explicit Triangle(Material material, Point p1, Point p2, Point p3)
-    : Object(std::move(material))
+    : Shape(std::move(material))
     , p1_{p1}
     , p2_{p2}
     , p3_{p3}
@@ -44,7 +44,7 @@ namespace sunray
     }
 
     explicit Triangle(Matrix44 transformation, Point p1, Point p2, Point p3)
-    : Object(std::move(transformation))
+    : Shape(std::move(transformation))
     , p1_{p1}
     , p2_{p2}
     , p3_{p3}
@@ -55,7 +55,7 @@ namespace sunray
     }
 
     Triangle(Material material, Matrix44 transformation, Point p1, Point p2, Point p3, bool casts_shadow = true)
-    : Object(std::move(material), std::move(transformation), casts_shadow)
+    : Shape(std::move(material), std::move(transformation), casts_shadow)
     , p1_{p1}
     , p2_{p2}
     , p3_{p3}

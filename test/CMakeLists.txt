@@ -21,7 +21,7 @@ add_executable(sun_ray_test
   feature/light_test.cpp
   feature/material_test.cpp
   feature/matrix_test.cpp
-  feature/object_test.cpp
+  feature/shape_test.cpp
   feature/pattern_test.cpp
   feature/plane_test.cpp
   feature/ray_test.cpp

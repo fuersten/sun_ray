@@ -11,10 +11,10 @@
 #include <sun_ray/feature/camera.h>
 #include <sun_ray/script/class.h>
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/canvas.h>
-#include <sun_ray/script/objects/point.h>
-#include <sun_ray/script/objects/vector.h>
-#include <sun_ray/script/objects/world.h>
+#include <sun_ray/script/shapes/canvas.h>
+#include <sun_ray/script/shapes/point.h>
+#include <sun_ray/script/shapes/vector.h>
+#include <sun_ray/script/shapes/world.h>
 
 
 namespace sunray

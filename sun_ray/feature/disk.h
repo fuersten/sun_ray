@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 
 
 namespace sunray
@@ -17,30 +17,30 @@ namespace sunray
   using DiskPtr = std::shared_ptr<const Disk>;
 
   class Disk
-  : public Object
+  : public Shape
   , public std::enable_shared_from_this<Disk>
   {
   public:
     explicit Disk(double inner_radius)
-    : Object()
+    : Shape()
     , inner_radius_{inner_radius}
     {
     }
 
     explicit Disk(Material material, double inner_radius = 0.0)
-    : Object(std::move(material))
+    : Shape(std::move(material))
     , inner_radius_{inner_radius}
     {
     }
 
     explicit Disk(Matrix44 transformation, double inner_radius = 0.0)
-    : Object(std::move(transformation))
+    : Shape(std::move(transformation))
     , inner_radius_{inner_radius}
     {
     }
 
     Disk(Material material, Matrix44 transformation, bool casts_shadow = true, double inner_radius = 0.0)
-    : Object(std::move(material), std::move(transformation), casts_shadow)
+    : Shape(std::move(material), std::move(transformation), casts_shadow)
     , inner_radius_{inner_radius}
     {
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2021 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/cylinder.h>
+#include <sun_ray/script/shapes/cylinder.h>
 
 #include <sstream>
 

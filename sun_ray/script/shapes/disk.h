@@ -9,7 +9,7 @@
 #pragma once
 
 #include <sun_ray/feature/disk.h>
-#include <sun_ray/script/objects/shape.h>
+#include <sun_ray/script/shapes/shape.h>
 
 
 namespace sunray
@@ -34,7 +34,7 @@ namespace sunray
         return sunray::Disk::make_disk(material_, trans_.matrix(), casts_shadow_, inner_radius);
       }
 
-      std::shared_ptr<const sunray::Object> shape() const override
+      std::shared_ptr<const sunray::Shape> shape() const override
       {
         return disk(inner_radius_);
       }

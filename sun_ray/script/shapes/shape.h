@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 #include <sun_ray/feature/transformation.h>
 #include <sun_ray/script/class.h>
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/material.h>
+#include <sun_ray/script/shapes/material.h>
 
 
 namespace sunray
@@ -77,7 +77,7 @@ namespace sunray
         casts_shadow_ = value;
       }
 
-      virtual std::shared_ptr<const sunray::Object> shape() const = 0;
+      virtual std::shared_ptr<const sunray::Shape> shape() const = 0;
 
     protected:
       mutable sunray::Transformation trans_;

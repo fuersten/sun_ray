@@ -6,7 +6,7 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/sphere.h>
+#include <sun_ray/script/shapes/sphere.h>
 
 #include <sstream>
 

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <sun_ray/feature/object.h>
+#include <sun_ray/feature/shape.h>
 
 
 namespace sunray
@@ -17,7 +17,7 @@ namespace sunray
   using ConePtr = std::shared_ptr<const Cone>;
 
   class Cone
-  : public Object
+  : public Shape
   , public std::enable_shared_from_this<Cone>
   {
   public:
@@ -31,7 +31,7 @@ namespace sunray
 
     explicit Cone(Material material, double maximum = std::numeric_limits<double>::infinity(),
                   double minimum = -std::numeric_limits<double>::infinity(), bool closed = false)
-    : Object(std::move(material))
+    : Shape(std::move(material))
     , maximum_{maximum}
     , minimum_{minimum}
     , closed_{closed}
@@ -40,7 +40,7 @@ namespace sunray
 
     explicit Cone(Matrix44 transformation, double maximum = std::numeric_limits<double>::infinity(),
                   double minimum = -std::numeric_limits<double>::infinity(), bool closed = false)
-    : Object(std::move(transformation))
+    : Shape(std::move(transformation))
     , maximum_{maximum}
     , minimum_{minimum}
     , closed_{closed}
@@ -50,7 +50,7 @@ namespace sunray
     Cone(Material material, Matrix44 transformation, bool casts_shadow = true,
          double maximum = std::numeric_limits<double>::infinity(), double minimum = -std::numeric_limits<double>::infinity(),
          bool closed = false)
-    : Object(std::move(material), std::move(transformation), casts_shadow)
+    : Shape(std::move(material), std::move(transformation), casts_shadow)
     , maximum_{maximum}
     , minimum_{minimum}
     , closed_{closed}

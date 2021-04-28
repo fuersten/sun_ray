@@ -7,8 +7,8 @@
 //
 
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/color.h>
-#include <sun_ray/script/objects/point.h>
+#include <sun_ray/script/shapes/color.h>
+#include <sun_ray/script/shapes/point.h>
 
 #include <sstream>
 

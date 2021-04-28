@@ -6,7 +6,7 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/measurement.h>
+#include <sun_ray/script/shapes/measurement.h>
 
 #include <sstream>
 #include <thread>

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/disk.h>
+#include <sun_ray/script/shapes/disk.h>
 
 #include <sstream>
 

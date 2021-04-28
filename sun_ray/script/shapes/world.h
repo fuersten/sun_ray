@@ -11,8 +11,8 @@
 #include <sun_ray/feature/world.h>
 #include <sun_ray/script/class.h>
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/light.h>
-#include <sun_ray/script/objects/sphere.h>
+#include <sun_ray/script/shapes/light.h>
+#include <sun_ray/script/shapes/sphere.h>
 
 
 namespace sunray
@@ -35,7 +35,7 @@ namespace sunray
         return shared_from_this();
       }
 
-      MutableClassPtr add(const std::shared_ptr<const sunray::Object>& object)
+      MutableClassPtr add(const std::shared_ptr<const sunray::Shape>& object)
       {
         world_.add_object(object);
         return shared_from_this();

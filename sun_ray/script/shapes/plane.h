@@ -9,7 +9,7 @@
 #pragma once
 
 #include <sun_ray/feature/plane.h>
-#include <sun_ray/script/objects/shape.h>
+#include <sun_ray/script/shapes/shape.h>
 
 
 namespace sunray
@@ -34,7 +34,7 @@ namespace sunray
         return sunray::Plane::make_plane(material_, trans_.matrix(), casts_shadow_);
       }
 
-      std::shared_ptr<const sunray::Object> shape() const override
+      std::shared_ptr<const sunray::Shape> shape() const override
       {
         return plane();
       }

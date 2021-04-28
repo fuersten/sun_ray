@@ -31,33 +31,33 @@ set(SUN_RAY_SCRIPT_SOURCES
   ${CMAKE_SOURCE_DIR}/sun_ray/script/visitor/validation_visitor.h
 )
 
-set(SUN_RAY_SCRIPT_OBJECTS
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/camera.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/canvas.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/checker_pattern.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/color.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cone.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cube.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/cylinder.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/disk.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/gradient_pattern.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/light.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/material.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/measurement.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/shape.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/pattern.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/plane.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/point.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/ring_pattern.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/sphere.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/stripe_pattern.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/vector.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/triangle.h
-  ${CMAKE_SOURCE_DIR}/sun_ray/script/objects/world.h
+set(SUN_RAY_SCRIPT_SHAPES
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/camera.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/canvas.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/checker_pattern.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/color.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/cone.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/cube.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/cylinder.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/disk.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/gradient_pattern.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/light.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/material.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/measurement.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/shape.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/pattern.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/plane.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/point.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/ring_pattern.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/sphere.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/stripe_pattern.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/vector.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/triangle.h
+  ${CMAKE_SOURCE_DIR}/sun_ray/script/shapes/world.h
 )
 
 source_group("Header Files\\script" FILES ${SUN_RAY_SCRIPT_SOURCES})
-source_group("Header Files\\script\\objects" FILES ${SUN_RAY_SCRIPT_OBJECTS})
+source_group("Header Files\\script\\shapes" FILES ${SUN_RAY_SCRIPT_SHAPES})
 
 add_executable(sun_ray
     main.cpp
@@ -66,7 +66,7 @@ add_executable(sun_ray
     options.h
 
     ${SUN_RAY_SCRIPT_SOURCES}
-    ${SUN_RAY_SCRIPT_OBJECTS}
+    ${SUN_RAY_SCRIPT_SHAPES}
 
     ${CMAKE_SOURCE_DIR}/sun_ray/init.h
 
@@ -92,7 +92,7 @@ add_executable(sun_ray
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/material.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/math_helper.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/matrix.h
-    ${CMAKE_SOURCE_DIR}/sun_ray/feature/object.h
+    ${CMAKE_SOURCE_DIR}/sun_ray/feature/shape.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/pattern.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/plane.h
     ${CMAKE_SOURCE_DIR}/sun_ray/feature/ray.h

@@ -7,7 +7,7 @@
 //
 
 #include <sun_ray/script/build_in_functions.h>
-#include <sun_ray/script/objects/color.h>
+#include <sun_ray/script/shapes/color.h>
 #include <sun_ray/script/stack_machine.h>
 
 #include <sstream>

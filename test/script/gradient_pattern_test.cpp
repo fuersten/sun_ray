@@ -6,7 +6,7 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/gradient_pattern.h>
+#include <sun_ray/script/shapes/gradient_pattern.h>
 
 #include <sstream>
 

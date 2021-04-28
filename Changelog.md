@@ -1,6 +1,15 @@
 
 # Changelog
 
+## [0.15.0] - 2021-04-??
+
+### Added
+
+### Changed
+
+* Renamed Object to Shape
+* Renamed script/objects folder to script/shapes
+
 ## [0.14.0] - 2021-04-27
 
 ### Added

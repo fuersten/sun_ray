@@ -17,12 +17,12 @@
 
 namespace sunray
 {
-  class Object;
+  class Shape;
 
   class Intersection
   {
   public:
-    Intersection(double t, const Object* object)
+    Intersection(double t, const Shape* object)
     : t_{t}
     , object_{object}
     {
@@ -51,14 +51,14 @@ namespace sunray
       return t_;
     }
 
-    inline const Object* object() const
+    inline const Shape* object() const
     {
       return object_;
     }
 
   private:
     double t_;
-    const Object* object_;
+    const Shape* object_;
   };
 
 

@@ -12,7 +12,7 @@
 #include <sun_ray/feature/canvas.h>
 #include <sun_ray/script/class.h>
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/color.h>
+#include <sun_ray/script/shapes/color.h>
 
 
 namespace sunray

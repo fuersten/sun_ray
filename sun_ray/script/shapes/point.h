@@ -11,7 +11,7 @@
 #include <sun_ray/feature/tuple.h>
 #include <sun_ray/script/class.h>
 #include <sun_ray/script/meta_class.h>
-#include <sun_ray/script/objects/vector.h>
+#include <sun_ray/script/shapes/vector.h>
 
 
 namespace sunray

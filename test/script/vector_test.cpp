@@ -6,8 +6,8 @@
 //  Copyright © 2020 Lars-Christian Fürstenberg. All rights reserved.
 //
 
-#include <sun_ray/script/objects/point.h>
-#include <sun_ray/script/objects/vector.h>
+#include <sun_ray/script/shapes/point.h>
+#include <sun_ray/script/shapes/vector.h>
 
 #include <sstream>
 
